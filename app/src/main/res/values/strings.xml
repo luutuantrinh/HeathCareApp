@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">HeathCareApp</string>
-
+    <string name="sign_up">SIGN UP</string>
+    <string name="text_login">Already have an account?</string>
+    <string name="btn_login">LOG IN</string>
+    <string name="hint_FirstName">FIRST NAME</string>
+    <string name="hint_LastName">LAST NAME</string>
+    <string name="hint_email">EMAIL</string>
+    <string name="hint_password">PASSWORD</string>
+    <string name="hint_age">AGE</string>
+    <string name="btn_join">JOIN</string>
 </resources>
