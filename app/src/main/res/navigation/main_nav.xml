@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/newFeedFragment">
+
+    <fragment
+        android:id="@+id/newFeedFragment"
+        android:name="com.tdc.edu.vn.heathcareapp.NewFeedFragment"
+        android:label="fragment_new_feed"
+        tools:layout="@layout/fragment_new_feed" />
+    <fragment
+        android:id="@+id/nutritionFragment"
+        android:name="com.tdc.edu.vn.heathcareapp.NutritionFragment"
+        android:label="fragment_nutrition"
+        tools:layout="@layout/fragment_nutrition" />
+    <fragment
+        android:id="@+id/progressFragment"
+        android:name="com.tdc.edu.vn.heathcareapp.ProgressFragment"
+        android:label="fragment_progress"
+        tools:layout="@layout/fragment_progress" />
+    <fragment
+        android:id="@+id/workoust_PlanFragment"
+        android:name="com.tdc.edu.vn.heathcareapp.Workoust_PlanFragment"
+        android:label="fragment_workoust__plan"
+        tools:layout="@layout/fragment_workoust__plan" />
+    <fragment
+        android:id="@+id/moreFragment"
+        android:name="com.tdc.edu.vn.heathcareapp.MoreFragment"
+        android:label="fragment_more"
+        tools:layout="@layout/fragment_more" />
+</navigation>
