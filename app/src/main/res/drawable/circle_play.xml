@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple android:color="@color/selectable_item_light_ripple"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="10.0dip" android:top="10.0dip" android:right="10.0dip" android:bottom="10.0dip">
+        <shape android:shape="oval" />
+    </item>
+</ripple>

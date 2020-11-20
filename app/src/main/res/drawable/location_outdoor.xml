@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <layer-list>
+            <item android:height="48.0dip" android:width="48.0dip">
+                <shape android:shape="oval">
+                    <solid android:color="@color/primary" />
+                </shape>
+            </item>
+            <item android:left="8.0dip" android:top="8.0dip" android:right="8.0dip" android:bottom="8.0dip">
+                <bitmap android:src="@drawable/ic_outdoor_raster" android:tint="@color/white" />
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item android:height="48.0dip" android:width="48.0dip">
+                <shape android:shape="oval">
+                    <solid android:color="@color/circular_button_background_grey" />
+                </shape>
+            </item>
+            <item android:left="8.0dip" android:top="8.0dip" android:right="8.0dip" android:bottom="8.0dip">
+                <bitmap android:src="@drawable/ic_outdoor_raster" android:tint="@color/icon_deselected" />
+            </item>
+        </layer-list>
+    </item>
+</selector>

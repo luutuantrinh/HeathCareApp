@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="alert_finish_week_open_workout">
+        <item quantity="other">There are still %d workouts unfinished for this training week. Are you sure you want to finish this week?</item>
+        <item quantity="one">There is still 1 workout unfinished for this training week. Are you sure you want to finish this week?</item>
+    </plurals>
+    <plurals name="ar_events_list_event_spots_left">
+        <item quantity="other">%d spots left</item>
+        <item quantity="one">%d spot left</item>
+    </plurals>
+    <plurals name="ar_explanation_participants_joined_from_runtastic">
+        <item quantity="other">%1$s participants have joined via the adidas Running app.</item>
+        <item quantity="one">%1$s participant has joined via the adidas Running app.</item>
+    </plurals>
+    <plurals name="ar_explanation_participants_joined_from_website">
+        <item quantity="other">%1$s joined via the adidas Runners website and cannot be displayed here. Only events joined via adidas Running count toward earning the next adidas Runners badge.</item>
+        <item quantity="one">%1$s joined via the adidas Runners website and cannot be displayed here. Only events joined via adidas Running count toward earning the next adidas Runners badge.</item>
+    </plurals>
+    <plurals name="ar_profile_badges_needed_credits">
+        <item quantity="other">%1$s credits needed to earn the %2$s.</item>
+        <item quantity="one">%1$s credit needed to earn the %2$s.</item>
+    </plurals>
+    <plurals name="ar_profile_badges_needed_credits_to_keep">
+        <item quantity="other">%1$s credits needed to keep your %2$s.</item>
+        <item quantity="one">%1$s credit needed to keep your %2$s.</item>
+    </plurals>
+    <plurals name="can_not_finish_the_week_sentence_2">
+        <item quantity="other">You have to wait %d more days until you can finish.</item>
+        <item quantity="one">You have to wait until tomorrow to finish.</item>
+    </plurals>
+    <plurals name="challenge_participants">
+        <item quantity="other">%1$s participants</item>
+        <item quantity="one">%1$s participant</item>
+    </plurals>
+    <plurals name="challenges_days">
+        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d day</item>
+    </plurals>
+    <plurals name="challenges_in_days">
+        <item quantity="other">in %1$d days</item>
+        <item quantity="one">in %1$d day</item>
+    </plurals>
+    <plurals name="challenges_in_hours">
+        <item quantity="other">in %1$d hours</item>
+        <item quantity="one">in %1$d hour</item>
+    </plurals>
+    <plurals name="challenges_other_completed_the_challenge">
+        <item quantity="other">%s users have completed the challenge</item>
+        <item quantity="one">1 user has completed the challenge</item>
+        <item quantity="two">2 users have completed the challenge</item>
+    </plurals>
+    <plurals name="challenges_you_completed_the_challenge">
+        <item quantity="other">"You and %s other users 
+have completed the challenge"</item>
+        <item quantity="one">You have completed the challenge</item>
+        <item quantity="two">"You and one other user 
+have completed the challenge"</item>
+    </plurals>
+    <plurals name="days_left_in_week">
+        <item quantity="other">%d days left</item>
+        <item quantity="one">last day</item>
+    </plurals>
+    <plurals name="days_overdue_in_week">
+        <item quantity="other">%d days overdue</item>
+        <item quantity="one">1 day overdue</item>
+    </plurals>
+    <plurals name="earned_points">
+        <item quantity="other">+%1$d points</item>
+        <item quantity="one">+%1$d point</item>
+    </plurals>
+    <plurals name="earned_points_negative">
+        <item quantity="other">-%1$d points</item>
+        <item quantity="one">-%1$d point</item>
+    </plurals>
+    <plurals name="followers_followers_count">
+        <item quantity="other">%s Followers</item>
+        <item quantity="one">%s Follower</item>
+    </plurals>
+    <plurals name="followers_following_count">
+        <item quantity="other">%s Following</item>
+        <item quantity="one">%s Following</item>
+    </plurals>
+    <plurals name="friends_user_profile_cell_title">
+        <item quantity="other">%d Friends</item>
+        <item quantity="one">%d Friend</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="other">%d new notifications</item>
+        <item quantity="one">%d new notification</item>
+    </plurals>
+    <plurals name="points_info_challenge_completion_subtext">
+        <item quantity="other">Earn %1$d points for completing select challenges</item>
+        <item quantity="one">Earn %1$d point for completing select challenges</item>
+    </plurals>
+    <plurals name="points_info_cycling_section_description_imperial">
+        <item quantity="other">Get %1$d points for every mile you track with the following cycling activities:</item>
+        <item quantity="one">Get %1$d point for every mile you track with the following cycling activities:</item>
+    </plurals>
+    <plurals name="points_info_cycling_section_description_metric">
+        <item quantity="other">Get %1$d points for every km you track with the following cycling activities:</item>
+        <item quantity="one">Get %1$d point for every km you track with the following cycling activities:</item>
+    </plurals>
+    <plurals name="points_info_listitem_purchase_points">
+        <item quantity="other">%1$d points per %2$s</item>
+        <item quantity="one">%1$d point per %2$s</item>
+    </plurals>
+    <plurals name="points_info_running_section_description_imperial">
+        <item quantity="other">Earn points for being active. Get %1$d points for every mile you track with one of the following sport types:</item>
+        <item quantity="one">Earn points for being active. Get %1$d point for every mile you track with one of the following sport types:</item>
+    </plurals>
+    <plurals name="points_info_running_section_description_metric">
+        <item quantity="other">Earn points for being active. Get %1$d points for every km you track with one of the following sport types:</item>
+        <item quantity="one">Earn points for being active. Get %1$d point for every km you track with one of the following sport types:</item>
+    </plurals>
+    <plurals name="points_to_next_level">
+        <item quantity="other">%1$s points to reach the %2$s level</item>
+        <item quantity="one">%1$s point to reach the %2$s level</item>
+    </plurals>
+    <plurals name="progress_pics_sharing_info_none_day">
+        <item quantity="other">Check out my progress after %1$d days!</item>
+        <item quantity="one">Check out my progress after %1$d day!</item>
+    </plurals>
+    <plurals name="progress_pics_sharing_info_none_week">
+        <item quantity="other">Check out my progress after %1$d weeks!</item>
+        <item quantity="one">Check out my progress after %1$d week!</item>
+    </plurals>
+    <plurals name="progress_pics_side_by_side_info_both_day">
+        <item quantity="other">%1$s body weight and %2$s body fat in %3$d days</item>
+        <item quantity="one">%1$s body weight and %2$s body fat in %3$d day</item>
+    </plurals>
+    <plurals name="progress_pics_side_by_side_info_both_week">
+        <item quantity="other">%1$s body weight and %2$s body fat in %3$d weeks</item>
+        <item quantity="one">%1$s body weight and %2$s body fat in %3$d week</item>
+    </plurals>
+    <plurals name="progress_pics_side_by_side_info_fat_day">
+        <item quantity="other">%1$s body fat in %2$d days</item>
+        <item quantity="one">%1$s body fat in %2$d day</item>
+    </plurals>
+    <plurals name="progress_pics_side_by_side_info_fat_week">
+        <item quantity="other">%1$s body fat in %2$d days</item>
+        <item quantity="one">%1$s body fat in %2$d day</item>
+    </plurals>
+    <plurals name="progress_pics_side_by_side_info_none_day">
+        <item quantity="other">Your progress in %1$d days</item>
+        <item quantity="one">Your progress in %1$d day</item>
+    </plurals>
+    <plurals name="progress_pics_side_by_side_info_none_week">
+        <item quantity="other">Your progress in %1$d weeks</item>
+        <item quantity="one">Your progress in %1$d week</item>
+    </plurals>
+    <plurals name="progress_pics_side_by_side_info_weight_day">
+        <item quantity="other">%1$s body weight in %2$d days</item>
+        <item quantity="one">%1$s body weight in %2$d day</item>
+    </plurals>
+    <plurals name="progress_pics_side_by_side_info_weight_week">
+        <item quantity="other">%1$s body weight in %2$d weeks</item>
+        <item quantity="one">%1$s body weight in %2$d week</item>
+    </plurals>
+    <plurals name="purchase_x_month">
+        <item quantity="other">%d Month Membership</item>
+        <item quantity="one">%d Month Membership</item>
+    </plurals>
+    <plurals name="social_profile_statistics_activities">
+        <item quantity="other">Activities</item>
+        <item quantity="one">Activity</item>
+    </plurals>
+    <plurals name="users_signed_up">
+        <item quantity="other">%d users have joined via the adidas Runners website.</item>
+        <item quantity="one">%d user has joined via the adidas Runners website.</item>
+    </plurals>
+    <plurals name="workout_creator_exercise_count">
+        <item quantity="other">%1$d Exercises</item>
+        <item quantity="one">1 Exercise</item>
+    </plurals>
+    <plurals name="workout_creator_round_count">
+        <item quantity="other">%1$d Rounds</item>
+        <item quantity="one">1 Round</item>
+    </plurals>
+</resources>

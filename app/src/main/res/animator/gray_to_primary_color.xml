@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<objectAnimator android:duration="200" android:valueFrom="@color/text_color_body_part_not_selected" android:valueTo="@color/primary" android:propertyName="fillColor"
+  xmlns:android="http://schemas.android.com/apk/res/android" />
