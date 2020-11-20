@@ -13,6 +13,11 @@
         android:title="Nutrition">
     </item>
     <item
+        android:id="@+id/Progress"
+        android:icon="@drawable/ic_progress"
+        android:title="Progress">
+    </item>
+    <item
         android:id="@+id/Workouts"
         android:icon="@drawable/ic_workouts"
         android:title="Workouts">

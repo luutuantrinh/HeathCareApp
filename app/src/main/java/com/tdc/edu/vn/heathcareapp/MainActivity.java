@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.Nutrition:
                     fragment = new NutritionFragment();
                     break;
+                case R.id.Progress:
+                    fragment = new ProgressFragment();
+                    break;
                 case R.id.Workouts:
                     fragment = new WorkoutsFragment();
                     break;
