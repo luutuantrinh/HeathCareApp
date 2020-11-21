@@ -11,6 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setEvent() {
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new WorkoutsFragment()).commit();
+        setTitle("New Feed");
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewFeedFragment()).commit();
     }
 
     private void setControl() {
@@ -32,21 +34,26 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment = null;
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.NewFeed:
                     fragment = new NewFeedFragment();
+                    setTitle("New Feed");
                     break;
                 case R.id.Nutrition:
                     fragment = new NutritionFragment();
+                    setTitle("Nutrition");
                     break;
                 case R.id.Progress:
                     fragment = new ProgressFragment();
+                    setTitle("Progress");
                     break;
                 case R.id.Workouts:
                     fragment = new WorkoutsFragment();
+                    setTitle("Workouts");
                     break;
                 case R.id.More:
                     fragment = new MoreFragment();
+                    setTitle("More");
                     break;
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
