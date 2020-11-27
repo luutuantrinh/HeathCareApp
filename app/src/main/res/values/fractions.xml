@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <fraction name="header_max_description_ratio">50.0%</fraction>
+    <fraction name="login_logo_top_margin_percent">14.999998%</fraction>
+    <fraction name="workout_creator_body_part_arm_bottom_margin">60.000004%</fraction>
+</resources>

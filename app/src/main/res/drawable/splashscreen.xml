@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list android:opacity="opaque"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/white" />
+    <item android:gravity="center" android:width="180.0dip" android:top="-50.0dip">
+        <bitmap android:gravity="center" android:src="@drawable/splash_logo" android:antialias="true" />
+    </item>
+    <item android:gravity="bottom|center" android:width="130.0dip" android:bottom="@dimen/splash_by_runtastic_margin_bottom">
+        <bitmap android:gravity="bottom|center" android:src="@drawable/splash_by_runtastic" android:antialias="true" />
+    </item>
+</layer-list>

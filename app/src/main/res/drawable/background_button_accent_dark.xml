@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple android:color="@color/selectable_item_dark"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <selector>
+            <item android:state_enabled="false">
+                <layer-list>
+                    <item android:drawable="@color/background_dark_secondary" />
+                </layer-list>
+            </item>
+            <item>
+                <layer-list>
+                    <item android:drawable="@color/primary_light" />
+                </layer-list>
+            </item>
+        </selector>
+    </item>
+</ripple>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:gravity="fill_horizontal|center" android:id="@android:id/background">
+        <shape android:shape="line">
+            <stroke android:width="@dimen/seekbar_track_progress_height_material" android:color="@color/medium_grey" />
+        </shape>
+    </item>
+    <item android:gravity="fill_horizontal|center" android:id="@android:id/secondaryProgress">
+        <scale android:scaleWidth="100%">
+            <shape android:shape="line">
+                <stroke android:width="@dimen/seekbar_track_progress_height_material" android:color="@color/button_background_disabled" />
+            </shape>
+        </scale>
+    </item>
+    <item android:gravity="fill_horizontal|center" android:id="@android:id/progress">
+        <scale android:scaleWidth="100%">
+            <shape android:shape="line">
+                <stroke android:width="@dimen/seekbar_track_progress_height_material" android:color="@color/primary" />
+            </shape>
+        </scale>
+    </item>
+</layer-list>
