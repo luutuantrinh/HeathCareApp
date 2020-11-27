@@ -1,41 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateContentFragment"
-    android:orientation="vertical">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:orientation="vertical"
+    tools:context=".CreateContentActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:padding="15dp"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:layout_height="wrap_content">
         <ImageView
             android:layout_width="wrap_content"
-            android:src="@drawable/ic_person_add"
+            android:src="@drawable/ic_group_add"
             android:layout_height="wrap_content">
         </ImageView>
-
         <TextView
-
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:text="Khoi Nguyen"
-            android:textSize="20dp"
+            android:textSize="19dp"
             android:layout_height="wrap_content">
+
         </TextView>
-
-
     </LinearLayout>
 
     <EditText
-        android:padding="5dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:hint="What are you up to?"
         android:layout_height="wrap_content">
 
     </EditText>
-
 </LinearLayout>

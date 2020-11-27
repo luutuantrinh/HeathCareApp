@@ -24,9 +24,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
-        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
-        setTitle("New Feed");
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new NewFeedFragment()).commit();
+
+
     }
 
     private void setControl() {
@@ -34,39 +33,38 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment = null;
-            switch (item.getItemId()) {
-                case R.id.NewFeed:
-                    fragment = new NewFeedFragment();
-                    getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-                    getSupportActionBar().setCustomView(R.layout.toolbar_newfeed);
-                    setTitle("New Feed");
-                    break;
-                case R.id.Nutrition:
-                    fragment = new NutritionFragment();
-                    getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-                    getSupportActionBar().setCustomView(R.layout.toolbar_nutrition);
-                    setTitle("Nutrition");
+//    BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod = new BottomNavigationView.OnNavigationItemSelectedListener() {
+//        @Override
+//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//            Fragment fragment = null;
+//            switch (item.getItemId()) {
+//                case R.id.NewFeed:
+//
+//
+//                    setTitle("New Feed");
+//                    break;
+//                case R.id.Nutrition:
+//
+//
+//                    setTitle("Nutrition");
+//
+//                    break;
+//                case R.id.Progress:
+//
+//                    setTitle("Progress");
+//                    break;
+//                case R.id.Workouts:
+//
+//                    setTitle("Workouts");
+//                    break;
+//                case R.id.More:
+//
+//                    setTitle("More");
+//                    break;
+//            }
+//            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+//            return true;
+//        }
+//    };
 
-                    break;
-                case R.id.Progress:
-                    fragment = new ProgressFragment();
-                    setTitle("Progress");
-                    break;
-                case R.id.Workouts:
-                    fragment = new WorkoutsFragment();
-                    setTitle("Workouts");
-                    break;
-                case R.id.More:
-                    fragment = new MoreFragment();
-                    setTitle("More");
-                    break;
-            }
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-            return true;
-        }
-    };
 }
