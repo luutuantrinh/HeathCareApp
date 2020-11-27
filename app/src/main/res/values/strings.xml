@@ -9,4 +9,7 @@
     <string name="hint_password">PASSWORD</string>
     <string name="hint_age">AGE</string>
     <string name="btn_join">JOIN</string>
+    <string name="btn_LOGIN">LOGIN</string>
+    <string name="rdb_female">FEMALE</string>
+    <string name="rdb_male">MALE</string>
 </resources>

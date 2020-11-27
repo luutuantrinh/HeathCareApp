@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "135475993808",
+    "firebase_url": "https://healthcareapp-7f27f.firebaseio.com",
+    "project_id": "healthcareapp-7f27f",
+    "storage_bucket": "healthcareapp-7f27f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:135475993808:android:eb153d652d6149a32492d5",
+        "android_client_info": {
+          "package_name": "com.tdc.edu.vn.heathcareapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "135475993808-681iirubt5j50t4o6bvf0880iurc78c6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLH07e0M0da5DKFV-7UR_ZnVc_9xWvJyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "135475993808-681iirubt5j50t4o6bvf0880iurc78c6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

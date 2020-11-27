@@ -20,7 +20,17 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
+                android:gravity="center"
+                android:layout_weight="1"
+                android:paddingTop="30dp">
+                <ImageView
+                    android:id="@+id/imgAvatar"
+                    android:layout_width="130dp"
+                    android:layout_height="140dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/imageicon"
+                    tools:ignore="InvalidId" />
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -32,6 +42,7 @@
                     android:layout_weight="1"
                     android:gravity="bottom">
                     <EditText
+                        android:id="@+id/edtFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_FirstName"
@@ -43,6 +54,7 @@
                     android:layout_weight="1"
                     android:gravity="center">
                     <EditText
+                        android:id="@+id/edtLastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_LastName"
@@ -54,12 +66,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"></LinearLayout>
+            android:layout_weight="1">
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="20dp">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rdb_male"
+                    android:paddingRight="20dp"
+                    style="@style/text_Registration"></RadioButton>
+                <RadioButton
+                    style="@style/text_Registration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rdb_female"></RadioButton>
+            </RadioGroup>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
             <EditText
+                android:id="@+id/edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_email"
@@ -70,21 +101,34 @@
             android:layout_height="0dp"
             android:layout_weight="1">
             <EditText
+                android:id="@+id/edtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_password"
-                style="@style/text_Registration"></EditText>
+                style="@style/text_Registration"
+                android:password="true"></EditText>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"></LinearLayout>
+            android:layout_weight="1">
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/Location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ccp_showFullName="true"
+                app:ccp_showPhoneCode="false"
+                app:ccp_textGravity="LEFT">
+
+            </com.hbb20.CountryCodePicker>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
             <EditText
+                android:id="@+id/edtAge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_age"
@@ -98,6 +142,7 @@
             android:paddingRight="10dp"
             android:paddingLeft="10dp">
             <Button
+                android:id="@+id/btnJoin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_join"

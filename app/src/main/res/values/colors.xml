@@ -10,4 +10,5 @@
     <color name="btn_Login">#27848c</color>
     <color name="text_registration">#616363</color>
     <color name="btn_join">#007680</color>
+    <color name="edt_Login">#bfc6c6</color>
 </resources>
