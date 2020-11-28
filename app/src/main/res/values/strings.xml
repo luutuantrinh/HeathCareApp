@@ -601,7 +601,7 @@ runtastic GmbH
     <string name="default_channel_description">Your push notifications</string>
     <string name="default_channel_name">Push notification</string>
     <string name="default_notification_channel_id">firebase_notification_default_channel</string>
-    <string name="default_web_client_id">277896117789-1abojgp8q5b2iok7a2kiad2e995mj2ab.apps.googleusercontent.com</string>
+
     <string name="define_rxlocation" />
     <string name="delete">Delete</string>
     <string name="description_adidas_app_deeplink">Find more information about additional rewards in the adidas app.</string>
@@ -864,7 +864,7 @@ Please try again in a moment."</string>
     <string name="finish_week">Finish Week</string>
     <string name="finish_week_in_advance">Finish Week in advance</string>
     <string name="finished">Completed</string>
-    <string name="firebase_database_url">https://com-runtastic-results.firebaseio.com</string>
+
     <string name="fitness_test_promotion_cta">"Ok, Let's Go"</string>
     <string name="fitness_test_promotion_header">Hi, %1$s!</string>
     <string name="fitness_test_promotion_text">To optimize your plan for your current fitness level, we need you to answer a few questions. Ready to get started?</string>
@@ -1029,7 +1029,7 @@ You don't follow this person yet."</string>
     <string name="gamification_app_name_runtastic">Runtastic</string>
     <string name="gamification_app_name_situps">Sit-Ups</string>
     <string name="gamification_app_name_squats">Squats</string>
-    <string name="gcm_defaultSenderId">277896117789</string>
+
     <string name="gender">Gender</string>
     <string name="gender_picker_female">Female</string>
     <string name="gender_picker_male">Male</string>
@@ -1092,11 +1092,10 @@ You don't follow this person yet."</string>
     <string name="gold_welcome_dialog_description">Enjoy your Premium Membership and all its benefits in the %1$s app!</string>
     <string name="gold_welcome_dialog_title">Welcome, %1$s!</string>
     <string name="google">Google</string>
-    <string name="google_api_key">AIzaSyAbNGfAN-BEL8ohaJyOUaxNpTHnY4L11tE</string>
-    <string name="google_app_id">1:277896117789:android:cd80e6e64c116324</string>
-    <string name="google_crash_reporting_api_key">AIzaSyAbNGfAN-BEL8ohaJyOUaxNpTHnY4L11tE</string>
+
+
     <string name="google_fit">Google Fit</string>
-    <string name="google_storage_bucket">com-runtastic-results.appspot.com</string>
+
     <string name="got_it">Got it</string>
     <string name="gradient">Grade</string>
     <string name="group_edit_warning">If you edit the group name, the sharing link will change.</string>
@@ -1948,7 +1947,7 @@ Go for it, change your body now!"</string>
     <string name="progress_pictures_take_picture">Take a photo</string>
     <string name="progress_tab_workout_detail_training_plan_header">%1$s Plan</string>
     <string name="progressbar_description">Progress Bar</string>
-    <string name="project_id">com-runtastic-results</string>
+
     <string name="promo_active_features">Currently activated features:</string>
     <string name="promocode_description">"Enter your promo code above and press 'Redeem Code'."</string>
     <string name="promocode_input_hint">Enter code</string>
