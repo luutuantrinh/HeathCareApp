@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_gravity="center"
-    android:layout_height="match_parent">
+    style="@style/style_border_toolbar">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp">
+        style="@style/rl_toolbar_basic">
 
         <Button
             android:id="@+id/btn_cancel_createContent"
@@ -19,23 +14,13 @@
             android:textColor="@color/black"></Button>
 
         <TextView
-            android:id="@+id/titleNewFeed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginEnd="-3dp"
-            android:layout_marginRight="-3dp"
-            android:layout_marginVertical="10dp"
+            android:id="@+id/title_toolbar_createContent"
+            style="@style/title_toolbar"
             android:layout_toStartOf="@id/btn_publish_createContent"
             android:layout_toLeftOf="@id/btn_publish_createContent"
             android:layout_toEndOf="@id/btn_cancel_createContent"
             android:layout_toRightOf="@id/btn_cancel_createContent"
-            android:gravity="center"
-            android:text="NEW POST"
-            android:textColor="@color/black"
-            android:textSize="17dp"
-            android:textStyle="bold">
+            android:text="NEW POST">
 
         </TextView>
 

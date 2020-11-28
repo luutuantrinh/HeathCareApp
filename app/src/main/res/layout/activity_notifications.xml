@@ -11,11 +11,14 @@
         android:layout_below="@id/include_toolbar_notification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ListView
+        <com.airbnb.lottie.LottieAnimationView
             android:layout_width="match_parent"
+            app:lottie_rawRes="@raw/loading_more"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
             android:layout_height="wrap_content">
 
-        </ListView>
+        </com.airbnb.lottie.LottieAnimationView>
     </ScrollView>
 
 </RelativeLayout>

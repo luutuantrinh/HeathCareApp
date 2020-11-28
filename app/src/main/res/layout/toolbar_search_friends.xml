@@ -1,46 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".SearchFriendsActivity">
+    style="@style/style_border_toolbar">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:id="@+id/rl_toolbar_search_friends"
         android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputLayout
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_search_friends"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true">
+            android:layout_height="wrap_content">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
+                android:hint="Enter name or username"
                 android:id="@+id/textInput_search_friends"
-                android:hint="Enter name or email address"
                 android:layout_height="wrap_content">
 
             </com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:layout_width="wrap_content"
+
             android:layout_toEndOf="@id/textInput_search_friends"
+            android:id="@+id/btn_cancel_searchFriends"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:text="Cancel"
             android:layout_alignParentEnd="true"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/textInput_search_friends"
-            tools:ignore="NotSibling"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            tools:ignore="NotSibling">
 
         </Button>
     </RelativeLayout>
 
-
-    <ListView
-        android:layout_below="@id/rl_toolbar_search_friends"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </ListView>
 </RelativeLayout>

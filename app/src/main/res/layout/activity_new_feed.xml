@@ -5,17 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".NewFeedActivity">
-    <include android:id="@+id/include_newfeed" layout="@layout/toolbar_newfeed"></include>
+    <include android:id="@+id/include_newFeed" layout="@layout/toolbar_newfeed"></include>
 
-    <TextView
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_below="@id/include_newFeed"
         android:layout_width="match_parent"
-        android:text="New feed"
-        android:gravity="center"
+        app:lottie_rawRes="@raw/typing_at_work"
+        app:lottie_loop="true"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_below="@id/include_newfeed"
+        app:lottie_autoPlay="true"
         android:layout_height="wrap_content">
 
-    </TextView>
+    </com.airbnb.lottie.LottieAnimationView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:id="@+id/BottomNavView"
