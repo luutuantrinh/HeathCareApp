@@ -3,9 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".NewFeedActivity">
+    <include android:id="@+id/include_newfeed" layout="@layout/toolbar_newfeed"></include>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:text="New feed"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_below="@id/include_newfeed"
+        android:layout_height="wrap_content">
+
+    </TextView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:id="@+id/BottomNavView"

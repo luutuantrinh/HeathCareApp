@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HeathCareApp">
-        <activity android:name=".NewsActivity"></activity>
+        <activity android:name=".ChatListActivity"></activity>
+        <activity android:name=".NewsActivity" />
         <activity android:name=".SettingsNotificationActivity" />
         <activity android:name=".NotificationsActivity" />
         <activity android:name=".SearchFriendsActivity" />

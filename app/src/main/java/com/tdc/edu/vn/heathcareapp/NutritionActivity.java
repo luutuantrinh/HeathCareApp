@@ -26,10 +26,11 @@ public class NutritionActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.NewFeed:
+                        startActivity(new Intent(getApplicationContext(), NewFeedActivity.class));
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.Nutrition:
-                        startActivity(new Intent(getApplicationContext(), NutritionActivity.class));
-                        overridePendingTransition(0, 0);
+
                         return true;
 
                 }

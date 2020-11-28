@@ -3,8 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".NutritionActivity">
+    <include android:id="@+id/include_nutrition" layout="@layout/toolbar_nutrition_main"></include>
+    <TextView
+        android:layout_width="match_parent"
+        android:text="Nutrition"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_below="@id/include_nutrition"
+        android:layout_height="wrap_content">
+
+    </TextView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:id="@+id/BottomNavView"
