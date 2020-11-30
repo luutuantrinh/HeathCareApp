@@ -4,6 +4,12 @@ public class NutritionTower {
     int id_nt;
     String title_nt, content_nt;
 
+    public NutritionTower(int id_nt, String title_nt, String content_nt) {
+        this.id_nt = id_nt;
+        this.title_nt = title_nt;
+        this.content_nt = content_nt;
+    }
+
     public int getId_nt() {
         return id_nt;
     }

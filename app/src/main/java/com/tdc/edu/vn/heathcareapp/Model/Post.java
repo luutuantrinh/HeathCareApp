@@ -4,6 +4,15 @@ public class Post {
     private String id_post, content_post, day_create;
     private int user_id, image_id, total_like;
 
+    public Post(String id_post, String content_post, String day_create, int user_id, int image_id, int total_like) {
+        this.id_post = id_post;
+        this.content_post = content_post;
+        this.day_create = day_create;
+        this.user_id = user_id;
+        this.image_id = image_id;
+        this.total_like = total_like;
+    }
+
     public String getId_post() {
         return id_post;
     }

@@ -4,6 +4,13 @@ public class New {
     String title_new, content_new, url_new;
     int id_new;
 
+    public New(String title_new, String content_new, String url_new, int id_new) {
+        this.title_new = title_new;
+        this.content_new = content_new;
+        this.url_new = url_new;
+        this.id_new = id_new;
+    }
+
     public String getTitle_new() {
         return title_new;
     }
