@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="DEEP_LINKING_INTENT_HOST_REDEEM_VOUCHER" >redeem-voucher</string>
+    <string name="DEEP_LINKING_INTENT_HOST_REDEEM_VOUCHER">redeem-voucher</string>
     <string name="DEEP_LINKING_INTENT_PATH_PATTERN_REDEEM_VOUCHER">/.*</string>
     <string name="DEEP_LINKING_SLEEP_BETTER_INTENT_HOST_OPEN_INPUT_SLEEP_SESSION">input</string>
     <string name="DEEP_LINKING_SLEEP_BETTER_INTENT_HOST_OPEN_INSIGHTS">insights</string>
@@ -1094,7 +1094,6 @@ You don't follow this person yet."</string>
     <string name="google">Google</string>
 
 
-
     <string name="google_fit">Google Fit</string>
 
     <string name="got_it">Got it</string>
@@ -1411,7 +1410,7 @@ Track your first activity to see yourself on the Leaderboard!"</string>
     <string name="loading">Loading …</string>
     <string name="login">Log in</string>
     <string name="login_already_have_account_question">Already have an account?</string>
-    <item type="string" name="APKTOOL_DUMMY_568">false</item>
+    <item name="APKTOOL_DUMMY_568" type="string">false</item>
     <string name="login_button_facebook">Continue</string>
     <string name="login_button_google_facebook_short">Continue</string>
     <string name="login_button_sign_up">Sign up</string>
@@ -1426,7 +1425,7 @@ Track your first activity to see yourself on the Leaderboard!"</string>
     <string name="login_error_third_party_server_generic_title">Login failed</string>
     <string name="login_first_promocode_deeplink">Please, log in to your adidas account first to redeem your promotion code.</string>
     <string name="login_not_successful">Login failed</string>
-    <item type="string" name="APKTOOL_DUMMY_577">false</item>
+    <item name="APKTOOL_DUMMY_577" type="string">false</item>
     <string name="login_provider_facebook">Facebook</string>
     <string name="login_provider_google">Google</string>
     <string name="login_provider_runtastic">adidas Runtastic</string>
@@ -2941,4 +2940,16 @@ Remember, your cardio goal:"</string>
     <string name="zxing_msg_camera_framework_bug">Sorry, the Android camera encountered a problem. You may need to restart the device.</string>
     <string name="zxing_msg_default_status">Place a barcode inside the viewfinder rectangle to scan it.</string>
     <string name="patched_by">TruePatcher - patch engine</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="text_login">Already have an account?</string>
+    <string name="btn_login">LOG IN</string>
+    <string name="hint_FirstName">FIRST NAME</string>
+    <string name="hint_LastName">LAST NAME</string>
+    <string name="hint_email">EMAIL</string>
+    <string name="hint_password">PASSWORD</string>
+    <string name="hint_age">AGE</string>
+    <string name="btn_join">JOIN</string>
+    <string name="btn_LOGIN">LOGIN</string>
+    <string name="rdb_female">FEMALE</string>
+    <string name="rdb_male">MALE</string>
 </resources>
