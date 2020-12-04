@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="250dp"
+    android:layout_width="180dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="7dp"
     android:padding="10dp"
@@ -15,8 +15,9 @@
         <ImageView
             android:id="@+id/img_item_nutrition_tower"
             android:layout_width="wrap_content"
-            android:src="@drawable/download"
-            android:layout_height="wrap_content">
+            android:padding="10dp"
+            android:src="@drawable/news1"
+            android:layout_height="150dp">
 
         </ImageView>
 

@@ -10,10 +10,13 @@
     <ScrollView
         android:layout_below="@id/include_toolbar_notification"
         android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_height="wrap_content">
         <com.airbnb.lottie.LottieAnimationView
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            app:lottie_rawRes="@raw/loading_more"
+            app:lottie_rawRes="@raw/error404"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             android:layout_height="wrap_content">

@@ -60,9 +60,10 @@ public class NewFeedActivity extends AppCompatActivity {
                         return true;
                     case R.id.Nutrition:
                         Intent intent = new Intent(getApplicationContext(), NutritionActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         overridePendingTransition(0, 0);
+
                         return true;
 
                 }

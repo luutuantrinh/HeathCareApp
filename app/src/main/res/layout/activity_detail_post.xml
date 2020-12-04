@@ -1,9 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailPostActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include android:id="@+id/include_toolbar_detail_post" layout="@layout/toolbar_detail_post"></include>
+
+    <LinearLayout
+        android:id="@+id/lnl_post"
+        android:layout_below="@id/include_toolbar_detail_post"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="10dp">
+
+                <ImageView
+                    android:id="@+id/imgRows_ct"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/hansara"></ImageView>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="5dp">
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Khoi Nguyen">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_created_At_item_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Shared a month ago"></TextView>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_content_item_post"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:text="Ngay hom nay se la mot ngay tuyet voi neu khi em van con ton taji tren the gian nay"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:background="#CFCFCF"
+        android:layout_below="@id/lnl_post"
+        android:layout_height="1dp">
+
+    </View>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcy_cmt_detail_post"
+        android:layout_width="match_parent"
+        android:layout_below="@id/view"
+        android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+    <LinearLayout
+        android:padding="10dp"
+        android:background="@drawable/custom_freme_post"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:background="@color/white"
+            android:src="@drawable/ic_favorite"
+            android:layout_height="wrap_content">
+
+        </ImageButton>
+        <TextView
+            android:id="@+id/tv_total_like_item_post"
+            android:layout_width="wrap_content"
+            android:text="0"
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="|"
+            android:paddingRight="10dp"
+            android:layout_height="wrap_content">
+
+        </TextView>
+        <EditText
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:hint="Write a comment..."
+            android:background="@color/white"
+            android:layout_height="wrap_content">
+
+        </EditText>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_send"
+            android:background="@color/white"
+            android:layout_height="wrap_content">
+
+        </ImageButton>
+    </LinearLayout>
+</RelativeLayout>

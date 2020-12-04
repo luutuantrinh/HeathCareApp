@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -20,11 +23,13 @@ import java.util.ArrayList;
 
 public class NutritionActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
+    TextView tv_see_more_news, tv_see_more_nutrition_tower;
     RecyclerView recyclerViewNutrition, recyclerViewNews;
     NutritionTowerAdapter nutritionTowerAdapter;
     NewsAdapter newsAdapter;
     ArrayList<NutritionTower> arrayListData = new ArrayList<>();
     ArrayList<New> dataNews = new ArrayList<>();
+    ImageButton imageButtonChat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +69,37 @@ public class NutritionActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Error: "+ ex, Toast.LENGTH_SHORT).show();
         }
 
+        tv_see_more_nutrition_tower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), NutritionListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+        tv_see_more_news.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), NewsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+        imageButtonChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NutritionActivity.this, ChatListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
         bottomNavigationView.setSelectedItemId(R.id.Nutrition);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -71,9 +107,9 @@ public class NutritionActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.NewFeed:
                         Intent intent = new Intent(getApplicationContext(), NewFeedActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
                         overridePendingTransition(0, 0);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         return true;
                     case R.id.Nutrition:
                         return true;
@@ -88,6 +124,9 @@ public class NutritionActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.BottomNavView);
         recyclerViewNutrition = findViewById(R.id.ryc_nutrition_tower);
         recyclerViewNews = findViewById(R.id.ryc_news);
+        tv_see_more_news = findViewById(R.id.tv_see_more_news);
+        tv_see_more_nutrition_tower = findViewById(R.id.tv_see_more_nutrition);
+        imageButtonChat = findViewById(R.id.icon_chat_toolbar);
     }
 
 }

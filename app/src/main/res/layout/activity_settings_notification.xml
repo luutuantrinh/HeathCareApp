@@ -10,7 +10,7 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="match_parent"
-        app:lottie_rawRes="@raw/loading_more"
+        app:lottie_rawRes="@raw/error404"
         app:lottie_autoPlay="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"

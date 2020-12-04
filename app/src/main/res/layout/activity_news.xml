@@ -8,11 +8,21 @@
 
     <include android:id="@+id/include_toolbar_news" layout="@layout/toolbar_news"></include>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcy_news"
         android:layout_width="match_parent"
         android:layout_below="@+id/include_toolbar_news"
         android:layout_height="wrap_content">
 
-    </ListView>
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/BottomNavViewNews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </RelativeLayout>

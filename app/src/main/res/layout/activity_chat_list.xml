@@ -7,15 +7,33 @@
     tools:context=".ChatListActivity">
     <include android:id="@+id/include_toolbar_chat_list" layout="@layout/toolbar_chat_list"></include>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_below="@+id/include_toolbar_chat_list"
-        android:layout_height="wrap_content">
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:layout_below="@id/include_toolbar_chat_list"
+        android:id="@+id/sp_consultants"
+        android:padding="10dp"
 
-        </ListView>
-    </ScrollView>
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </androidx.appcompat.widget.AppCompatSpinner>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcy_chat_list"
+        android:layout_width="match_parent"
+        android:layout_below="@id/sp_consultants"
+        android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/BottomNavView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </RelativeLayout>
