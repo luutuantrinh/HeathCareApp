@@ -17,12 +17,11 @@
         <activity android:name=".WorkoutMain">
 
         </activity>
+        <activity android:name=".VideoMain">
 
+        </activity>
         <activity android:name=".FeedBackAMain">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".ItemWorkout">
         </activity>
@@ -40,7 +39,10 @@
         </activity>
 
         <activity android:name=".DetailMorningMain">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".ItemTrendingItem">
