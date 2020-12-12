@@ -1,13 +1,25 @@
 package com.tdc.edu.vn.heathcareapp.Model;
 
 public class New {
-    String title_new, content_new, url_new;
-    int id_new;
+    String id_new, title_new, content_new, url_new, img_new;
 
-    public New(String title_new, String content_new, String url_new, int id_new) {
+    public New() {
+
+    }
+
+    public New(String id_new, String title_new, String content_new, String url_new, String img_new) {
+        this.id_new = id_new;
         this.title_new = title_new;
         this.content_new = content_new;
         this.url_new = url_new;
+        this.img_new = img_new;
+    }
+
+    public String getId_new() {
+        return id_new;
+    }
+
+    public void setId_new(String id_new) {
         this.id_new = id_new;
     }
 
@@ -35,11 +47,11 @@ public class New {
         this.url_new = url_new;
     }
 
-    public int getId_new() {
-        return id_new;
+    public String getImg_new() {
+        return img_new;
     }
 
-    public void setId_new(int id_new) {
-        this.id_new = id_new;
+    public void setImg_new(String img_new) {
+        this.img_new = img_new;
     }
 }

@@ -13,7 +13,7 @@ import com.tdc.edu.vn.heathcareapp.Model.Counselor;
 
 import java.util.ArrayList;
 
-public class ChatListActivity extends AppCompatActivity {
+public class ConversationListActivity extends AppCompatActivity {
     ImageButton imageButtonBackSpace, imageButtonMoreOption;
     RecyclerView recyclerViewListChat;
     CounselorAdapter counselorAdapter;
@@ -21,7 +21,7 @@ public class ChatListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_list);
+        setContentView(R.layout.activity_conversation_list);
         setControl();
         setEvent();
     }
@@ -33,9 +33,9 @@ public class ChatListActivity extends AppCompatActivity {
         dataCounselor.add(new Counselor(1, "Tuan Trinh", "Master Android ne!"));
         dataCounselor.add(new Counselor(1, "Doan Van Phuong", "Master React native ne!"));
 
-        counselorAdapter = new CounselorAdapter(ChatListActivity.this, dataCounselor);
+        counselorAdapter = new CounselorAdapter(ConversationListActivity.this, dataCounselor);
         recyclerViewListChat.setAdapter(counselorAdapter);
-        recyclerViewListChat.setLayoutManager(new LinearLayoutManager(ChatListActivity.this));
+        recyclerViewListChat.setLayoutManager(new LinearLayoutManager(ConversationListActivity.this));
 
         imageButtonBackSpace.setOnClickListener(new View.OnClickListener() {
             @Override

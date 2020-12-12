@@ -66,26 +66,40 @@
 
         </TextView>
 
-
-
-
     </LinearLayout>
 
-    <View
-        android:id="@+id/view"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_width="match_parent"
-        android:background="#CFCFCF"
+    <LinearLayout
+        android:id="@+id/lnl_totalLike"
+        android:background="@color/color_border_toolbar"
         android:layout_below="@id/lnl_post"
-        android:layout_height="1dp">
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:layout_marginLeft="10dp"
+            android:id="@+id/icon_like_item_post"
+            android:layout_width="wrap_content"
+            android:background="@color/color_border_toolbar"
+            android:src="@drawable/ic_favorite"
+            android:layout_height="wrap_content">
 
-    </View>
+        </ImageButton>
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="0"
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+
+        </TextView>
+    </LinearLayout>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcy_cmt_detail_post"
         android:layout_width="match_parent"
-        android:layout_below="@id/view"
+        android:layout_below="@id/lnl_totalLike"
         android:layout_height="wrap_content">
 
     </androidx.recyclerview.widget.RecyclerView>

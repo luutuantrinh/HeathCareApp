@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             style="@style/title_toolbar"
-            android:text="10 thuc pham tot cho cow the ...."
+            android:text="DETAIL"
             android:layout_toStartOf="@id/icon_more_news_detail"
             android:layout_toEndOf="@id/icon_backspace_news_detail"
             android:layout_toRightOf="@id/icon_backspace_news_detail"

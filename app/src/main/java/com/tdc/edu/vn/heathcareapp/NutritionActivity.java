@@ -1,6 +1,7 @@
 package com.tdc.edu.vn.heathcareapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.tdc.edu.vn.heathcareapp.Adapter.NewsAdapter;
 import com.tdc.edu.vn.heathcareapp.Adapter.NutritionTowerAdapter;
 import com.tdc.edu.vn.heathcareapp.Model.New;
@@ -30,6 +37,9 @@ public class NutritionActivity extends AppCompatActivity {
     ArrayList<NutritionTower> arrayListData = new ArrayList<>();
     ArrayList<New> dataNews = new ArrayList<>();
     ImageButton imageButtonChat;
+    // Firebase
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference newsRef = db.collection("News");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +47,31 @@ public class NutritionActivity extends AppCompatActivity {
         setControl();
         setEvent();
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        newsRef.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    return;
+                }
+                dataNews.clear();
+                for (QueryDocumentSnapshot documentSnapshot : value) {
+                    New news = documentSnapshot.toObject(New.class);
+                    news.setId_new(documentSnapshot.getId());
+                    String title = news.getTitle_new();
+                    String id = news.getId_new();
+                    String des = news.getContent_new();
+                    String url = news.getUrl_new();
+                    dataNews.add(new New(id, title, des, url, ""));
+                }
 
+                newsAdapter = new NewsAdapter(dataNews, NutritionActivity.this);
+                recyclerViewNews.setAdapter(newsAdapter);
+            }
+        });
+    }
     private void setEvent() {
         NutritionTower nutritionTower1 = new NutritionTower(1, "Van Phong", "13333");
         arrayListData.add(nutritionTower1);
@@ -46,21 +80,11 @@ public class NutritionActivity extends AppCompatActivity {
         NutritionTower nutritionTower3 = new NutritionTower(3, "Sinh Vien", "13333");
         arrayListData.add(nutritionTower3);
 
-        New news1 = new New("10 Loai thuc pham tot cho gan", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 1);
-        dataNews.add(news1);
-        New news2 = new New("Rau cu ngan lao hoa", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 2);
-        dataNews.add(news2);
-        New news3 = new New("Rau cho mat", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 3);
-        dataNews.add(news3);
-        New news4 = new New("7 Loai rau bo sung", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 4);
-        dataNews.add(news4);
-        New news5 = new New("Rau muon danh cho sinh vien", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 5);
-        dataNews.add(news5);
+
         try {
             nutritionTowerAdapter = new NutritionTowerAdapter(NutritionActivity.this, arrayListData);
             recyclerViewNutrition.setAdapter(nutritionTowerAdapter);
             recyclerViewNutrition.setLayoutManager(new LinearLayoutManager(NutritionActivity.this, RecyclerView.HORIZONTAL, false));
-
 
             newsAdapter  =new NewsAdapter(dataNews,NutritionActivity.this);
             recyclerViewNews.setAdapter(newsAdapter);
@@ -92,7 +116,7 @@ public class NutritionActivity extends AppCompatActivity {
         imageButtonChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(NutritionActivity.this, ChatListActivity.class);
+                Intent intent = new Intent(NutritionActivity.this, ConversationListActivity.class);
                 startActivity(intent);
             }
         });

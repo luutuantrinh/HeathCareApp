@@ -1,6 +1,7 @@
 package com.tdc.edu.vn.heathcareapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.tdc.edu.vn.heathcareapp.Adapter.NewsAdapter;
 import com.tdc.edu.vn.heathcareapp.Adapter.PostAdapter;
+import com.tdc.edu.vn.heathcareapp.Model.New;
 import com.tdc.edu.vn.heathcareapp.Model.Post;
 
 import java.util.ArrayList;
@@ -26,7 +35,9 @@ public class NewFeedActivity extends AppCompatActivity {
     ArrayList<Post> dataPosts = new ArrayList<>();
     PostAdapter postAdapter;
     RecyclerView recyclerViewPost;
-
+    // Firebase
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference PostRef = db.collection("Posts");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,21 +46,47 @@ public class NewFeedActivity extends AppCompatActivity {
         setEvent();
     }
 
-    private void setEvent() {
-        Post post1 = new Post("4", "Hoa no khong mau", "07:30 - 30/11/2020", 1, 1, 4);
-        dataPosts.add(post1);
-        Post post2 = new Post("1", "Hãy cứ khát khao, hãy cứ dại khờ.", "07:30 - 30/11/2020", 1, 1, 100);
-        dataPosts.add(post2);
-        Post post3 = new Post("4", "Vấn đề không phải là tiền bạc. Vấn đề nằm ở bài học làm người, cách bạn làm nhà lãnh đạo và những gì mà bạn thu nhận được.", "07:30 - 30/11/2020", 1, 1, 78);
-        dataPosts.add(post3);
-        Post post4 = new Post("7", "Chẳng có gì trở nên dễ dàng hơn. Chỉ là bạn trở nên mạnh mẽ hơn mà thôi.", "07:30 - 30/11/2020", 1, 1, 40);
-        dataPosts.add(post4);
-        Post post5 = new Post("4", "Đôi lúc bạn phạm sai lầm khi đang đổi mới. Tốt nhất là hãy nhanh chóng chấp nhận nó và tiếp tục cải thiện các đổi mới khác của mình.", "07:30 - 30/11/2020", 1, 1, 0);
-        dataPosts.add(post5);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        PostRef.orderBy("day_create").addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    return;
+                }
+                try {
+                    dataPosts.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : value) {
+                        Post post = documentSnapshot.toObject(Post.class);
+                        String id  = (documentSnapshot.getId()); // id_post, user_id, image_id, content_post, day_create;
+                        String id_post = post.getId_post();
+                        String user_id = post.getUser_id();
+                        String image_id = post.getImage_id();
+                        String content = post.getContent_post();
+                        String createAt = post.getDay_create();
+                        int totalLike = post.getTotal_like();
+                        dataPosts.add(new Post(id_post, user_id, image_id, content, createAt, totalLike));
+                    }
+                    postAdapter = new PostAdapter( NewFeedActivity.this, dataPosts);
+                    recyclerViewPost.setAdapter(postAdapter);
+                }catch (Exception e){
 
-        postAdapter = new PostAdapter(NewFeedActivity.this, dataPosts);
-        recyclerViewPost.setAdapter(postAdapter);
-        recyclerViewPost.setLayoutManager(new LinearLayoutManager(NewFeedActivity.this));
+                }
+
+            }
+        });
+    }
+
+    private void setEvent() {
+        try {
+            postAdapter = new PostAdapter(NewFeedActivity.this, dataPosts);
+            recyclerViewPost.setAdapter(postAdapter);
+            recyclerViewPost.setLayoutManager(new LinearLayoutManager(NewFeedActivity.this));
+        }catch (Exception ex){
+
+        }
+
 
         bottomNavigationView.setSelectedItemId(R.id.NewFeed);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

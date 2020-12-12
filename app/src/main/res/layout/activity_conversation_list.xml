@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatListActivity">
+    tools:context=".ConversationListActivity">
     <include android:id="@+id/include_toolbar_chat_list" layout="@layout/toolbar_chat_list"></include>
 
     <androidx.appcompat.widget.AppCompatSpinner

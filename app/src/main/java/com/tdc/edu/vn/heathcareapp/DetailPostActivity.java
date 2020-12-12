@@ -29,7 +29,7 @@ public class DetailPostActivity extends AppCompatActivity {
     private void setEvent() {
         Comment comment1 = new Comment(1, 1, "Abc", "05:59 - 20/11/2020");
         dataComments.add(comment1);
-        Comment comment2 = new Comment(2, 1, "hay do ban yeu!", "06:59 - 20/11/2020");
+        Comment comment2 = new Comment(2, 1, "Co cong mai code co ngay ra truong do nha, android studio la cai gi vay chu no?", "06:59 - 20/11/2020");
         dataComments.add(comment2);
         Comment comment3 = new Comment(2, 1, "hay do ban yeu!", "06:59 - 20/11/2020");
         dataComments.add(comment3);

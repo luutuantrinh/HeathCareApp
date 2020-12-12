@@ -3,6 +3,7 @@ package com.tdc.edu.vn.heathcareapp.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailNewsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("url_news", news.getUrl_new());
+                intent.putExtras(bundle);
                 ((Activity) context).startActivity(intent);
             }
         });

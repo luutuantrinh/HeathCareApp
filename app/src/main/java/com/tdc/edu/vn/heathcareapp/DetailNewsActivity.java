@@ -10,24 +10,29 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import javax.security.auth.callback.Callback;
 
 public class DetailNewsActivity extends AppCompatActivity {
     ImageButton imageButtonBackSpace;
     WebView webViewNews;
+    String url_news = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_news);
-
         setControl();
         setEvent();
-
-
-
     }
-
+    private String getDataByCode() {
+        try {
+            url_news = getIntent().getExtras().getString("url_news");
+        } catch (Exception ex) {
+            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+        }
+        return url_news;
+    }
     private void setEvent() {
         imageButtonBackSpace.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,11 +40,21 @@ public class DetailNewsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        try {
 
-        WebSettings webSettings = webViewNews.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webViewNews.setWebViewClient(new Callback());
-        webViewNews.loadUrl("https://hellobacsi.com/song-khoe/dinh-duong/rau-cu-qua-giau-dinh-duong/#gref");
+            WebSettings webSettings = webViewNews.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            webViewNews.setWebViewClient(new Callback());
+            if (!getDataByCode().equals("")){
+                webViewNews.loadUrl(getDataByCode());
+            }else {
+                webViewNews.loadUrl("http://no.com/");
+            }
+
+        }catch (Exception ex){
+            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void setControl() {

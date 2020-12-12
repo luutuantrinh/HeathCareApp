@@ -1,6 +1,7 @@
 package com.tdc.edu.vn.heathcareapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.tdc.edu.vn.heathcareapp.Adapter.NewsAdapter;
 import com.tdc.edu.vn.heathcareapp.Model.New;
 
@@ -24,7 +32,10 @@ public class NewsActivity extends AppCompatActivity {
     RecyclerView recyclerViewNews;
     ImageButton imageButtonBackSpace;
     BottomNavigationView bottomNavigationView;
-
+    // Firebase
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private DocumentReference cateRef = db.document("News/NewsTest");
+    private CollectionReference categoryRef = db.collection("News");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,28 +44,40 @@ public class NewsActivity extends AppCompatActivity {
         setEvent();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        categoryRef.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    return;
+                }
+                dataNews.clear();
+                for (QueryDocumentSnapshot documentSnapshot : value) {
+                    New news = documentSnapshot.toObject(New.class);
+                    news.setId_new(documentSnapshot.getId());
+                    String title = news.getTitle_new();
+                    String id = news.getId_new();
+                    String des = news.getContent_new();
+                    String url = news.getUrl_new();
+                    dataNews.add(new New(id, title, des, url, ""));
+                }
+
+                newsAdapter = new NewsAdapter(dataNews, NewsActivity.this);
+                recyclerViewNews.setAdapter(newsAdapter);
+            }
+        });
+    }
+
     private void setEvent() {
+        try {
+            newsAdapter = new NewsAdapter(dataNews, NewsActivity.this);
+            recyclerViewNews.setAdapter(newsAdapter);
+            recyclerViewNews.setLayoutManager(new LinearLayoutManager(NewsActivity.this));
+        }catch (Exception ex){
 
-        New news1 = new New("10 Loai thuc pham tot cho gan", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 1);
-        dataNews.add(news1);
-        New news2 = new New("Rau cu ngan lao hoa", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 2);
-        dataNews.add(news2);
-        New news3 = new New("Rau cho mat", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 3);
-        dataNews.add(news3);
-        New news4 = new New("7 Loai rau bo sung", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 4);
-        dataNews.add(news4);
-        New news5 = new New("Rau muon danh cho sinh vien", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 5);
-        dataNews.add(news5);
-        New news6 = new New("Rau muon danh cho sinh vien", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 5);
-        dataNews.add(news6);
-        New news7 = new New("Rau muon danh cho sinh vien", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 5);
-        dataNews.add(news7);
-        New news8 = new New("Rau muon danh cho sinh vien", "Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác, như cải xoăn, các loại rau xanh.", "", 5);
-        dataNews.add(news8);
-
-        newsAdapter = new NewsAdapter(dataNews, NewsActivity.this);
-        recyclerViewNews.setAdapter(newsAdapter);
-        recyclerViewNews.setLayoutManager(new LinearLayoutManager(NewsActivity.this));
+        }
 
 
         bottomNavigationView.setSelectedItemId(R.id.Nutrition);

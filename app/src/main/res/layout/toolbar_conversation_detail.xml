@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_border_toolbar">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout style="@style/rl_toolbar_basic">
+
+        <ImageButton
+            android:id="@+id/icon_backspace_conversation_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:src="@drawable/ic_keyboard_backspace"></ImageButton>
+
+        <TextView
+            android:id="@+id/title_toolbar_conversation_detail"
+            style="@style/title_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_toStartOf="@id/icon_more_conversation_detail"
+            android:layout_toLeftOf="@id/icon_more_conversation_detail"
+            android:layout_toEndOf="@id/icon_backspace_conversation_detail"
+            android:layout_toRightOf="@id/icon_backspace_conversation_detail"
+            android:text="Khoi Nguyen">
+
+        </TextView>
+
+        <ImageButton
+            android:id="@+id/icon_more_conversation_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/white"
+            android:src="@drawable/ic_more">
+
+        </ImageButton>
+    </RelativeLayout>
+
+</RelativeLayout>
