@@ -75,7 +75,7 @@
     <string name="altimeter_lite">Altimeter</string>
     <string name="altimeter_pro">Altimeter PRO</string>
     <string name="always_open_sharing_view">Open share view automatically after an activity</string>
-    <string name="app_name">@string/flavor_app_name</string>
+    <string name="app_name">Health Care</string>
     <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="ar_compact_button_instagram">Instagram profile</string>
     <string name="ar_compact_member_title">AR Member</string>
@@ -145,7 +145,7 @@
     <string name="ar_events_list_title">Upcoming Events</string>
     <string name="ar_explanation_of_joining_participants">%1$s %2$s</string>
     <string name="ar_info_upcoming_events_empty_state">Find an event to sign up for in your AR community!</string>
-    <string name="ar_info_upcoming_events_error_state">"Oops, something went wrong. 
+    <string name="ar_info_upcoming_events_error_state">"Oops, something went wrong.
 Please try again in a moment."</string>
     <string name="ar_info_upcoming_events_show_more">Show more</string>
     <string name="ar_info_upcoming_events_title">My Upcoming Events</string>
@@ -699,7 +699,7 @@ Note that this is only shown and done for adidas Runtastic employees."</string>
     <string name="email_phone_login_login_button">Login</string>
     <string name="email_phone_login_reset_password_button">RESET PASSWORD</string>
     <string name="empty" />
-    <string name="empty_history_loaded">"Your point history will be shown here. 
+    <string name="empty_history_loaded">"Your point history will be shown here.
 Check back later for updates."</string>
     <string name="enable_google_fit_dialog_enable_cta">Enable</string>
     <string name="enable_google_fit_dialog_message">Google Fit is an open platform that lets you control your fitness data from multiple apps and devices. Do you want to enable Google Fit for adidas Training workouts?</string>
@@ -1206,11 +1206,11 @@ You don't follow this person yet."</string>
     <string name="groups_overview_error_invitations">"Sorry!
 We can't show your invitations right now. Please try again later!"</string>
     <string name="groups_overview_error_no_connection_message">Turn on wifi or mobile data to access your groups.</string>
-    <string name="groups_overview_error_no_connection_only_cached_groups">"No internet connection. 
+    <string name="groups_overview_error_no_connection_only_cached_groups">"No internet connection.
 Group and community info may not be up-to-date."</string>
     <string name="groups_overview_error_no_connection_title">No internet connection.</string>
     <string name="groups_overview_error_other_message">We are unable to show your groups right now. Please try again later.</string>
-    <string name="groups_overview_error_other_only_cached_groups">"Something went wrong here. 
+    <string name="groups_overview_error_other_only_cached_groups">"Something went wrong here.
 Group and community info may not be up-to-date."</string>
     <string name="groups_overview_error_other_title">Sorry!</string>
     <string name="groups_overview_error_state_retry">Retry</string>
@@ -2952,4 +2952,7 @@ Remember, your cardio goal:"</string>
     <string name="btn_LOGIN">LOGIN</string>
     <string name="rdb_female">FEMALE</string>
     <string name="rdb_male">MALE</string>
+    <string name="tw_resetpass">FORGOT PASSWORD?</string>
+    <string name="facebook_app_id">590530215089180</string>
+    <string name="fb_login_protocol_scheme">fb590530215089180</string>
 </resources>

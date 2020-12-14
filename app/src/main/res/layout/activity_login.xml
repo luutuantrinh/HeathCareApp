@@ -30,15 +30,11 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
-            <ImageButton
+            <com.google.android.gms.common.SignInButton
                 android:id="@+id/btnGoogle"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:src="@drawable/googlelogo_color_160x56dp"
-                android:scaleType="fitCenter"
-                android:background="@drawable/btn_login_google"
-                android:adjustViewBounds="true"></ImageButton>
-
+                android:layout_height="40dp">
+            </com.google.android.gms.common.SignInButton>
         </LinearLayout>
 
         <LinearLayout
