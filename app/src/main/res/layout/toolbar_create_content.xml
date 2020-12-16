@@ -2,16 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/style_border_toolbar">
 
-    <RelativeLayout
-        style="@style/rl_toolbar_basic">
+    <RelativeLayout style="@style/rl_toolbar_basic">
 
-        <Button
+        <TextView
             android:id="@+id/btn_cancel_createContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/black"
-            android:text="Cancel"
-            android:textColor="@color/black"></Button>
+            style="@style/tv_btn_create_content"
+            android:text="CANCEL">
+
+        </TextView>
 
         <TextView
             android:id="@+id/title_toolbar_createContent"
@@ -24,15 +22,13 @@
 
         </TextView>
 
-        <Button
+        <TextView
             android:id="@+id/btn_publish_createContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:background="@color/white"
-            android:text="Publish"
-            android:textColor="@color/black"></Button>
+            android:text="PUBLISH"
+            style="@style/tv_btn_create_content">
+        </TextView>
     </RelativeLayout>
 
 

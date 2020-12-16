@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class AddFriendActivity extends AppCompatActivity {
-    ImageButton imageButtonBackSpace, imageButtonSearch;
+    ImageButton imageButtonBackSpace;
     TextView titleToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,19 +26,10 @@ public class AddFriendActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        imageButtonSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AddFriendActivity.this, SearchFriendsActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void setControl() {
         imageButtonBackSpace = findViewById(R.id.icon_backspace_add_friends);
-        imageButtonSearch = findViewById(R.id.icon_search_add_friends);
         titleToolbar = findViewById(R.id.title_toolbar_add_friends);
     }
 }

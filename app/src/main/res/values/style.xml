@@ -21,13 +21,13 @@
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:gravity">center</item>
     </style>
-
+    <!-- -->
     <style name="rl_toolbar_basic">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">13dp</item>
     </style>
-
+    <!-- border toolbar-->
     <style name="style_border_toolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -42,6 +42,13 @@
         <item name="android:layout_marginRight">8dp</item>
         <item name="android:background">#7a8b8b8b</item>
     </style>
-
-
+    <!-- textView button toolbar create content  -->
+    <style name="tv_btn_create_content">
+        <item name="android:textSize">16dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/purple_500</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
 </resources>

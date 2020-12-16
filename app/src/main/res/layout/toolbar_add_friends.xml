@@ -10,14 +10,13 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:src="@drawable/ic_keyboard_backspace">
-
         </ImageButton>
 
         <TextView
             android:id="@+id/title_toolbar_add_friends"
             style="@style/title_toolbar"
-            android:layout_toStartOf="@id/icon_search_add_friends"
-            android:layout_toLeftOf="@id/icon_search_add_friends"
+            android:layout_toStartOf="@id/icon_empty_addFriend"
+            android:layout_toLeftOf="@id/icon_empty_addFriend"
             android:layout_toEndOf="@id/icon_backspace_add_friends"
             android:layout_toRightOf="@id/icon_backspace_add_friends"
             android:text="FRIENDS">
@@ -25,13 +24,13 @@
         </TextView>
 
         <ImageButton
-            android:id="@+id/icon_search_add_friends"
+            android:id="@+id/icon_empty_addFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:background="@color/white"
-            android:src="@drawable/ic_search">
+            android:src="@drawable/ic_space_bar">
 
         </ImageButton>
     </RelativeLayout>

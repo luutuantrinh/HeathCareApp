@@ -24,8 +24,7 @@ import java.util.TimeZone;
 
 public class CreateContentActivity extends AppCompatActivity {
 
-    Button buttonCancel, buttonPublish;
-    TextView titleToolbar;
+    TextView titleToolbar, buttonCancel, buttonPublish;;
     EditText txt_content;
     // Firebase
     FirebaseFirestore db = FirebaseFirestore.getInstance();

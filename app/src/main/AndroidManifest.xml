@@ -23,7 +23,6 @@
         <activity android:name=".NewsActivity" />
         <activity android:name=".SettingsNotificationActivity" />
         <activity android:name=".NotificationsActivity" />
-        <activity android:name=".SearchFriendsActivity" />
         <activity android:name=".CreateContentActivity" />
         <activity android:name=".AddFriendActivity" />
         <activity android:name=".NutritionActivity" /> <!-- <activity android:name=".NewFeedActivity" /> -->

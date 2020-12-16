@@ -6,12 +6,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".CreateContentActivity">
-    <include android:id="@+id/include_toolbar_create_content" layout="@layout/toolbar_create_content"></include>
+
+    <include
+        android:id="@+id/include_toolbar_create_content"
+        layout="@layout/toolbar_create_content"></include>
+
     <LinearLayout
         android:id="@+id/lnl_info_username"
-        android:layout_below="@id/include_toolbar_create_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/include_toolbar_create_content"
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
@@ -30,28 +34,90 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:layout_gravity="center"
             android:id="@+id/username_item_cmt"
-            android:textStyle="bold"
-            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Khoi Nguyen">
-        </TextView>
+            android:layout_gravity="center"
+            android:text="Khoi Nguyen"
+            android:textColor="@color/black"
+            android:textStyle="bold"></TextView>
     </LinearLayout>
 
-    <EditText
-        android:padding="10dp"
-        android:id="@+id/txt_content_create"
-        android:layout_below="@id/lnl_info_username"
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:hint="What are you up to?"
-        android:background="@color/white"
-        android:layout_height="wrap_content">
+        android:layout_below="@id/lnl_info_username"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_frames_post"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_btn_add_friend"
+                    android:src="@drawable/ic_photo_camera">
 
-    </EditText>
+                </ImageButton>
+            </androidx.cardview.widget.CardView>
 
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_btn_add_friend"
+                    android:src="@drawable/ic_image">
+
+                </ImageButton>
+            </androidx.cardview.widget.CardView>
+
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingLeft="10dp"-->
+<!--                android:paddingRight="10dp"-->
+<!--                android:text="|">-->
+
+<!--            </TextView>-->
+        </LinearLayout>
+        <EditText
+            android:id="@+id/txt_content_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="@color/white"
+            android:hint="What are you up to?"
+            android:padding="10dp"></EditText>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ImageView>
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>

@@ -107,7 +107,7 @@
 
     <LinearLayout
         android:padding="10dp"
-        android:background="@drawable/custom_freme_post"
+        android:background="@drawable/custom_frames_post"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
