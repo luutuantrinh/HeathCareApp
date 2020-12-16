@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    // add
+
+    <item name="visible" type="id" />
+
+    //resource
     <item type="id" name="LayoutCreatorsClub" />
     <item type="id" name="aboutMainContent" />
     <item type="id" name="aboveRaceTitleText" />
