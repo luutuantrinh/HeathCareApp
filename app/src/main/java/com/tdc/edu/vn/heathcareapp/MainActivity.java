@@ -11,6 +11,27 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
