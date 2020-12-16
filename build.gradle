@@ -3,10 +3,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url "https://jitpack.io" }
-        mavenCentral()
-        //maven { url "https://repo.boundlessgeo.com/main/" } //javacsv
-        //maven { url "https://maven.fabric.io/public" }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.1"
@@ -21,10 +17,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url "https://jitpack.io" }
-        mavenCentral()
-        //maven { url "https://repo.boundlessgeo.com/main/" } //javacsv
-        //maven { url "https://maven.fabric.io/public" }
     }
 }
 

@@ -22,9 +22,9 @@
         tools:layout="@layout/fragment_progress" />
     <fragment
         android:id="@+id/workoust_PlanFragment"
-        android:name="com.tdc.edu.vn.heathcareapp.WorkoutsFragment"
+        android:name="com.tdc.edu.vn.heathcareapp.Workoust_PlanFragment"
         android:label="fragment_workoust__plan"
-        tools:layout="@layout/fragment_workouts" />
+        tools:layout="@layout/fragment_workoust__plan" />
     <fragment
         android:id="@+id/moreFragment"
         android:name="com.tdc.edu.vn.heathcareapp.MoreFragment"
