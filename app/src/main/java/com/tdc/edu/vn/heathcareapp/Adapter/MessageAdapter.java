@@ -88,7 +88,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             imageViewUser = itemView.findViewById(R.id.img_user_message);
             tv_message = itemView.findViewById(R.id.tv_message);
             tv_timestamp = itemView.findViewById(R.id.tv_timestamp_message);
-            tv_idSeen = itemView.findViewById(R.id.tv_seen_message);
 
         }
     }

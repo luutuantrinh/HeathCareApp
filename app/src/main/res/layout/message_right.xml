@@ -48,15 +48,7 @@
                         android:layout_width="wrap_content"
                         android:textSize="9dp"
                         android:layout_height="wrap_content"
-                        android:text="19:59 20/11/2020"></TextView>
-                    <TextView
-                        android:visibility="gone"
-                        android:gravity="right"
-                        android:id="@+id/tv_seen_message"
-                        android:layout_width="match_parent"
-                        android:textSize="9dp"
-                        android:layout_height="wrap_content"
-                        android:text="Seen"></TextView>
+                        android:text="19:59 20/11/2020 - seen"></TextView>
                 </LinearLayout>
 
             </LinearLayout>
