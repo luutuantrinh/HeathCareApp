@@ -1,6 +1,9 @@
 package com.tdc.edu.vn.heathcareapp.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.tdc.edu.vn.heathcareapp.ConversationDetailActivity;
+import com.tdc.edu.vn.heathcareapp.DetailNewsActivity;
 import com.tdc.edu.vn.heathcareapp.Model.Counselor;
 import com.tdc.edu.vn.heathcareapp.R;
 
@@ -47,6 +52,11 @@ public class CounselorAdapter extends RecyclerView.Adapter<CounselorAdapter.Coun
             @Override
             public void onClick(View view) {
                 Snackbar.make(holder.itemView, "Messenger for ...", Snackbar.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ConversationDetailActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("url_news", news.getUrl_new());
+//                intent.putExtras(bundle);
+                ((Activity) context).startActivity(intent);
             }
         });
     }

@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:paddingTop="1dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="1dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -27,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            app:cardBackgroundColor="@color/purple_500"
+            app:cardBackgroundColor="@android:color/tertiary_text_light"
             app:cardCornerRadius="7dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,23 +43,14 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/adineue_pro_bold"
 
-                    android:text="common_google_play_services_enable_button
-common_google_play_services_enable_button
-common_google_play_services_enable_button
-common_google_play_services_enable_button
-common_google_play_services_enable_button
-common_google_play_services_enable_button
-common_google_play_services_enable_button
-common_google_play_services_enable_button
-common_google_play_services_enable_button
-common_google_play_services_enable_button
-common_google_play_services_enable_button
-"
+                    android:text="common_google_play_services_enable_button"
                     android:textColor="@color/white">
 
                 </TextView>
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_timestamp_message"
+                    android:textSize="9dp"
                     android:layout_width="match_parent"
                     android:text="19:59 20/11/2020"
                     android:layout_height="wrap_content">

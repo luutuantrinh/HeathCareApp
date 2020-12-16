@@ -4,8 +4,8 @@ public class Message {
     String sender, receiver,message, image, timestamp;
     Boolean isSeen;
 
-    public Message(String sender) {
-        this.sender = sender;
+    public Message() {
+
     }
 
     public Message(String sender, String receiver, String message, String image, String timestamp, Boolean isSeen) {

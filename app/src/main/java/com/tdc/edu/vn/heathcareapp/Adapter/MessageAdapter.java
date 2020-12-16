@@ -1,6 +1,7 @@
 package com.tdc.edu.vn.heathcareapp.Adapter;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.type.DateTime;
 import com.tdc.edu.vn.heathcareapp.Model.Message;
 import com.tdc.edu.vn.heathcareapp.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
     private static final int MES_TYPE_LEFT = 0;
     private static final int MES_TYPE_RIGHT = 1;
-
+    Boolean visibleTimestamp = true;
     Context context;
     ArrayList<Message> dataMessage = new ArrayList<>();
     String imageURL;
@@ -32,22 +36,40 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
         if (viewType == MES_TYPE_LEFT){
-            View view = LayoutInflater.from(context).inflate(R.layout.message_left, parent, false);
-            return new MessageViewHolder(view);
+            view = LayoutInflater.from(context).inflate(R.layout.message_left, parent, false);
         }else {
-            View view = LayoutInflater.from(context).inflate(R.layout.message_right, parent, false);
-            return new MessageViewHolder(view);
+            view = LayoutInflater.from(context).inflate(R.layout.message_right, parent, false);
         }
+        return new MessageViewHolder(view);
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         String message = dataMessage.get(position).getMessage();
+
         String timestamp = dataMessage.get(position).getTimestamp();
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        calendar.setTimeInMillis(Long.parseLong(timestamp));
+        String dateTimeMes = DateFormat.format("dd/MM/yyyy hh:mm a", calendar).toString();
 
         holder.tv_message.setText(message);
+        holder.tv_timestamp.setText(dateTimeMes);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (visibleTimestamp == true){
+                    holder.tv_timestamp.setVisibility(View.VISIBLE);
+                    visibleTimestamp = false;
+                }else {
+                    holder.tv_timestamp.setVisibility(View.GONE);
+                    visibleTimestamp = true;
+                }
+
+            }
+        });
     }
 
     @Override
@@ -66,13 +88,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             imageViewUser = itemView.findViewById(R.id.img_user_message);
             tv_message = itemView.findViewById(R.id.tv_message);
             tv_timestamp = itemView.findViewById(R.id.tv_timestamp_message);
-            tv_idSeen = itemView.findViewById(R.id.tv_seen);
+            tv_idSeen = itemView.findViewById(R.id.tv_seen_message);
+
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        return MES_TYPE_RIGHT;
+        if (dataMessage.get(position).getSender().equals("124")){
+            return MES_TYPE_RIGHT;
+        }else {
+            return MES_TYPE_LEFT;
+        }
+
         //return super.getItemViewType(position);
     }
 }
