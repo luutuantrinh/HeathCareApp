@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    //color primary
-    <color name="toolbar_background">#0CACF4</color>
-    <color name="background_odd">#99D6EA</color>
-    <color name="background_even">#cceaf4</color>
-    <color name="graph_fill">#f2fbff</color>
-    <color name="background">#ffffff</color>
-    <color name="tableheader_background">#FFFFFF</color>
-    <color name="launcher_background">#007681</color>
-    // color resource
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
