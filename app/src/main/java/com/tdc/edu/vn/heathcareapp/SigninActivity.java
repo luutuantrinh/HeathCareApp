@@ -90,7 +90,9 @@ public class SigninActivity extends AppCompatActivity {
                                 hashMap.put("email",email);
                                 hashMap.put("name","");
                                 hashMap.put("image","");
+                                hashMap.put("cover","");
                                 hashMap.put("uid",uid);
+                                hashMap.put("gender","");
                                 hashMap.put("location","");
                                 hashMap.put("age","");
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
