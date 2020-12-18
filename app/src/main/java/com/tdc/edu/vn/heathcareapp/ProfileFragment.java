@@ -152,6 +152,7 @@ public class ProfileFragment extends Fragment {
                     String location = "" + ds.child("location").getValue();
                     String image = "" + ds.child("image").getValue();
                     String cover = "" + ds.child("cover").getValue();
+                    String gender = "" + ds.child("gender").getValue();
 
                     nameTV.setText(name);
                     emailTV.setText(email);
@@ -327,7 +328,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void showEditProfileDialog() {
-        String option[]={"Edit Profile Picture","Edit Cover Photo","Edit Name","Edit Email","Edit Location","Edit Age"};
+        String option[]={"Edit Profile Picture","Edit Cover Photo","Edit Name","Edit Location","Edit Age", "Edit Gender"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setTitle("Choose Action");
@@ -350,18 +351,17 @@ public class ProfileFragment extends Fragment {
                     showInfomation("name");
                 }
                 else if(which == 3){
-                    pd.setMessage("Edit Email");
-                    showInfomation("email");
-                }
-                else if(which == 4){
                     pd.setMessage("Edit Location");
                     showInfomation("location");
                 }
-                else if(which == 5){
+                else if(which == 4){
                     pd.setMessage("Edit Age");
                     showInfomation("age");
                 }
-
+                else if(which == 5){
+                    pd.setMessage("Edit Gender");
+                    showInfomation("gender");
+                }
             }
         });
         builder.create().show();

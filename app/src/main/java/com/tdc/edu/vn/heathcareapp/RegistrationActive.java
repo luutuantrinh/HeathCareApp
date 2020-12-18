@@ -80,7 +80,7 @@ public class RegistrationActive extends AppCompatActivity {
     DatabaseReference databaseReference;
     FirebaseUser user;
     StorageReference storageReference;
-    String storagePath = "Users_Profile_Imgs";
+    String storagePath = "Users_Profile_Imgs/";
     int Request_code_image = 123;
     private FirebaseAuth mAuth;
     String profileCoverPhoto;
@@ -118,6 +118,7 @@ public class RegistrationActive extends AppCompatActivity {
                 //intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 //startActivity(intent);
                 DangKy();
+                uploadProfileCoverPhoto(imageUri);
                 //SaveUser(v);
                 //CapNhat();
             }
