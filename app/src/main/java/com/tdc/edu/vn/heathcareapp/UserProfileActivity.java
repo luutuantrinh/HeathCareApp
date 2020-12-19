@@ -4,14 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,11 +33,13 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView tv_title_user_profile, tv_name_user, tv_follower, tv_following, tv_location, tv_since;
     CardView cv_follower, cv_editProfile;
     ImageView imageViewAvatarUser;
+    Button btn_chat_with_user;
     String user_id = "";
     String option = "0";
     private ArrayList<User> mDataUser = new ArrayList<>();
     ArrayList<User> data = new ArrayList<>();
     // Firebase
+    private FirebaseAuth mAuth;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference userRef = database.getReference("Users");
 
@@ -41,7 +48,14 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         setControl();
+        mAuth = FirebaseAuth.getInstance();
         setEvent();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
     private void setEvent() {
@@ -55,6 +69,18 @@ public class UserProfileActivity extends AppCompatActivity {
 
         if (option.equals("0")) {
             cv_follower.setVisibility(View.VISIBLE);
+            btn_chat_with_user.setVisibility(View.VISIBLE);
+
+            btn_chat_with_user.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(UserProfileActivity.this, ConversationDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("user_id", user_id);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
         } else {
             cv_editProfile.setVisibility(View.VISIBLE);
         }
@@ -119,5 +145,6 @@ public class UserProfileActivity extends AppCompatActivity {
         cv_follower = findViewById(R.id.cv_following_user_profile);
         cv_editProfile = findViewById(R.id.cv_edit_user_profile);
         imageViewAvatarUser = findViewById(R.id.img_avatar_user_profile);
+        btn_chat_with_user = findViewById(R.id.btn_chat_user_profile);
     }
 }

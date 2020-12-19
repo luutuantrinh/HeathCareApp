@@ -14,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,13 +40,21 @@ public class AddFriendActivity extends AppCompatActivity {
     // firebase
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference userRef = database.getReference("Users");
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
         setControl();
+        mAuth = FirebaseAuth.getInstance();
         setEvent();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
     private void setEvent() {
@@ -119,6 +129,8 @@ public class AddFriendActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void setControl() {
         imageButtonBackSpace = findViewById(R.id.icon_backspace_add_friends);

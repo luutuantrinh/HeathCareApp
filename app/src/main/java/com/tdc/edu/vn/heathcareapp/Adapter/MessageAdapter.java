@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.type.DateTime;
 import com.tdc.edu.vn.heathcareapp.Model.Message;
 import com.tdc.edu.vn.heathcareapp.R;
@@ -26,6 +28,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     Context context;
     ArrayList<Message> dataMessage = new ArrayList<>();
     String imageURL;
+    private FirebaseUser firebaseUser;
 
     public MessageAdapter(Context context, ArrayList<Message> dataMessage, String imageURL) {
         this.context = context;
@@ -81,6 +84,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     public class MessageViewHolder extends RecyclerView.ViewHolder{
+
         ImageView imageViewUser;
         TextView tv_message, tv_timestamp, tv_idSeen;
         public MessageViewHolder(@NonNull View itemView) {
@@ -94,7 +98,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public int getItemViewType(int position) {
-        if (dataMessage.get(position).getSender().equals("124")){
+       firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (dataMessage.get(position).getSender().equals(firebaseUser.getUid())){
             return MES_TYPE_RIGHT;
         }else {
             return MES_TYPE_LEFT;
