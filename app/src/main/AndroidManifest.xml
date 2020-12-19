@@ -24,7 +24,13 @@
         <activity android:name=".SettingsNotificationActivity" />
         <activity android:name=".NotificationsActivity" />
         <activity android:name=".CreateContentActivity" />
-        <activity android:name=".AddFriendActivity" />
+        <activity android:name=".AddFriendActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".NutritionActivity" /> <!-- <activity android:name=".NewFeedActivity" /> -->
         <activity android:name=".MainActivity">
 
@@ -36,11 +42,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".NewFeedActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

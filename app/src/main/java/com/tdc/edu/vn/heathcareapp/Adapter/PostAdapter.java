@@ -67,7 +67,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 Snackbar.make(holder.itemView, "Like", Snackbar.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override

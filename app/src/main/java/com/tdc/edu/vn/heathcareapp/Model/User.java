@@ -1,56 +1,63 @@
 package com.tdc.edu.vn.heathcareapp.Model;
 
 public class User {
-    int user_id, createAt, age, sex;
-    String first_name, last_name, image_id, email, location;
-
+    String createAt, age, gender, user_id, first_name, last_name, image_id, email, phone, location;
 
     public User() {
 
     }
 
-    public User(int user_id, String first_name, String last_name, int sex, int age, String email, String image_id, String location, int createAt) {
-        this.user_id = user_id;
+    public User(String createAt, String age, String gender, String user_id, String first_name, String last_name, String image_id, String email, String phone, String location) {
         this.createAt = createAt;
         this.age = age;
-        this.sex = sex;
+        this.gender = gender;
+        this.user_id = user_id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.image_id = image_id;
         this.email = email;
+        this.phone = phone;
         this.location = location;
     }
 
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
-    public int getCreateAt() {
+    public String getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(int createAt) {
+    public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
-    public int getSex() {
-        return sex;
+    public String getSex() {
+        return gender;
     }
 
-    public void setSex(int sex) {
-        this.sex = sex;
+    public void setSex(String sex) {
+        this.gender = sex;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getFirst_name() {

@@ -2,7 +2,7 @@ package com.tdc.edu.vn.heathcareapp.Model;
 
 public class Comment {
     int id_cmt, user_id;
-    String content_cmt, createAt_cmt;
+    String post_id, content_cmt, createAt_cmt;
 
     public Comment(int id_cmt, int user_id, String content_cmt, String createAt_cmt) {
         this.id_cmt = id_cmt;
