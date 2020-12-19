@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="color_border_toolbar">#CFCFCF</color>
     <color name="color_see_more">#255FF1</color>
+    <color name="color_background_activity">#F4F4F4</color>
 </resources>

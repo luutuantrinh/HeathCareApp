@@ -1,6 +1,9 @@
 package com.tdc.edu.vn.heathcareapp.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tdc.edu.vn.heathcareapp.DetailNewsActivity;
 import com.tdc.edu.vn.heathcareapp.Model.User;
 import com.tdc.edu.vn.heathcareapp.R;
+import com.tdc.edu.vn.heathcareapp.UserProfileActivity;
 
 import java.util.ArrayList;
 
@@ -42,7 +47,12 @@ public class SearchFriendAdapter extends RecyclerView.Adapter<SearchFriendAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "user_id" + user.getUser_id(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, UserProfileActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id", user.getUser_id());
+                bundle.putString("option", "0");
+                intent.putExtras(bundle);
+                ((Activity) context).startActivity(intent);
             }
         });
     }

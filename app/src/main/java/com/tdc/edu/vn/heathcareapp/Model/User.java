@@ -36,12 +36,12 @@ public class User {
         this.age = age;
     }
 
-    public String getSex() {
+    public String getGender() {
         return gender;
     }
 
-    public void setSex(String sex) {
-        this.gender = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getUser_id() {

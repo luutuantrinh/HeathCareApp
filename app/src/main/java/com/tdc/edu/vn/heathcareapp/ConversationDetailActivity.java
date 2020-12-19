@@ -43,8 +43,6 @@ public class ConversationDetailActivity extends AppCompatActivity {
     DatabaseReference UserRefForSeen;
     private static final String id_sender = "124";
     private static final String id_receiver = "999";
-
-
     //
     ArrayList<Message> dataMessage = new ArrayList<>();
     MessageAdapter messageAdapter;
@@ -142,7 +140,6 @@ public class ConversationDetailActivity extends AppCompatActivity {
 
     private void sendMessage(String message) {
         String timestamp = String.valueOf(System.currentTimeMillis());
-
         DatabaseReference mesRef = ref.child("Messages");
         Message mes1 = new Message(id_sender, id_receiver, message, "1", timestamp, false);
         mesRef.push().setValue(mes1);
