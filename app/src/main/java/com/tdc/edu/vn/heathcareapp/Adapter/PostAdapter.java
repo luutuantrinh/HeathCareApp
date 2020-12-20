@@ -86,7 +86,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         if (posts == null) {
             return;
         }
-
+        holder.tv_user_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, UserProfileActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id", posts.getUser_id());
+                bundle.putString("option", "0");
+                intent.putExtras(bundle);
+                ((Activity) context).startActivity(intent);
+            }
+        });
         UserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

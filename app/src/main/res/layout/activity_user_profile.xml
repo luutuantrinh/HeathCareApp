@@ -39,7 +39,7 @@
                         android:id="@+id/img_avatar_user_profile"
                         android:layout_width="170dp"
                         android:layout_height="170dp"
-                        android:src="@drawable/hansara">
+                        android:src="@drawable/loaddingimage">
 
                     </ImageView>
                 </androidx.cardview.widget.CardView>
