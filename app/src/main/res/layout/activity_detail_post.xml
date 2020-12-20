@@ -17,7 +17,6 @@
         android:gravity="center"
         android:layout_below="@id/include_toolbar_detail_post"
         android:orientation="horizontal">
-
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +29,7 @@
                 android:id="@+id/img_user_detail_post"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/hansara"></ImageView>
+                android:src="@drawable/loaddingimage"></ImageView>
         </androidx.cardview.widget.CardView>
 
         <LinearLayout

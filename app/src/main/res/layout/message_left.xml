@@ -23,7 +23,7 @@
                 android:id="@+id/img_user_message"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/hansara"></ImageView>
+                android:src="@drawable/loaddingimage"></ImageView>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView

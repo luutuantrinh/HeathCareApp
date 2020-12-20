@@ -35,6 +35,7 @@ import com.tdc.edu.vn.heathcareapp.Adapter.CommentAdapter;
 import com.tdc.edu.vn.heathcareapp.Functions.TimeFunc;
 import com.tdc.edu.vn.heathcareapp.Model.Comment;
 import com.tdc.edu.vn.heathcareapp.Model.Post;
+import com.tdc.edu.vn.heathcareapp.Model.User;
 
 import java.util.ArrayList;
 
@@ -43,6 +44,7 @@ public class DetailPostActivity extends AppCompatActivity {
     TextView tv_content_post, tv_nameUser, tv_total_like, tv_timestamp;
     ImageView imageViewUser, imageViewPost;
     ArrayList<Comment> dataComments = new ArrayList<>();
+    ArrayList<User> dataUser = new ArrayList<>();
     CommentAdapter commentAdapter;
     RecyclerView recyclerViewCmt;
     EditText editTextContentComment;
@@ -180,6 +182,48 @@ public class DetailPostActivity extends AppCompatActivity {
                             }
 
                         }
+                        userRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot ds : snapshot.getChildren()){
+                                    User user = ds.getValue(User.class);
+                                    if (user.getUser_id().equals(mDataPost.get(0).getUser_id())){
+                                        dataUser.add(user);
+                                    }
+                                }
+                                if (dataUser != null){
+                                    tv_nameUser.setText(dataUser.get(0).getFirst_name() + " " + dataUser.get(0).getLast_name());
+                                    String imgUser = dataUser.get(0).getImage_id();
+                                    if (!imgUser.equals("")){
+                                        try {
+                                            StorageReference islandRef = storageRef.child("images/user/" + imgUser);
+                                            final long ONE_MEGABYTE = 1024 * 1024;
+                                            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                                @Override
+                                                public void onSuccess(byte[] bytes) {
+                                                    // Data for "images/island.jpg" is returns, use this as needed
+                                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                    imageViewUser.setImageBitmap(bitmap);
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception exception) {
+                                                    // Handle any errors
+                                                }
+                                            });
+
+                                        } catch (Exception ex) {
+
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 }
             }

@@ -16,7 +16,7 @@ import com.tdc.edu.vn.heathcareapp.Adapter.SearchFriendAdapter;
 
 public class LoginSupportActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    String email = "lananh@gmail.com";
+    String email = "ngocchau@gmail.com";
     String password = "123456789";
 
     @Override

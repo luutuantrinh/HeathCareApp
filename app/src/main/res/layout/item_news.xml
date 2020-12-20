@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/img_item_news"
             android:layout_width="120dp"
-            android:src="@drawable/news1"
+            android:src="@drawable/loaddingimage"
             android:layout_height="120dp">
 
         </ImageView>
