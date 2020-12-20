@@ -39,6 +39,7 @@
 
                 </TextView>
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
                     android:layout_height="wrap_content">
@@ -49,6 +50,13 @@
                         android:textSize="9dp"
                         android:layout_height="wrap_content"
                         android:text="19:59 20/11/2020 - seen"></TextView>
+                    <ImageView
+                        android:id="@+id/img_user_message"
+                        android:layout_width="wrap_content"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content">
+
+                    </ImageView>
                 </LinearLayout>
 
             </LinearLayout>

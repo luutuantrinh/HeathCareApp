@@ -42,7 +42,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/adineue_pro_bold"
-
                     android:text="common_google_play_services_enable_button"
                     android:textColor="@color/white">
 

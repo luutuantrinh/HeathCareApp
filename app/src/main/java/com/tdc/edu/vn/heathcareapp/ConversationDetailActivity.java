@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,11 +16,14 @@ import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.L;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +32,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.tdc.edu.vn.heathcareapp.Adapter.MessageAdapter;
 import com.tdc.edu.vn.heathcareapp.Model.Message;
 import com.tdc.edu.vn.heathcareapp.Model.User;
@@ -40,6 +47,7 @@ public class ConversationDetailActivity extends AppCompatActivity {
     EditText txt_message;
     RecyclerView rcy_ListMessage;
     TextView tv_userName;
+    ImageView imageViewUserReceiver;
     String user_id = "";
 
     // Firebase sender, receiver
@@ -47,7 +55,8 @@ public class ConversationDetailActivity extends AppCompatActivity {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference();
     DatabaseReference userRef = database.getReference("Users");
-
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
     String id_sender = "";
     String id_receiver = "";
     //
@@ -144,6 +153,29 @@ public class ConversationDetailActivity extends AppCompatActivity {
                         }
                     }
                     tv_userName.setText(mUsers.get(0).getFirst_name() + " " + mUsers.get(0).getLast_name());
+                    String imgUser = mUsers.get(0).getImage_id();
+                    if (!mUsers.get(0).getImage_id().equals("")){
+                        try {
+                            StorageReference islandRef = storageRef.child("images/user/" + imgUser);
+                            final long ONE_MEGABYTE = 1024 * 1024;
+                            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                @Override
+                                public void onSuccess(byte[] bytes) {
+                                    // Data for "images/island.jpg" is returns, use this as needed
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                    imageViewUserReceiver.setImageBitmap(bitmap);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle any errors
+                                }
+                            });
+
+                        } catch (Exception ex) {
+
+                        }
+                    }
                 }
             }
 
@@ -194,5 +226,6 @@ public class ConversationDetailActivity extends AppCompatActivity {
         txt_message = findViewById(R.id.editText_send_message_conversation_detail);
         rcy_ListMessage = findViewById(R.id.rcy_conversation_detail);
         tv_userName = findViewById(R.id.title_toolbar_conversation_detail);
+        imageViewUserReceiver = findViewById(R.id.imgRows_conversation_detail);
     }
 }

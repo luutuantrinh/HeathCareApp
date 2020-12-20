@@ -3,6 +3,8 @@ package com.tdc.edu.vn.heathcareapp.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.tdc.edu.vn.heathcareapp.DetailNewsActivity;
 import com.tdc.edu.vn.heathcareapp.Model.User;
 import com.tdc.edu.vn.heathcareapp.R;
@@ -25,6 +36,10 @@ public class SearchFriendAdapter extends RecyclerView.Adapter<SearchFriendAdapte
 
     Context context;
     ArrayList<User> mDataUsers = new ArrayList<>();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference userRef = database.getReference("Users");
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
 
     public SearchFriendAdapter(Context context, ArrayList<User> mDataUsers) {
         this.context = context;
@@ -44,6 +59,29 @@ public class SearchFriendAdapter extends RecyclerView.Adapter<SearchFriendAdapte
         User user = mDataUsers.get(position);
         holder.tv_firstName.setText(user.getFirst_name());
         holder.tv_LastName.setText(user.getLast_name());
+        String imgUser = user.getImage_id();
+        if(!user.getImage_id().equals("")){
+            try {
+                StorageReference islandRef = storageRef.child("images/user/" + imgUser);
+                final long ONE_MEGABYTE = 1024 * 1024;
+                islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        // Data for "images/island.jpg" is returns, use this as needed
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        holder.imgAvatar.setImageBitmap(bitmap);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+
+            } catch (Exception ex) {
+
+            }
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

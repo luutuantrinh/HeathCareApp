@@ -1,6 +1,8 @@
 package com.tdc.edu.vn.heathcareapp.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +13,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.type.DateTime;
+import com.tdc.edu.vn.heathcareapp.Functions.TimeFunc;
 import com.tdc.edu.vn.heathcareapp.Model.Message;
+import com.tdc.edu.vn.heathcareapp.Model.User;
 import com.tdc.edu.vn.heathcareapp.R;
 
 import java.util.ArrayList;
@@ -32,11 +45,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     ArrayList<Message> dataMessage = new ArrayList<>();
     String imageURL;
     private FirebaseUser firebaseUser;
+    ArrayList<User> mDataUsers = new ArrayList<>();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference userRef = database.getReference("Users");
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
 
-    private static final int SECOND_MILLIS = 1000;
-    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
-    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
-    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
     public MessageAdapter(Context context, ArrayList<Message> dataMessage, String imageURL) {
         this.context = context;
@@ -48,9 +62,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        if (viewType == MES_TYPE_LEFT){
+        if (viewType == MES_TYPE_LEFT) {
             view = LayoutInflater.from(context).inflate(R.layout.message_left, parent, false);
-        }else {
+        } else {
             view = LayoutInflater.from(context).inflate(R.layout.message_right, parent, false);
         }
         return new MessageViewHolder(view);
@@ -60,20 +74,62 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         String message = dataMessage.get(position).getMessage();
-
         String timestamp = dataMessage.get(position).getTimestamp();
         holder.tv_message.setText(message);
-        holder.tv_timestamp.setText(getTimeAgo(Long.parseLong(timestamp), context));
+        holder.tv_timestamp.setText(TimeFunc.getTimeAgo(Long.parseLong(timestamp), context));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (visibleTimestamp == true){
+                if (visibleTimestamp == true) {
                     holder.tv_timestamp.setVisibility(View.VISIBLE);
                     visibleTimestamp = false;
-                }else {
+                } else {
                     holder.tv_timestamp.setVisibility(View.GONE);
                     visibleTimestamp = true;
                 }
+
+            }
+        });
+
+        String user_id = dataMessage.get(position).getSender();
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mDataUsers.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    User user = ds.getValue(User.class);
+                    if (user.getUser_id().equals(user_id)) {
+                        mDataUsers.add(user);
+                    }
+                }
+                if (mDataUsers != null) {
+                    String imgUser = mDataUsers.get(0).getImage_id();
+                    try {
+                        StorageReference islandRef = storageRef.child("images/user/" + imgUser);
+                        final long ONE_MEGABYTE = 1024 * 1024;
+                        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                // Data for "images/island.jpg" is returns, use this as needed
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                holder.imageViewUser.setImageBitmap(bitmap);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                            }
+                        });
+
+                    } catch (Exception ex) {
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -83,49 +139,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public int getItemCount() {
-        if (dataMessage!=null){
+        if (dataMessage != null) {
             return dataMessage.size();
         }
         return 0;
     }
 
-    public static String getTimeAgo(long time, Context context) {
-        if (time < 1000000000000L) {
-            // if timestamp given in seconds, convert to millis
-            time *= 1000;
-        }
 
-        long now = System.currentTimeMillis();
-        if (time > now || time <= 0) {
-            return null;
-        }
-
-        // TODO: localize
-        final long diff = now - time;
-        if (diff < MINUTE_MILLIS) {
-            return context.getResources().getString(R.string.just_now);
-        } else if (diff < 2 * MINUTE_MILLIS) {
-            return context.getResources().getString(R.string.a_minute_ago);
-        } else if (diff < 50 * MINUTE_MILLIS) {
-            return diff / MINUTE_MILLIS + " " + context.getResources().getString(R.string.minutes_ago);
-        } else if (diff < 90 * MINUTE_MILLIS) {
-            return context.getResources().getString(R.string.an_hour_ago);
-        } else if (diff < 24 * HOUR_MILLIS) {
-            return diff / HOUR_MILLIS + " " + context.getResources().getString(R.string.hours_ago);
-        } else if (diff < 48 * HOUR_MILLIS) {
-            return context.getResources().getString(R.string.yesterday);
-        } else {
-            Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
-            calendar.setTimeInMillis(time);
-            String dateTimeMes = DateFormat.format("dd/MM/yyyy hh:mm", calendar).toString();
-            return diff / DAY_MILLIS + " " + context.getResources().getString(R.string.days_ago) +" | "+ dateTimeMes;
-        }
-    }
-
-    public class MessageViewHolder extends RecyclerView.ViewHolder{
+    public class MessageViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageViewUser;
         TextView tv_message, tv_timestamp, tv_idSeen;
+
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
             imageViewUser = itemView.findViewById(R.id.img_user_message);
@@ -137,11 +162,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public int getItemViewType(int position) {
-       firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (dataMessage.get(position).getSender().equals(firebaseUser.getUid())){
+        if (dataMessage.get(position).getSender().equals(firebaseUser.getUid())) {
             return MES_TYPE_RIGHT;
-        }else {
+        } else {
             return MES_TYPE_LEFT;
         }
 
