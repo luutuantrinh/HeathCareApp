@@ -19,7 +19,10 @@ import com.tdc.edu.vn.heathcareapp.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
     private static final int MES_TYPE_LEFT = 0;
@@ -29,6 +32,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     ArrayList<Message> dataMessage = new ArrayList<>();
     String imageURL;
     private FirebaseUser firebaseUser;
+
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
     public MessageAdapter(Context context, ArrayList<Message> dataMessage, String imageURL) {
         this.context = context;
@@ -54,12 +62,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         String message = dataMessage.get(position).getMessage();
 
         String timestamp = dataMessage.get(position).getTimestamp();
-        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
-        calendar.setTimeInMillis(Long.parseLong(timestamp));
-        String dateTimeMes = DateFormat.format("dd/MM/yyyy hh:mm a", calendar).toString();
-
         holder.tv_message.setText(message);
-        holder.tv_timestamp.setText(dateTimeMes);
+        holder.tv_timestamp.setText(getTimeAgo(Long.parseLong(timestamp), context));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +77,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
             }
         });
+
+
     }
 
     @Override
@@ -81,6 +87,39 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             return dataMessage.size();
         }
         return 0;
+    }
+
+    public static String getTimeAgo(long time, Context context) {
+        if (time < 1000000000000L) {
+            // if timestamp given in seconds, convert to millis
+            time *= 1000;
+        }
+
+        long now = System.currentTimeMillis();
+        if (time > now || time <= 0) {
+            return null;
+        }
+
+        // TODO: localize
+        final long diff = now - time;
+        if (diff < MINUTE_MILLIS) {
+            return context.getResources().getString(R.string.just_now);
+        } else if (diff < 2 * MINUTE_MILLIS) {
+            return context.getResources().getString(R.string.a_minute_ago);
+        } else if (diff < 50 * MINUTE_MILLIS) {
+            return diff / MINUTE_MILLIS + " " + context.getResources().getString(R.string.minutes_ago);
+        } else if (diff < 90 * MINUTE_MILLIS) {
+            return context.getResources().getString(R.string.an_hour_ago);
+        } else if (diff < 24 * HOUR_MILLIS) {
+            return diff / HOUR_MILLIS + " " + context.getResources().getString(R.string.hours_ago);
+        } else if (diff < 48 * HOUR_MILLIS) {
+            return context.getResources().getString(R.string.yesterday);
+        } else {
+            Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+            calendar.setTimeInMillis(time);
+            String dateTimeMes = DateFormat.format("dd/MM/yyyy hh:mm", calendar).toString();
+            return diff / DAY_MILLIS + " " + context.getResources().getString(R.string.days_ago) +" | "+ dateTimeMes;
+        }
     }
 
     public class MessageViewHolder extends RecyclerView.ViewHolder{

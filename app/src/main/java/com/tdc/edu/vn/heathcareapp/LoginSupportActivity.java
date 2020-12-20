@@ -16,14 +16,13 @@ import com.tdc.edu.vn.heathcareapp.Adapter.SearchFriendAdapter;
 
 public class LoginSupportActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    String email = "khoinguyenvk9@gmail.com";
+    String email = "lananh@gmail.com";
     String password = "123456789";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_support);
-
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -39,7 +38,7 @@ public class LoginSupportActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(LoginSupportActivity.this, AddFriendActivity.class));
+                            startActivity(new Intent(LoginSupportActivity.this, NewFeedActivity.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginSupportActivity.this, "Authentication failed.",

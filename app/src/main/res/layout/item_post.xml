@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/custom_frames_post"
-    android:layout_marginBottom="10dp"
-    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/custom_frames_post"
     android:padding="10dp">
 
     <LinearLayout
-        android:padding="10dp"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:padding="10dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
                 app:cardElevation="10dp">
 
                 <ImageView
-                    android:id="@+id/imgRows_ct"
+                    android:id="@+id/img_user_item_post"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/hansara"></ImageView>
@@ -41,11 +41,11 @@
                 android:paddingLeft="5dp">
 
                 <TextView
-                    android:textColor="@color/black"
+                    android:id="@+id/tv_user_item_post"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Khoi Nguyen">
-                </TextView>
+                    android:text="Khoi Nguyen"
+                    android:textColor="@color/black"></TextView>
 
                 <TextView
                     android:id="@+id/tv_created_At_item_post"
@@ -54,66 +54,104 @@
                     android:text="Shared a month ago"></TextView>
             </LinearLayout>
         </LinearLayout>
-        <com.borjabravo.readmoretextview.ReadMoreTextView
-            android:id="@+id/tv_content_item_post"
-            android:paddingTop="10dp"
-            app:trimMode="trimModeLine"
-            app:trimLines="3"
-            app:trimExpandedText="@string/read_less"
-            app:trimCollapsedText="@string/read_more"
-            app:colorClickableText="@color/color_see_more"
-            android:paddingBottom="10dp"
-            android:layout_width="match_parent"
-            android:text="Ngay hom nay se la mot ngay tuyet voi neu khi em van con ton taji tren the gian nay"
-            android:layout_height="wrap_content">
-
-        </com.borjabravo.readmoretextview.ReadMoreTextView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.borjabravo.readmoretextview.ReadMoreTextView
+                android:id="@+id/tv_content_item_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Ngay hom nay se la mot ngay tuyet voi neu khi em van con ton taji tren the gian nay"
+                app:colorClickableText="@color/color_see_more"
+                app:trimCollapsedText="@string/read_more"
+                app:trimExpandedText="@string/read_less"
+                app:trimLines="3"
+                app:trimMode="trimModeLine">
+
+            </com.borjabravo.readmoretextview.ReadMoreTextView>
+
+            <ImageView
+                android:id="@+id/img_post_item_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/loaddingimage"
+                android:visibility="gone">
+
+            </ImageView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/total_comment_item_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 30 comment"></TextView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
+
             <ImageButton
                 android:id="@+id/icon_like_item_post"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:src="@drawable/ic_favorite"
-                android:layout_height="wrap_content">
+                android:src="@drawable/ic_favorite_unlike">
 
             </ImageButton>
+
             <TextView
                 android:id="@+id/tv_total_like_item_post"
                 android:layout_width="wrap_content"
-                android:text="0"
+                android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:layout_height="wrap_content">
+                android:text="0">
 
             </TextView>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="|"
+                android:layout_height="wrap_content"
                 android:paddingRight="10dp"
-                android:layout_height="wrap_content">
+                android:text="|">
 
             </TextView>
-            <EditText
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:hint="Write a comment..."
-                android:background="@color/white"
-                android:layout_height="wrap_content">
 
-            </EditText>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:hint="Write a comment...">
+
+            </TextView>
+
             <ImageButton
                 android:layout_width="wrap_content"
-                android:src="@drawable/ic_send"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_height="wrap_content">
+                android:src="@drawable/ic_send">
 
             </ImageButton>
         </LinearLayout>
+
+
     </LinearLayout>
 
 

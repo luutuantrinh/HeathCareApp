@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tdc.edu.vn.heathcareapp.Functions.TimeFunc;
 import com.tdc.edu.vn.heathcareapp.Model.Comment;
 import com.tdc.edu.vn.heathcareapp.R;
 
@@ -38,8 +39,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         if (comments == null){
             return;
         }
-
         holder.tv_content.setText(comments.getContent_cmt());
+        Long timestamp = Long.parseLong(comments.getTimestamp());
+        holder.tv_createAt.setText(TimeFunc.getTimeAgo(timestamp, context));
     }
 
     @Override

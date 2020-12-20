@@ -15,6 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,6 +34,8 @@ import com.tdc.edu.vn.heathcareapp.Model.New;
 import com.tdc.edu.vn.heathcareapp.Model.Post;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class NewFeedActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
@@ -36,46 +45,69 @@ public class NewFeedActivity extends AppCompatActivity {
     PostAdapter postAdapter;
     RecyclerView recyclerViewPost;
     // Firebase
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference PostRef = db.collection("Posts");
+    private FirebaseAuth mAuth;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference postsRef = database.getReference("Posts");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_feed);
         setControl();
+        mAuth = FirebaseAuth.getInstance();
         setEvent();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        PostRef.orderBy("day_create").addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        postsRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    return;
-                }
-                try {
-                    dataPosts.clear();
-                    for (QueryDocumentSnapshot documentSnapshot : value) {
-                        Post post = documentSnapshot.toObject(Post.class);
-                        String id  = (documentSnapshot.getId()); // id_post, user_id, image_id, content_post, day_create;
-                        String id_post = post.getId_post();
-                        String user_id = post.getUser_id();
-                        String image_id = post.getImage_id();
-                        String content = post.getContent_post();
-                        String createAt = post.getDay_create();
-                        int totalLike = post.getTotal_like();
-                        dataPosts.add(new Post(id_post, user_id, image_id, content, createAt, totalLike));
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getChildren() != null){
+                    for (DataSnapshot ds: snapshot.getChildren()){
+                        Post post = ds.getValue(Post.class);
+                        dataPosts.add(post);
                     }
+                    Collections.reverse(dataPosts);
                     postAdapter = new PostAdapter( NewFeedActivity.this, dataPosts);
                     recyclerViewPost.setAdapter(postAdapter);
-                }catch (Exception e){
-
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+//        PostRef.orderBy("day_create").addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                if (error != null) {
+//                    return;
+//                }
+//                try {
+//                    dataPosts.clear();
+//                    for (QueryDocumentSnapshot documentSnapshot : value) {
+//                        Post post = documentSnapshot.toObject(Post.class);
+//                        String id  = (documentSnapshot.getId()); // id_post, user_id, image_id, content_post, day_create;
+//                        String id_post = post.getId_post();
+//                        String user_id = post.getUser_id();
+//                        String image_id = post.getImage_id();
+//                        String content = post.getContent_post();
+//                        String createAt = post.getDay_create();
+//                        int totalLike = post.getTotal_like();
+//                        dataPosts.add(new Post(id_post, user_id, image_id, content, createAt, totalLike));
+//                    }
+//                    postAdapter = new PostAdapter( NewFeedActivity.this, dataPosts);
+//                    recyclerViewPost.setAdapter(postAdapter);
+//                }catch (Exception e){
+//
+//                }
+//
+//            }
+//        });
     }
 
     private void setEvent() {
