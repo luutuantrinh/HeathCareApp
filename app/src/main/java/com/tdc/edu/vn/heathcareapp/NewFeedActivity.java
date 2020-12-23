@@ -112,6 +112,8 @@ public class NewFeedActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
+        //bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
+        //getSupportFragmentManager().beginTransaction().replace(R.id.container, new WorkoutsFragment()).commit();
         try {
             postAdapter = new PostAdapter(NewFeedActivity.this, dataPosts);
             recyclerViewPost.setAdapter(postAdapter);
@@ -122,27 +124,6 @@ public class NewFeedActivity extends AppCompatActivity {
 
 
         bottomNavigationView.setSelectedItemId(R.id.NewFeed);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment = null;
-                switch (item.getItemId()) {
-                    case R.id.NewFeed:
-                        return true;
-                    case R.id.Nutrition:
-                        Intent intent = new Intent(getApplicationContext(), NutritionActivity.class);
-                        startActivity(intent);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        overridePendingTransition(0, 0);
-
-                        return true;
-                    case R.id.Profile:
-                        fragment = new ProfileFragment();
-                        return true;
-                }
-                return true;
-            }
-        });
 //        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 //            @Override
 //            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -159,11 +140,30 @@ public class NewFeedActivity extends AppCompatActivity {
 //                        return true;
 //                    case R.id.Profile:
 //                        fragment = new ProfileFragment();
-//                        break;
+//                        return true;
 //                }
 //                return true;
 //            }
 //        });
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //Fragment fragment = null;
+                switch (item.getItemId()) {
+                    case R.id.NewFeed:
+                        return true;
+                    case R.id.Nutrition:
+                        Intent intent = new Intent(getApplicationContext(), NutritionActivity.class);
+                        startActivity(intent);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        overridePendingTransition(0, 0);
+
+                        return true;
+
+                }
+                return true;
+            }
+        });
 
         imageButtonCreateContent.setOnClickListener(new View.OnClickListener() {
             @Override

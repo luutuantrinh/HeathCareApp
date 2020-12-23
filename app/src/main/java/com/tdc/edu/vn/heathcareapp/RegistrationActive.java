@@ -45,6 +45,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
+import com.tdc.edu.vn.heathcareapp.Model.User;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -85,7 +86,9 @@ public class RegistrationActive extends AppCompatActivity {
     private FirebaseAuth mAuth;
     String profileCoverPhoto;
     private static final String tt = "EmailPassword";
+    FirebaseDatabase database;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private User User;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +108,7 @@ public class RegistrationActive extends AppCompatActivity {
         ccp = (CountryCodePicker) findViewById(R.id.Location);
         //FirebaseUser currentUser = mAuth.getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
+        User = new User();
 
         pd = new ProgressDialog(RegistrationActive.this);
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -114,9 +118,6 @@ public class RegistrationActive extends AppCompatActivity {
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(RegistrationActive.this,SigninActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
                 DangKy();
                 //uploadProfileCoverPhoto(imageUri);
                 //SaveUser(v);
@@ -142,8 +143,8 @@ public class RegistrationActive extends AppCompatActivity {
     }
 
     private void DangKy(){
-        String email = edtEmail.getText().toString();
-        String password = edtPassword.getText().toString();
+        String email = edtEmail.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -158,32 +159,30 @@ public class RegistrationActive extends AppCompatActivity {
                             String gender;
                             String location = ccp.getSelectedCountryName();
                             String age = edtAge.getText().toString().trim();
-
-                            if(radMale.isChecked()){
+                            String phone ="";
+                            if (radMale.isChecked()) {
                                 gender = "Male";
-                            }
-                            else {
+                            } else {
                                 gender = "Female";
                             }
                             String email = user.getEmail();
                             String uid = user.getUid();
-                            HashMap<Object, String> hashMap = new HashMap<>();
-                            hashMap.put("email",email);
-                            hashMap.put("name",firstName+" "+lastName);
-                            hashMap.put("image","");
-                            hashMap.put("cover","");
-                            hashMap.put("uid",uid);
-                            hashMap.put("gender",gender);
-                            hashMap.put("location",location);
-                            hashMap.put("age",age);
+                            User = new User(System.currentTimeMillis()+"",age,gender,uid,firstName,lastName,"",email,phone,location);
+//                            HashMap<Object,String> hashMap = new HashMap<>();
+//                            hashMap.put("email", email);
+//                            hashMap.put("name", firstName + " " + lastName);
+//                            hashMap.put("image", "");
+//                            hashMap.put("cover", "");
+//                            hashMap.put("uid", uid);
+//                            hashMap.put("gender", gender);
+//                            hashMap.put("location", location);
+//                            hashMap.put("age", age);
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference reference = database.getReference("Users");
-                            reference.child(uid).setValue(hashMap);
+                            reference.child(uid).setValue(User);
                             intent = new Intent(RegistrationActive.this, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(intent);
-                            //FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(RegistrationActive.this, "Authentication failed.",

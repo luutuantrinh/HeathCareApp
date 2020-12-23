@@ -42,6 +42,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.tdc.edu.vn.heathcareapp.Model.User;
 
 import java.security.MessageDigest;
 import java.util.HashMap;
@@ -158,18 +159,19 @@ public class LoginActivity extends AppCompatActivity {
                             if(task.getResult().getAdditionalUserInfo().isNewUser()){
                                 String email = user.getEmail();
                                 String uid = user.getUid();
-                                HashMap<Object, String> hashMap = new HashMap<>();
-                                hashMap.put("email",email);
-                                hashMap.put("name","");
-                                hashMap.put("image","");
-                                hashMap.put("cover","");
-                                hashMap.put("uid",uid);
-                                hashMap.put("gender","");
-                                hashMap.put("location","");
-                                hashMap.put("age","");
+                                User User = new User(System.currentTimeMillis()+"","","",uid,"","","",email,"","");
+//                                HashMap<Object, String> hashMap = new HashMap<>();
+//                                hashMap.put("email",email);
+//                                hashMap.put("name","");
+//                                hashMap.put("image","");
+//                                hashMap.put("cover","");
+//                                hashMap.put("uid",uid);
+//                                hashMap.put("gender","");
+//                                hashMap.put("location","");
+//                                hashMap.put("age","");
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 DatabaseReference reference = database.getReference("Users");
-                                reference.child(uid).setValue(hashMap);
+                                reference.child(uid).setValue(User);
                             }
 
                             Toast.makeText(LoginActivity.this,"Login " + user.getEmail(), Toast.LENGTH_SHORT).show();
