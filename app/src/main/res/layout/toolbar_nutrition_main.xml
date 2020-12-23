@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_border_toolbar">
+    <RelativeLayout
+        style="@style/rl_toolbar_basic">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_space_bar"
+            android:background="@color/white"
+            android:layout_height="wrap_content">
+
+        </ImageButton>
+
+        <TextView
+            style="@style/title_toolbar"
+            android:text="NUTRITION">
+        </TextView>
+        <ImageButton
+            android:id="@+id/icon_chat_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@color/white"
+            android:layout_height="wrap_content"
+            android:src="@drawable/chat"
+            android:layout_alignParentRight="true">
+
+        </ImageButton>
+    </RelativeLayout>
+
+</RelativeLayout>

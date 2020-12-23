@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
     <color name="abc_decor_view_status_guard">#ff000000</color>
     <color name="abc_decor_view_status_guard_light">#ffffffff</color>
     <color name="abc_search_url_text_normal">#ff7fa87f</color>
@@ -378,7 +375,7 @@
     <color name="transparent">#00000000</color>
     <color name="video_controller_dim_chromecast">#cc000000</color>
     <color name="video_overlay_dim">@color/black_54_percent</color>
-    <color name="white">#ffffffff</color>
+
     <color name="white_80_percent">#ccffffff</color>
     <color name="white_opaque_50">#80ffffff</color>
     <color name="winter_wonderland">#fff5f5f5</color>
@@ -407,4 +404,9 @@
     <color name="text_registration">#616363</color>
     <color name="btn_join">#007680</color>
     <color name="edt_Login">#bfc6c6</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="color_border_toolbar">#CFCFCF</color>
+    <color name="color_see_more">#255FF1</color>
+    <color name="color_background_activity">#F4F4F4</color>
 </resources>

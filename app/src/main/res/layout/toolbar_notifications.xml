@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_border_toolbar">
+
+    <RelativeLayout style="@style/rl_toolbar_basic">
+
+        <ImageButton
+            android:id="@+id/icon_backspace_notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:src="@drawable/ic_keyboard_backspace">
+
+        </ImageButton>
+
+        <TextView
+            style="@style/title_toolbar"
+            android:id="@+id/title_toolbar_notifications"
+            android:layout_toStartOf="@id/icon_settings_notifications"
+            android:layout_toLeftOf="@id/icon_settings_notifications"
+            android:layout_toEndOf="@id/icon_backspace_notifications"
+            android:layout_toRightOf="@id/icon_backspace_notifications"
+            android:text="NOTIFICATIONS">
+
+        </TextView>
+
+        <ImageButton
+            android:id="@+id/icon_settings_notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/white"
+            android:src="@drawable/ic_settings">
+
+        </ImageButton>
+    </RelativeLayout>
+
+</RelativeLayout>

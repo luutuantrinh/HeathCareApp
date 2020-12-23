@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_border_toolbar">
+
+    <RelativeLayout style="@style/rl_toolbar_basic">
+
+        <TextView
+            android:id="@+id/btn_cancel_createContent"
+            style="@style/tv_btn_create_content"
+            android:text="CANCEL">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/title_toolbar_createContent"
+            style="@style/title_toolbar"
+            android:layout_toStartOf="@id/btn_publish_createContent"
+            android:layout_toLeftOf="@id/btn_publish_createContent"
+            android:layout_toEndOf="@id/btn_cancel_createContent"
+            android:layout_toRightOf="@id/btn_cancel_createContent"
+            android:text="NEW POST">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/btn_publish_createContent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="PUBLISH"
+            style="@style/tv_btn_create_content">
+        </TextView>
+    </RelativeLayout>
+
+
+</RelativeLayout>

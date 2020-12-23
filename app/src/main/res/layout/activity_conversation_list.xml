@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConversationListActivity">
+    <include android:id="@+id/include_toolbar_chat_list" layout="@layout/toolbar_chat_list"></include>
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:layout_below="@id/include_toolbar_chat_list"
+        android:id="@+id/sp_consultants"
+        android:padding="10dp"
+
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </androidx.appcompat.widget.AppCompatSpinner>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcy_chat_list"
+        android:layout_width="match_parent"
+        android:layout_below="@id/sp_consultants"
+        android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/BottomNavView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+</RelativeLayout>

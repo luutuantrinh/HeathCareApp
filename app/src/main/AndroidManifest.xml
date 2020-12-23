@@ -44,6 +44,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -52,11 +56,29 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
         <activity android:name=".LoginGoogle"></activity>
         <activity android:name=".LoginFacebook" />
+        <activity android:name=".LoginSupportActivity"></activity>
+        <activity android:name=".UserProfileActivity" />
+        <activity android:name=".ConversationDetailActivity" />
+        <activity android:name=".LikesActivity" />
+        <activity android:name=".NutritionListActivity" />
+        <activity android:name=".DetailNutritionTowerActivity" />
+        <activity android:name=".DetailNewsActivity" />
+        <activity android:name=".DetailPostActivity" />
+        <activity android:name=".ConversationListActivity" />
+        <activity android:name=".NewsActivity" />
+        <activity android:name=".SettingsNotificationActivity" />
+        <activity android:name=".NotificationsActivity" />
+        <activity android:name=".CreateContentActivity" />
+        <activity android:name=".AddFriendActivity">
+
+        </activity>
+        <activity android:name=".NutritionActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -81,6 +103,7 @@
         <activity android:name=".ResetPassword" />
         <activity android:name=".SigninActivity" />
         <activity android:name=".RegistrationActive" />
+
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -88,7 +111,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".MainActivity" />
+
     </application>
 
 </manifest>
