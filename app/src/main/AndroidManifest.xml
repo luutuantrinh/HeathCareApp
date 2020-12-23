@@ -60,9 +60,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        <activity android:name=".LoginGoogle"></activity>
         <activity android:name=".LoginFacebook" />
-        <activity android:name=".LoginSupportActivity"></activity>
+
+-       <activity android:name=".LoginSupportActivity">
+
+    </activity>
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".ConversationDetailActivity" />
         <activity android:name=".LikesActivity" />
@@ -78,6 +80,7 @@
         <activity android:name=".AddFriendActivity">
 
         </activity>
+        <activity android:name=".NewFeedActivity"></activity>
         <activity android:name=".NutritionActivity" />
 
         <meta-data
@@ -91,14 +94,14 @@
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-                <data android:scheme="@string/fb_login_protocol_scheme" />
-            </intent-filter>
+<!--                <data android:scheme="@string/fb_login_protocol_scheme" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".ResetPassword" />
         <activity android:name=".SigninActivity" />

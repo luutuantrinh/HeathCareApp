@@ -114,11 +114,11 @@ public class RegistrationActive extends AppCompatActivity {
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //intent = new Intent(Registration_Active.this,SignIn_Activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                //startActivity(intent);
+                intent = new Intent(RegistrationActive.this,SigninActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
                 DangKy();
-                uploadProfileCoverPhoto(imageUri);
+                //uploadProfileCoverPhoto(imageUri);
                 //SaveUser(v);
                 //CapNhat();
             }

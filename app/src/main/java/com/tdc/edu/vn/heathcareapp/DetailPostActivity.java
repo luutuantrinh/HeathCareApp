@@ -103,17 +103,7 @@ public class DetailPostActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void setEvent() {
-        scv_detail_post.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                Log.d("ScrollView","scrollX_"+scrollX+"_scrollY_"+scrollY+"_oldScrollX_"+oldScrollX+"_oldScrollY_"+oldScrollY);
-                if (scrollY > 8){
 
-                }else {
-
-                }
-            }
-        });
         id_post = getIntent().getExtras().getString("post_id");
         Toast.makeText(this, id_post + " ", Toast.LENGTH_SHORT).show();
         showDataPost(id_post);
@@ -187,36 +177,36 @@ public class DetailPostActivity extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot ds : snapshot.getChildren()){
                                     User user = ds.getValue(User.class);
-                                    if (user.getUser_id().equals(mDataPost.get(0).getUser_id())){
-                                        dataUser.add(user);
-                                    }
+//                                    if (user.getUser_id().equals(mDataPost.get(0).getUser_id())){
+//                                        dataUser.add(user);
+//                                    }
                                 }
-                                if (dataUser != null){
-                                    tv_nameUser.setText(dataUser.get(0).getFirst_name() + " " + dataUser.get(0).getLast_name());
-                                    String imgUser = dataUser.get(0).getImage_id();
-                                    if (!imgUser.equals("")){
-                                        try {
-                                            StorageReference islandRef = storageRef.child("images/user/" + imgUser);
-                                            final long ONE_MEGABYTE = 1024 * 1024;
-                                            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                                @Override
-                                                public void onSuccess(byte[] bytes) {
-                                                    // Data for "images/island.jpg" is returns, use this as needed
-                                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                    imageViewUser.setImageBitmap(bitmap);
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception exception) {
-                                                    // Handle any errors
-                                                }
-                                            });
-
-                                        } catch (Exception ex) {
-
-                                        }
-                                    }
-                                }
+//                                if (dataUser != null){
+//                                    tv_nameUser.setText(dataUser.get(0).getFirst_name() + " " + dataUser.get(0).getLast_name());
+//                                    String imgUser = dataUser.get(0).getImage_id();
+//                                    if (!imgUser.equals("")){
+//                                        try {
+//                                            StorageReference islandRef = storageRef.child("images/user/" + imgUser);
+//                                            final long ONE_MEGABYTE = 1024 * 1024;
+//                                            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+//                                                @Override
+//                                                public void onSuccess(byte[] bytes) {
+//                                                    // Data for "images/island.jpg" is returns, use this as needed
+//                                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                                                    imageViewUser.setImageBitmap(bitmap);
+//                                                }
+//                                            }).addOnFailureListener(new OnFailureListener() {
+//                                                @Override
+//                                                public void onFailure(@NonNull Exception exception) {
+//                                                    // Handle any errors
+//                                                }
+//                                            });
+//
+//                                        } catch (Exception ex) {
+//
+//                                        }
+//                                    }
+//                                }
                             }
 
                             @Override

@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private Menu menu;
     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     private void setControl() {
         bottomNavigationView = findViewById(R.id.BottomNavView);
     }
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment = null;
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.NewFeed:
                     fragment = new NewFeedFragment();
                     break;
@@ -63,3 +65,4 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
+}

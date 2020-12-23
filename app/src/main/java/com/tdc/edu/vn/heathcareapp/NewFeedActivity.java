@@ -3,6 +3,7 @@ package com.tdc.edu.vn.heathcareapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -124,6 +125,7 @@ public class NewFeedActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
                 switch (item.getItemId()) {
                     case R.id.NewFeed:
                         return true;
@@ -134,11 +136,34 @@ public class NewFeedActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
 
                         return true;
-
+                    case R.id.Profile:
+                        fragment = new ProfileFragment();
+                        return true;
                 }
                 return true;
             }
         });
+//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                Fragment fragment = null;
+//                switch (item.getItemId()) {
+//                    case R.id.NewFeed:
+//                        return true;
+//                    case R.id.Nutrition:
+//                        Intent intent = new Intent(getApplicationContext(), NutritionActivity.class);
+//                        startActivity(intent);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                        overridePendingTransition(0, 0);
+//
+//                        return true;
+//                    case R.id.Profile:
+//                        fragment = new ProfileFragment();
+//                        break;
+//                }
+//                return true;
+//            }
+//        });
 
         imageButtonCreateContent.setOnClickListener(new View.OnClickListener() {
             @Override

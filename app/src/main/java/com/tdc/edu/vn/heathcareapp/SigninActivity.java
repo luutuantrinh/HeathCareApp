@@ -67,7 +67,7 @@ public class SigninActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser user = mAuth.getCurrentUser();
         //updateUI(currentUser);
     }
     private void DanNhap(){
@@ -99,9 +99,10 @@ public class SigninActivity extends AppCompatActivity {
                                 DatabaseReference reference = database.getReference("Users");
                                 reference.child(uid).setValue(hashMap);
                             }
-                            intent = new Intent(SigninActivity.this,MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(intent);
+//                            intent = new Intent(SigninActivity.this,NewFeedActivity.class);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                            startActivity(intent);
+                            startActivity(new Intent(SigninActivity.this, NewFeedActivity.class));
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
