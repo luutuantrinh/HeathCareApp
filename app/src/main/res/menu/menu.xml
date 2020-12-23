@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/menu">
     <item
         android:id="@+id/NewFeed"
         android:icon="@drawable/ic_newfeed"
@@ -23,8 +24,8 @@
         android:title="Workouts">
     </item>
     <item
-        android:id="@+id/More"
+        android:id="@+id/Profile"
         android:icon="@drawable/ic_more"
-        android:title="More">
+        android:title="Profile">
     </item>
 </menu>

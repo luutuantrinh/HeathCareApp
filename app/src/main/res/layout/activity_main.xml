@@ -10,7 +10,6 @@
         android:id="@+id/container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></FrameLayout>
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/BottomNavView"
         android:layout_width="match_parent"

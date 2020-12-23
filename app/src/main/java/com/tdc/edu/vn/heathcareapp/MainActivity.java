@@ -5,18 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
+    private Menu menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //menu = findViewById(R.id.menu);
         setControl();
         setEvent();
+        //onCreateOptionsMenu(menu);
     }
 
     private void setEvent() {
@@ -24,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new WorkoutsFragment()).commit();
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
     private void setControl() {
         bottomNavigationView = findViewById(R.id.BottomNavView);
     }
@@ -45,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.Workouts:
                     fragment = new WorkoutsFragment();
                     break;
-                case R.id.More:
+                case R.id.Profile:
                     fragment = new ProfileFragment();
                     break;
             }
