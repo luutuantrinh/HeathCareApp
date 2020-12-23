@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new WorkoutsFragment();
                     break;
                 case R.id.More:
-                    fragment = new MoreFragment();
+                    fragment = new ProfileFragment();
                     break;
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
