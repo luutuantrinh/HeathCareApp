@@ -137,6 +137,12 @@ public class NutritionActivity extends AppCompatActivity {
                         return true;
                     case R.id.Nutrition:
                         return true;
+                    case R.id.Profile:
+                        Intent inten = new Intent(getApplicationContext(), ActivityProfile.class);
+                        startActivity(inten);
+                        overridePendingTransition(0, 0);
+                        inten.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        return true;
 
                 }
                 return true;

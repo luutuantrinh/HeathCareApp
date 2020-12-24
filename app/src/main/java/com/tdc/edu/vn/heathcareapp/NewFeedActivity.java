@@ -159,6 +159,12 @@ public class NewFeedActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
 
                         return true;
+                    case R.id.Profile:
+                        Intent intu = new Intent(getApplicationContext(), ActivityProfile.class);
+                        startActivity(intu);
+                        intu.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        overridePendingTransition(0, 0);
+                        return true;
 
                 }
                 return true;

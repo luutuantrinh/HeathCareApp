@@ -151,7 +151,7 @@ public class RegistrationActive extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(RegistrationActive.this, "Đăng Ký Thành Công.",
+                            Toast.makeText(RegistrationActive.this, "Sign Up Success",
                                     Toast.LENGTH_SHORT).show();
                             user = mAuth.getCurrentUser();
                             String firstName = edtFirstName.getText().toString().trim();

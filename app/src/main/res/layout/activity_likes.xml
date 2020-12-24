@@ -13,7 +13,6 @@
         android:layout_below="@id/include_toolbar_likes"
         android:id="@+id/rcy_likes"
         android:layout_height="wrap_content">
-
     </androidx.recyclerview.widget.RecyclerView>
     <include android:id="@+id/include_bottom_bar_likes" layout="@layout/bottom_navigation_bar"></include>
 

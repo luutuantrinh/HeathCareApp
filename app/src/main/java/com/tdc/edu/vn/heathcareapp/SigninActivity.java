@@ -80,7 +80,7 @@ public class SigninActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             //FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(SigninActivity.this, "Dang Nhap Thanh cong.",
+                            Toast.makeText(SigninActivity.this, "Logged in successfully",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             if(task.getResult().getAdditionalUserInfo().isNewUser()){

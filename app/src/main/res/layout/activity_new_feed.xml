@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:id="@+id/BottomNavView"
         app:menu="@menu/menu"
+        android:background="@color/btn_join"
         android:layout_alignParentBottom="true"
         android:layout_height="wrap_content">
 

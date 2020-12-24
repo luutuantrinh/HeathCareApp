@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
 
                             Toast.makeText(LoginActivity.this,"Login " + user.getEmail(), Toast.LENGTH_SHORT).show();
-                            intent = new Intent(LoginActivity.this,MainActivity.class);
+                            intent = new Intent(LoginActivity.this,NewFeedActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(intent);
 
