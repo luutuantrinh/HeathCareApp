@@ -12,10 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tdc.edu.vn.heathcareapp.ItemTrendingItem;
 import com.tdc.edu.vn.heathcareapp.R;
 import com.tdc.edu.vn.heathcareapp.VideoMain;
-import com.tdc.edu.vn.heathcareapp.data_model.AllExercises;
 import com.tdc.edu.vn.heathcareapp.data_model.DetailMorning;
 
 import java.util.ArrayList;

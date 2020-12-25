@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/download"
-            android:id="@+id/imgItemworkout"></ImageView>
+            android:id="@+id/imgitemguided"></ImageView>
     </LinearLayout>
 
     <LinearLayout
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="Caterogy 1"
             android:textSize="30dp"
-            android:id="@+id/txttitle">
+            android:id="@+id/txttitleguided">
         </TextView>
     </LinearLayout>
 
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="Detail"
             android:textSize="30dp"
-            android:id="@+id/txtdetail">
+            android:id="@+id/txtdetailguided">
         </TextView>
     </LinearLayout>
 
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
 
             android:text="Start"
-            android:id="@+id/btnStart">
+            android:id="@+id/btnStartguided">
         </Button>
     </LinearLayout>
 

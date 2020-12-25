@@ -1,22 +1,27 @@
 package com.tdc.edu.vn.heathcareapp.data_model;
 
 public class WorkoutTrending {
-    private  int resourceID;
+
     private String sTitle;
     private String sDes;
+    private String url;
 
-    public WorkoutTrending(int resourceID, String sTitle, String sDes) {
-        this.setResourceID(resourceID);
-        this.setsTitle(sTitle);
-        this.setsDes(sDes);
+    public WorkoutTrending() {
+
     }
 
-    public int getResourceID() {
-        return resourceID;
+    public WorkoutTrending(String url, String sTitle, String sDes) {
+        this.url = url;
+        this.sTitle = sTitle;
+        this.sDes = sDes;
     }
 
-    public void setResourceID(int resourceID) {
-        this.resourceID = resourceID;
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getsTitle() {

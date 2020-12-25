@@ -17,19 +17,6 @@
             android:background="@color/white"
             android:src="@drawable/ic_backs_24"></ImageButton>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-
-            android:gravity="center"
-            android:text="BURN UP"
-            android:textColor="@color/black"
-            android:textSize="17dp"
-            android:textStyle="bold">
-
-        </TextView>
 
         <ImageButton
             android:id="@+id/icon_empty_workoutitem"

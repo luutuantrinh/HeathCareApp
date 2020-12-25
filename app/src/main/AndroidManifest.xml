@@ -15,15 +15,15 @@
 
         </activity>
         <activity android:name=".WorkoutMain">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".VideoMain">
 
         </activity>
-        <activity android:name=".FeedBackAMain">
-
-        </activity>
-        <activity android:name=".ItemWorkout">
+        <activity android:name=".GuidedItem">
         </activity>
 
         <activity android:name=".ProgressMain">
@@ -34,18 +34,18 @@
         <activity android:name=".AllWorkoutMain">
 
         </activity>
+        <activity android:name=".UnderItem">
+
+        </activity>
         <activity android:name=".AllExercisesMain">
 
         </activity>
 
         <activity android:name=".DetailMorningMain">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
-        <activity android:name=".ItemTrendingItem">
+        <activity android:name=".TrendingItem">
 
         </activity>
 

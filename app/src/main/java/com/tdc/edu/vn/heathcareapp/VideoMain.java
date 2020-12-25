@@ -1,158 +1,83 @@
 package com.tdc.edu.vn.heathcareapp;
 
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.PersistableBundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.tdc.edu.vn.heathcareapp.adapter.VideoAdapter;
 import com.tdc.edu.vn.heathcareapp.data_model.Video;
 
-import java.text.SimpleDateFormat;
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 
 public class VideoMain  extends AppCompatActivity {
-    VideoView vvVideo;
-    TextView txttimesong,txttotaltime;
-    SeekBar sbsong;
-    ImageButton btnplay, btnimgpre,btnimgnext;
-    ArrayList<Video> listvideo;
-    int position;
 
+
+    RecyclerView rv_video;
+    ArrayList<Video> dataVideos = new ArrayList<>();
+    private StorageReference mStorageRef;
+    VideoAdapter videoAdapter;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("Workout/Trending/ImageTrending/1/BoxHit/Video");
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
-        vvVideo = findViewById(R.id.vv_video);
-        txttimesong = findViewById(R.id.txttimesong);
-        txttotaltime = findViewById(R.id.txttotaltime);
-        sbsong = findViewById(R.id.sb_song);
-        btnplay = findViewById(R.id.imgbtnplay);
-        btnimgpre = findViewById(R.id.imgbtnpre);
-        btnimgnext = findViewById(R.id.imgbtnnext);
-        addVideo();
-        CreateVideo();
+        rv_video = findViewById(R.id.rv_videotrending);
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        btnplay.setOnClickListener(new View.OnClickListener() {
+
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                if(vvVideo.isPlaying()){
-                    vvVideo.pause();
-                    btnplay.setImageResource(R.drawable.ic_baseline_play_arrow_24);
-                }else {
-                    vvVideo.start();
-                    btnplay.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
-                }
-                setimetotal();
-                updatetimesong();
-
-            }
-        });
-
-        btnimgnext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                position++;
-                if(position > listvideo.size() -1)
-                {
-                    position = 0;
-                }
-                CreateVideo();
-                vvVideo.start();
-                setimetotal();
-                updatetimesong();
-            }
-        });
-
-
-        btnimgpre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                position--;
-                if(position < listvideo.size() -1)
-                {
-                    position = listvideo.size()- 1;
-                }
-                CreateVideo();
-                vvVideo.start();
-                setimetotal();
-                updatetimesong();
-            }
-        });
-
-
-       sbsong.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                vvVideo.seekTo(sbsong.getProgress());
-            }
-        });
-
-    }
-
-    private void CreateVideo(){
-        //mediaPlayer = MediaPlayer.create(MainActivity.this, listvideo.get(position).getFile());
-        vvVideo.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + listvideo.get(position).getFile()));
-    }
-
-    private void addVideo(){
-        listvideo = new ArrayList<>();
-        listvideo.add((new Video(R.raw.hello)));
-        listvideo.add((new Video(R.raw.nightcorewhereestarted)));
-    }
-
-    private  void setimetotal(){
-        SimpleDateFormat dingdang = new SimpleDateFormat("mm:ss");
-        sbsong.setMax(vvVideo.getDuration());
-        txttotaltime.setText(dingdang.format(vvVideo.getDuration())+"");
-    }
-
-    private  void updatetimesong(){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                SimpleDateFormat dingdang = new SimpleDateFormat("mm:ss");
-                txttotaltime.setText(dingdang.format(vvVideo.getDuration())+"");
-                txttimesong.setText(dingdang.format(vvVideo.getCurrentPosition()));
-                sbsong.setProgress(vvVideo.getCurrentPosition());
-
-                // kiểm tra hết video
-                vvVideo.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mediaPlayer) {
-                        position++;
-                        if(position > listvideo.size() -1)
-                        {
-                            position = 0;
-                        }
-                        CreateVideo();
-                        vvVideo.start();
-                        setimetotal();
-                        updatetimesong();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    for (DataSnapshot ds : snapshot.getChildren()){
+                        Video video = ds.getValue(Video.class);
+                        dataVideos.add(video);
+                        Toast.makeText(VideoMain.this, dataVideos.toString(), Toast.LENGTH_SHORT).show();
                     }
-                });
+                    if (dataVideos != null){
+                        videoAdapter = new VideoAdapter(VideoMain.this, dataVideos);
+                        rv_video.setAdapter(videoAdapter);
+                        rv_video.setLayoutManager(new LinearLayoutManager(VideoMain.this));
+                    }else {
 
+                        Toast.makeText(VideoMain.this, "asdasdasdasdasd", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception exception){
 
-                handler.postDelayed(this,500);
+                }
             }
-        },100);
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
 
 }

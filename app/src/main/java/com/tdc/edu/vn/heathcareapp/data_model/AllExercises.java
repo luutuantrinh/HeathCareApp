@@ -1,22 +1,24 @@
 package com.tdc.edu.vn.heathcareapp.data_model;
 
 public class AllExercises {
-    private  int resourceID;
+    private  String url;
     private String sTitle;
 
 
-    public AllExercises(int resourceID, String sTitle) {
-        this.setResourceID(resourceID);
-        this.setsTitle(sTitle);
-
+    public AllExercises() {
     }
 
-    public int getResourceID() {
-        return resourceID;
+    public AllExercises(String url, String sTitle) {
+        this.url = url;
+        this.sTitle = sTitle;
     }
 
-    public void setResourceID(int resourceID) {
-        this.resourceID = resourceID;
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getsTitle() {
@@ -26,5 +28,4 @@ public class AllExercises {
     public void setsTitle(String sTitle) {
         this.sTitle = sTitle;
     }
-
 }

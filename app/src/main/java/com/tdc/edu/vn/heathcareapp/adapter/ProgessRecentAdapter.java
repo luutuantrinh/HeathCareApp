@@ -1,8 +1,6 @@
 package com.tdc.edu.vn.heathcareapp.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tdc.edu.vn.heathcareapp.ItemTrendingItem;
 import com.tdc.edu.vn.heathcareapp.R;
 import com.tdc.edu.vn.heathcareapp.data_model.ProgressRecent;
-import com.tdc.edu.vn.heathcareapp.data_model.WorkoutTrending;
 
 import java.util.ArrayList;
 

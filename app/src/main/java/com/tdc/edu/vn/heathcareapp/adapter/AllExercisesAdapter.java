@@ -1,6 +1,9 @@
 package com.tdc.edu.vn.heathcareapp.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
 import com.tdc.edu.vn.heathcareapp.R;
+import com.tdc.edu.vn.heathcareapp.TrendingItem;
 import com.tdc.edu.vn.heathcareapp.data_model.AllExercises;
 import com.tdc.edu.vn.heathcareapp.data_model.WorkoutGuided;
 
@@ -37,6 +42,18 @@ public class AllExercisesAdapter extends RecyclerView.Adapter<AllExercisesAdapte
     public void onBindViewHolder(@NonNull WorkoutGuidedViewHolder holder, int position) {
         AllExercises allExercises = listallExercises.get(position);
         holder.txtTitle.setText(allExercises.getsTitle());
+        String url = allExercises.getUrl().toString();
+        Uri uri = Uri.parse(url);
+        Picasso.get().load(uri).into(holder.img);
+       /* holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, TrendingItem.class);
+                ((Activity)context).startActivity(intent);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            }
+        });*/
+
     }
 
     @Override
@@ -46,14 +63,14 @@ public class AllExercisesAdapter extends RecyclerView.Adapter<AllExercisesAdapte
 
     public  class WorkoutGuidedViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView iResource;
+        ImageView img;
         TextView txtTitle;
-        TextView Description;
+
         public WorkoutGuidedViewHolder(@NonNull View itemView) {
 
             super(itemView);
-            iResource  = itemView.findViewById(R.id.imgallExercises);
-            txtTitle  = itemView.findViewById(R.id.txttileexercises);
+            img = itemView.findViewById(R.id.imgallExercises);
+            txtTitle  = itemView.findViewById(R.id.txtallexerciese);
         }
     }
 }

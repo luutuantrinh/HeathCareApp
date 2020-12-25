@@ -1,16 +1,33 @@
 package com.tdc.edu.vn.heathcareapp.data_model;
 
 public class Video {
-    private  int file;
-    public void setFile(int file) {
-        this.file = file;
+
+
+    private String urlvideo;
+
+    // Constructor
+
+    public Video() {
     }
 
-    public int getFile() {
-        return file;
+    public Video(String urlvideo) {
+
+
+        this.urlvideo = urlvideo;
     }
 
-    public Video(int file) {
-        this.file = file;
+    // get and set
+
+
+
+
+
+    public void setUrlvideo(String urlvideo) {
+        this.urlvideo = urlvideo;
+    }
+
+
+    public String getUrlvideo() {
+        return urlvideo;
     }
 }

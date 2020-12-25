@@ -35,7 +35,7 @@
         android:text="titel1"></TextView>
 
     <TextView
-        android:id="@+id/txtdescription"
+        android:id="@+id/txtdescriptionguided"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="titel1"></TextView>

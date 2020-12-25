@@ -6,30 +6,52 @@
     android:layout_height="match_parent"
     android:padding="5dp">
 <include layout="@layout/top_nav_bar_back_trendingitem"></include>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Great fat......"
-            android:layout_marginBottom="10dp">
-        </TextView>
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Great fat......"
+                android:layout_marginBottom="10dp">
+            </TextView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5-9 minute">
-        </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5-9 minute">
+            </TextView>
+        </LinearLayout>
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/rv_trendingitem"
+        android:layout_width="match_parent"
+        android:layout_height="239dp"
         android:padding="10dp">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:id="@+id/nvbotstartdetailmorning"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start"
+            android:id="@+id/btnStarttrending"
+            android:layout_gravity="center"></Button>
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </LinearLayout>

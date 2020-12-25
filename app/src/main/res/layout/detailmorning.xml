@@ -37,16 +37,12 @@
                     android:text="5-9 minute">
                 </TextView>
             </LinearLayout>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_detailmorning"
                 android:padding="10dp">
             </androidx.recyclerview.widget.RecyclerView>
-
-
-
         </LinearLayout>
     </ScrollView>
 

@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.tdc.edu.vn.heathcareapp.R;
 import com.tdc.edu.vn.heathcareapp.adapter.AllExercisesAdapter;
 import com.tdc.edu.vn.heathcareapp.adapter.DetailMorningAdapter;
@@ -28,6 +30,7 @@ public class DetailMorningMain extends AppCompatActivity {
     ArrayList<DetailMorning> listdetailmorning = new ArrayList<>();
     ImageView nav_back_detailmorning;
     Button btnStartDetail;
+    private StorageReference mStorageRef;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +55,13 @@ public class DetailMorningMain extends AppCompatActivity {
         rv_detailmorning.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
 
 
+        // tải dữ liệu xuống từ firebase
+
+
+
+
+
+
         nav_back_detailmorning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,8 +72,7 @@ public class DetailMorningMain extends AppCompatActivity {
         btnStartDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.setClass(DetailMorningMain.this, VideoMain.class);
-                startActivity(intent);
+
             }
         });
 
