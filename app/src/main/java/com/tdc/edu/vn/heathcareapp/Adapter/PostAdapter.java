@@ -104,9 +104,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 if (snapshot.hasChild(posts.getUser_id())) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         User user = ds.getValue(User.class);
-//                        if (user.getUser_id().equals(posts.getUser_id())) {
-//                            dataUsers.add(user);
-//                        }
+                        if (user.getUser_id().equals(posts.getUser_id())) {
+                            dataUsers.add(user);
+                        }
                     }
                     try {
                         if (dataUsers != null) {

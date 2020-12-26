@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -32,7 +33,7 @@ public class AddFriendActivity extends AppCompatActivity {
     ImageButton imageButtonBackSpace;
     TextView titleToolbar;
     RecyclerView recyclerView;
-    TextInputEditText txt_key;
+    EditText txt_key;
 
     //
     ArrayList<User> mDataUser = new ArrayList<>();
@@ -134,7 +135,6 @@ public class AddFriendActivity extends AppCompatActivity {
 
     private void setControl() {
         imageButtonBackSpace = findViewById(R.id.icon_backspace_add_friends);
-        titleToolbar = findViewById(R.id.title_toolbar_add_friends);
         txt_key = findViewById(R.id.txt_search_friend);
         recyclerView = findViewById(R.id.rcy_search_friend);
     }

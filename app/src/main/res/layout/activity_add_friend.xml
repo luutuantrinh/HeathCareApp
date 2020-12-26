@@ -15,22 +15,31 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/include_toolbar_add_friends"
         android:orientation="vertical">
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:background="@drawable/custom_btn_user_profile1"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:hint="Enter name or email address"
+            android:id="@+id/txt_search_friend"
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_search_friend"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_search"
-                android:hint="Enter name or email address">
+        </EditText>
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10dp">-->
 
-            </com.google.android.material.textfield.TextInputEditText>
-        </com.google.android.material.textfield.TextInputLayout>
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/txt_search_friend"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:drawableLeft="@drawable/ic_search"-->
+<!--                android:hint="Enter name or email address">-->
+
+<!--            </com.google.android.material.textfield.TextInputEditText>-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcy_search_friend"

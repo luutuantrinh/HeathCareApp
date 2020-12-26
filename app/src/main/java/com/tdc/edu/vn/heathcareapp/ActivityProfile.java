@@ -132,7 +132,8 @@ public class ActivityProfile extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot ds : snapshot.getChildren()){
-                    String name = "" + ds.child("name").getValue();
+                    String Lastname = "" + ds.child("last_name").getValue();
+                    String Firstname = "" + ds.child("first_name").getValue();
                     String email = "" + ds.child("email").getValue();
                     String age = "" + ds.child("age").getValue();
                     String location = "" + ds.child("location").getValue();
@@ -140,7 +141,7 @@ public class ActivityProfile extends AppCompatActivity {
                     String cover = "" + ds.child("cover").getValue();
                     String gender = "" + ds.child("gender").getValue();
 
-                    nameTV.setText(name);
+                    nameTV.setText(Firstname + " " + Lastname);
                     emailTV.setText(email);
                     ageTV.setText(age);
                     locationTV.setText(location);

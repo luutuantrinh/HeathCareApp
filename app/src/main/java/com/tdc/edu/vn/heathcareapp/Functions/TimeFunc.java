@@ -51,7 +51,7 @@ public class TimeFunc {
             Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
             calendar.setTimeInMillis(time);
             String dateTimeMes = DateFormat.format("dd/MM/yyyy hh:mm", calendar).toString();
-            return diff / DAY_MILLIS + " " + context.getResources().getString(R.string.days_ago) + " | " + dateTimeMes;
+            return diff / DAY_MILLIS + " " + context.getResources().getString(R.string.days_ago);
         }
     }
 

@@ -8,9 +8,13 @@ import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -25,8 +29,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,29 +42,33 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.tdc.edu.vn.heathcareapp.Model.Post;
+import com.tdc.edu.vn.heathcareapp.Model.User;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
 public class CreateContentActivity extends AppCompatActivity {
 
-    TextView titleToolbar, buttonCancel, buttonPublish;;
+    TextView titleToolbar, buttonCancel, buttonPublish, textViewUserName;
     EditText txt_content;
     Button button_delete_image;
     ImageButton btn_getImgByGallery, imageButton_getImageByGallery;
-    ImageView imageView;
-    LinearLayout linearLayoutImageView;
+    ImageView imageView, imageViewAvatarUser;
+    LinearLayout linearLayoutImageView, linearLayoutInfoUserName;
     private final int PICK_IMAGE_REQUEST = 71;
     String id_image = "";
     String url_image = "";
     Boolean checkImage = false;
+    ArrayList<User> dataUser = new ArrayList<>();
     // Firebase
     private FirebaseAuth mAuth;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference postsRef = database.getReference("Posts");
+    DatabaseReference userRef = database.getReference("Users");
     private StorageReference storageRef = FirebaseStorage.getInstance().getReference();
     private Uri imgUri;
     private StorageTask uploadTask;
@@ -79,7 +90,8 @@ public class CreateContentActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
-
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        showInfo(currentUser.getUid().toString());
         btn_getImgByGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +118,7 @@ public class CreateContentActivity extends AppCompatActivity {
 
             }
         });
+
         buttonPublish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,19 +128,77 @@ public class CreateContentActivity extends AppCompatActivity {
                 String content = txt_content.getText().toString();
                 String id_posts = System.currentTimeMillis()+user_id;
 
-                if (checkImage == true){
-                    id_image = System.currentTimeMillis() + "." + getExtension(imgUri);
-                    if (uploadTask != null && uploadTask.isInProgress()) {
-                        Toast.makeText(CreateContentActivity.this, "In progress upload!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        uploadFile(id_image);
+                    if (checkImage == true){
+                        id_image = System.currentTimeMillis() + "." + getExtension(imgUri);
+                        if (uploadTask != null && uploadTask.isInProgress()) {
+                            Toast.makeText(CreateContentActivity.this, "In progress upload!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            uploadFile(id_image);
+                        }
+                    }else {
+                        id_image = "";
                     }
-                }else {
-                    id_image = "";
+                    Post post = new Post(id_posts, user_id, id_image, content, System.currentTimeMillis()+"", 0);
+                    postsRef.child(id_posts).setValue(post);
+                    onBackPressed();
+
+
+
+            }
+        });
+    }
+
+    private void showInfo(String uid) {
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(uid)){
+                    for (DataSnapshot ds : snapshot.getChildren()){
+                        User user = ds.getValue(User.class);
+                        if (user.getUser_id().equals(uid)){
+                            dataUser.add(user);
+                        }
+
+                    }
                 }
-                Post post = new Post(id_posts, user_id, id_image, content, System.currentTimeMillis()+"", 0);
-                postsRef.child(id_posts).setValue(post);
-                onBackPressed();
+                try {
+                    if (dataUser != null){
+                        String imageUrl = dataUser.get(0).getImage_id().toString();
+                        textViewUserName.setText(dataUser.get(0).getFirst_name() + " " + dataUser.get(0).getLast_name());
+                        if (!imageUrl.equals("")) {
+                            try {
+                                StorageReference islandRef = storageRef.child("images/user/" + imageUrl);
+                                final long ONE_MEGABYTE = 1024 * 1024;
+                                islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                    @Override
+                                    public void onSuccess(byte[] bytes) {
+                                        // Data for "images/island.jpg" is returns, use this as needed
+                                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                       imageViewAvatarUser.setImageBitmap(bitmap);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                        // Handle any errors
+                                    }
+                                });
+                                linearLayoutInfoUserName.setVisibility(View.VISIBLE);
+
+                            } catch (Exception ex) {
+
+                            }
+                        }
+                    }
+                    else {
+
+                    }
+                }catch (Exception ex){
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -193,7 +264,10 @@ public class CreateContentActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView_create_content);
         linearLayoutImageView = findViewById(R.id.lnl_image_create_content);
         btn_getImgByGallery = findViewById(R.id.imgBtn_getImg_Gallery_create_content);
-        //imageButton_getImageByGallery = findViewById(R.id)
+        textViewUserName = findViewById(R.id.username_create_content);
+        imageViewAvatarUser = findViewById(R.id.image_avatar_user_create_content);
+        linearLayoutInfoUserName = findViewById(R.id.lnl_info_username);
+
     }
 
 }

@@ -63,6 +63,20 @@ public class NewFeedActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
+    }
+
+    private void setEvent() {
+
+        //bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
+        //getSupportFragmentManager().beginTransaction().replace(R.id.container, new WorkoutsFragment()).commit();
+        try {
+            postAdapter = new PostAdapter(NewFeedActivity.this, dataPosts);
+            recyclerViewPost.setAdapter(postAdapter);
+            recyclerViewPost.setLayoutManager(new LinearLayoutManager(NewFeedActivity.this));
+        }catch (Exception ex){
+
+        }
         postsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -82,45 +96,6 @@ public class NewFeedActivity extends AppCompatActivity {
 
             }
         });
-//        PostRef.orderBy("day_create").addSnapshotListener(this, new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                if (error != null) {
-//                    return;
-//                }
-//                try {
-//                    dataPosts.clear();
-//                    for (QueryDocumentSnapshot documentSnapshot : value) {
-//                        Post post = documentSnapshot.toObject(Post.class);
-//                        String id  = (documentSnapshot.getId()); // id_post, user_id, image_id, content_post, day_create;
-//                        String id_post = post.getId_post();
-//                        String user_id = post.getUser_id();
-//                        String image_id = post.getImage_id();
-//                        String content = post.getContent_post();
-//                        String createAt = post.getDay_create();
-//                        int totalLike = post.getTotal_like();
-//                        dataPosts.add(new Post(id_post, user_id, image_id, content, createAt, totalLike));
-//                    }
-//                    postAdapter = new PostAdapter( NewFeedActivity.this, dataPosts);
-//                    recyclerViewPost.setAdapter(postAdapter);
-//                }catch (Exception e){
-//
-//                }
-//
-//            }
-//        });
-    }
-
-    private void setEvent() {
-        //bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
-        //getSupportFragmentManager().beginTransaction().replace(R.id.container, new WorkoutsFragment()).commit();
-        try {
-            postAdapter = new PostAdapter(NewFeedActivity.this, dataPosts);
-            recyclerViewPost.setAdapter(postAdapter);
-            recyclerViewPost.setLayoutManager(new LinearLayoutManager(NewFeedActivity.this));
-        }catch (Exception ex){
-
-        }
 
 
         bottomNavigationView.setSelectedItemId(R.id.NewFeed);

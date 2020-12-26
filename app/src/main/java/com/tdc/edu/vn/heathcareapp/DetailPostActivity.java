@@ -2,6 +2,7 @@ package com.tdc.edu.vn.heathcareapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,11 +12,15 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -132,7 +137,13 @@ public class DetailPostActivity extends AppCompatActivity {
 
     private void showDataPost(String id_post) {
         //Query query = PostsRef.orderByChild("id_post").equalTo(id_post);
-
+        this.registerForContextMenu(imageButtonMore);
+        imageButtonMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(DetailPostActivity.this);
+            }
+        });
         PostsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -238,5 +249,20 @@ public class DetailPostActivity extends AppCompatActivity {
         imageButtonSend = findViewById(R.id.btn_send_comment_detail_post);
         editTextContentComment = findViewById(R.id.txt_content_comment_detail_post);
         scv_detail_post = findViewById(R.id.scv_detail_post);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Context Menu");
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_detail_post, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        return super.onContextItemSelected(item);
+
     }
 }

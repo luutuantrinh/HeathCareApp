@@ -52,26 +52,26 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             return;
         }
         strImg = news.getImg_new();
-//        try {
-//            StorageReference islandRef = storageRef.child("images/news/"+strImg);
-//            final long ONE_MEGABYTE = 1024 * 1024;
-//            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-//                @Override
-//                public void onSuccess(byte[] bytes) {
-//                    // Data for "images/island.jpg" is returns, use this as needed
-//                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-//                    holder.imageViewNews.setImageBitmap(bitmap);
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception exception) {
-//                    // Handle any errors
-//                }
-//            });
-//
-//        }catch (Exception ex){
-//
-//        }
+        try {
+            StorageReference islandRef = storageRef.child("images/news/"+strImg);
+            final long ONE_MEGABYTE = 1024 * 1024;
+            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    // Data for "images/island.jpg" is returns, use this as needed
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    holder.imageViewNews.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+
+        }catch (Exception ex){
+
+        }
         holder.tv_title_news.setText(news.getTitle_new());
         holder.tv_content_news.setText(news.getContent_new());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
