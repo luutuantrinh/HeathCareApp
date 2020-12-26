@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/followerMenu"
+        android:title="@string/followers_connection_management_followers_title"></item>
+    <item
+        android:id="@+id/followingMenu"
+        android:title="@string/followers_connection_management_following_title"></item>
+</menu>

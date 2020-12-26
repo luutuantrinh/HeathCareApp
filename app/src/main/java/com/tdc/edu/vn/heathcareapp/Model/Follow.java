@@ -4,8 +4,8 @@ public class Follow {
     String id_follow, sender, receiver, timestamp;
     Boolean request_status;
 
-    public Follow(String id_follow) {
-        this.id_follow = id_follow;
+    public Follow() {
+
     }
 
     public Follow(String id_follow, String sender, String receiver, String timestamp, Boolean request_status) {

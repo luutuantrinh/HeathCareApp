@@ -47,6 +47,9 @@ public class SigninActivity extends AppCompatActivity {
         twResetPass = (TextView)findViewById(R.id.tw_resetpassword);
         mAuth = FirebaseAuth.getInstance();
 
+        edtEmail.setText("khoinguyenvk9@gmail.com");
+        edtPassword.setText("123456789");
+
         twResetPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
