@@ -315,7 +315,7 @@ public class ActivityProfile extends AppCompatActivity {
     }
 
     private void showEditProfileDialog() {
-        String option[]={"Edit Profile Picture","Edit Cover Photo","Edit Name","Edit Location","Edit Age", "Edit Gender"};
+        String option[]={"Edit Profile Picture","Edit Cover Photo","Edit First Name","Edit Last Name","Edit Location","Edit Age", "Edit Gender"};
         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfile.this);
 
         builder.setTitle("Choose Action");
@@ -334,18 +334,22 @@ public class ActivityProfile extends AppCompatActivity {
                     showImagePicDialog();
                 }
                 else if(which == 2){
-                    pd.setMessage("Edit Name");
-                    showInfomation("name");
+                    pd.setMessage("Edit First Name");
+                    showInfomation("first_name");
                 }
                 else if(which == 3){
+                    pd.setMessage("Edit Last Name");
+                    showInfomation("last_name");
+                }
+                else if(which == 4){
                     pd.setMessage("Edit Location");
                     showInfomation("location");
                 }
-                else if(which == 4){
+                else if(which == 5){
                     pd.setMessage("Edit Age");
                     showInfomation("age");
                 }
-                else if(which == 5){
+                else if(which == 6){
                     pd.setMessage("Edit Gender");
                     showInfomation("gender");
                 }

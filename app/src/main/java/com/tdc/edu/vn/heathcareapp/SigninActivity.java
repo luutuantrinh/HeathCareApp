@@ -85,27 +85,27 @@ public class SigninActivity extends AppCompatActivity {
                             //FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(SigninActivity.this, "Logged in successfully",
                                     Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            if(task.getResult().getAdditionalUserInfo().isNewUser()){
-                                String email = user.getEmail();
-                                String uid = user.getUid();
-                                HashMap<Object, String> hashMap = new HashMap<>();
-                                hashMap.put("email",email);
-                                hashMap.put("name","");
-                                hashMap.put("image","");
-                                hashMap.put("cover","");
-                                hashMap.put("uid",uid);
-                                hashMap.put("gender","");
-                                hashMap.put("location","");
-                                hashMap.put("age","");
-                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                DatabaseReference reference = database.getReference("Users");
-                                reference.child(uid).setValue(hashMap);
-                            }
-//                            intent = new Intent(SigninActivity.this,NewFeedActivity.class);
-//                            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//                            startActivity(intent);
-                            startActivity(new Intent(SigninActivity.this, NewFeedActivity.class));
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//                            if(task.getResult().getAdditionalUserInfo().isNewUser()){
+//                                String email = user.getEmail();
+//                                String uid = user.getUid();
+//                                HashMap<Object, String> hashMap = new HashMap<>();
+//                                hashMap.put("email",email);
+//                                hashMap.put("name","");
+//                                hashMap.put("image","");
+//                                hashMap.put("cover","");
+//                                hashMap.put("uid",uid);
+//                                hashMap.put("gender","");
+//                                hashMap.put("location","");
+//                                hashMap.put("age","");
+//                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                                DatabaseReference reference = database.getReference("Users");
+//                                reference.child(uid).setValue();
+//                            }
+                            intent = new Intent(SigninActivity.this,NewFeedActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            startActivity(intent);
+                            //startActivity(new Intent(SigninActivity.this, NewFeedActivity.class));
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
