@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".RequestFriendActivity">
+    <include android:id="@+id/include_toolbar_request_friend" layout="@layout/toolbar_request_friend"></include>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcy_request_friend_list"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="70dp"
+        android:layout_below="@id/include_toolbar_request_friend"
+        android:layout_height="match_parent">
+    </androidx.recyclerview.widget.RecyclerView>
+    <include android:id="@+id/include_bottom_bar_navigation" layout="@layout/bottom_navigation_bar"></include>
+</RelativeLayout>

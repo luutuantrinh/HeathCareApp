@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 import com.tdc.edu.vn.heathcareapp.DetailNewsActivity;
 import com.tdc.edu.vn.heathcareapp.DetailPostActivity;
+import com.tdc.edu.vn.heathcareapp.Functions.TimeFunc;
 import com.tdc.edu.vn.heathcareapp.Model.Like;
 import com.tdc.edu.vn.heathcareapp.Model.Post;
 import com.tdc.edu.vn.heathcareapp.Model.User;
@@ -59,11 +62,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     DatabaseReference UserRef = database.getReference("Users");
     private String strImg = "";
     private String strImgUser = "";
-
-    private static final int SECOND_MILLIS = 1000;
-    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
-    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
-    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
     public PostAdapter(Context context, ArrayList<Post> dataPosts) {
         this.context = context;
@@ -131,7 +129,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                                     });
 
                                 } catch (Exception ex) {
-
+                                    try {
+                                        Picasso.get().load(strImg).into(holder.imageViewUser);
+                                    }
+                                    catch (Exception e){
+                                        Picasso.get().load(R.drawable.ic_cover).into(holder.imageViewUser);
+                                    }
+//                                    try {
+//                                        Picasso.get().load(cover).into(coverIV);
+//                                    }
+//                                    catch (Exception e){
+//                                        //Picasso.get().load(R.drawable.ic_cover).into(avatar);
+//                                    }
                                 }
                             }
                         }
@@ -151,9 +160,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
         strImg = posts.getImage_id();
-        holder.tv_content_post.setText(posts.getContent_post());
+        try {
+            holder.tv_content_post.setText(posts.getContent_post());
+        }catch (Exception exception){
+
+        }
+
         String timestamp = posts.getDay_create();
-        holder.tv_create_at.setText(getTimeAgo(Long.parseLong(timestamp), context));
+        holder.tv_create_at.setText(TimeFunc.getTimeAgo(Long.parseLong(timestamp), context));
         String totalLike = String.valueOf(posts.getTotal_like());
         holder.tv_total_like.setText(totalLike);
         if (!strImg.equals("")) {
@@ -258,41 +272,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
             }
         });
-
-
-    }
-
-    public static String getTimeAgo(long time, Context context) {
-        if (time < 1000000000000L) {
-            // if timestamp given in seconds, convert to millis
-            time *= 1000;
-        }
-
-        long now = System.currentTimeMillis();
-        if (time > now || time <= 0) {
-            return null;
-        }
-
-        // TODO: localize
-        final long diff = now - time;
-        if (diff < MINUTE_MILLIS) {
-            return context.getResources().getString(R.string.just_now);
-        } else if (diff < 2 * MINUTE_MILLIS) {
-            return context.getResources().getString(R.string.a_minute_ago);
-        } else if (diff < 50 * MINUTE_MILLIS) {
-            return diff / MINUTE_MILLIS + " " + context.getResources().getString(R.string.minutes_ago);
-        } else if (diff < 90 * MINUTE_MILLIS) {
-            return context.getResources().getString(R.string.an_hour_ago);
-        } else if (diff < 24 * HOUR_MILLIS) {
-            return diff / HOUR_MILLIS + " " + context.getResources().getString(R.string.hours_ago);
-        } else if (diff < 48 * HOUR_MILLIS) {
-            return context.getResources().getString(R.string.yesterday);
-        } else {
-            Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
-            calendar.setTimeInMillis(time);
-            String dateTimeMes = DateFormat.format("dd/MM/yyyy hh:mm", calendar).toString();
-            return diff / DAY_MILLIS + " " + context.getResources().getString(R.string.days_ago) + " | " + dateTimeMes;
-        }
     }
 
     @Override

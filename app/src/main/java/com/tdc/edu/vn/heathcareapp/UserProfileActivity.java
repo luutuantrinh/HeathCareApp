@@ -93,7 +93,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         tv_status_follow.setText(R.string.followers_connection_management_following_title);
                     } else {
 
-                        Follow follow = new Follow(id_follow, sender, user_id, System.currentTimeMillis() + "", false);
+                        Follow follow = new Follow(id_follow, sender, user_id, System.currentTimeMillis() + "", false, false);
                         followRef.child(id_follow).setValue(follow);
                         // String id_notification, String user_id, String from_user_id, String content, String post_id, String url, String timestamp, Boolean seen)
                         String timestamp = System.currentTimeMillis()+"";

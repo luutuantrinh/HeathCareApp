@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/style_border_toolbar">
 
     <RelativeLayout
@@ -14,21 +15,45 @@
             android:src="@drawable/ic_add"></ImageButton>
 
         <ImageButton
-            android:id="@+id/icon_empty_newFeed"
+            android:id="@+id/icon_chat_newFeed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/icon_createContent_newFeed"
             android:layout_toRightOf="@id/icon_createContent_newFeed"
             android:background="@color/white"
-            android:src="@drawable/ic_space_bar"></ImageButton>
+            android:src="@drawable/chat"></ImageButton>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="15dp"
+            android:visibility="gone"
+            android:id="@+id/cv_chat_new_feed"
+            android:layout_toEndOf="@id/icon_chat_newFeed"
+            android:background="#F44336"
+            app:cardCornerRadius="10dp"
+            android:layout_height="15dp">
+            <TextView
+                android:id="@+id/badge_chat_new_feed"
+                android:layout_width="match_parent"
+                android:background="@color/red"
+                android:text="11"
+                android:maxLength="2"
+                android:textStyle="bold"
+                android:textSize="10dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content">
+
+            </TextView>
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/titleNewFeed"
             style="@style/title_toolbar"
             android:layout_toStartOf="@id/icon_addFriend_newFeed"
             android:layout_toLeftOf="@id/icon_addFriend_newFeed"
-            android:layout_toEndOf="@id/icon_empty_newFeed"
-            android:layout_toRightOf="@id/icon_empty_newFeed"
+            android:layout_toEndOf="@id/icon_chat_newFeed"
+            android:layout_toRightOf="@id/icon_chat_newFeed"
             android:text="NEW FEED">
 
         </TextView>
@@ -41,7 +66,28 @@
             android:background="@color/white"
             android:paddingRight="15dp"
             android:src="@drawable/ic_group_add"></ImageButton>
+        <androidx.cardview.widget.CardView
+            android:layout_width="15dp"
+            android:id="@+id/cv_add_new_feed"
+            android:layout_toEndOf="@id/titleNewFeed"
+            android:background="#F44336"
+            android:visibility="gone"
+            app:cardCornerRadius="10dp"
+            android:layout_height="15dp">
+            <TextView
+                android:id="@+id/badge_add_new_feed"
+                android:layout_width="match_parent"
+                android:background="@color/red"
+                android:maxLength="2"
+                android:textStyle="bold"
+                android:textSize="10dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content">
 
+            </TextView>
+        </androidx.cardview.widget.CardView>
         <ImageButton
             android:id="@+id/icon_notification_newFeed"
             android:layout_width="wrap_content"
@@ -50,6 +96,40 @@
             android:layout_alignParentRight="true"
             android:background="@color/white"
             android:src="@drawable/ic_notifications"></ImageButton>
+<!--        <com.nex3z.notificationbadge.NotificationBadge-->
+<!--            android:layout_width="15dp"-->
+<!--            app:nbMaxTextLength="2"-->
+<!--            android:textSize="15dp"-->
+<!--            android:visibility="visible"-->
+<!--            android:id="@+id/badge_notification_new_feed"-->
+<!--            android:background="@drawable/badge_notification"-->
+<!--            android:layout_toEndOf="@id/icon_addFriend_newFeed"-->
+<!--            android:layout_height="15dp">-->
+
+<!--        </com.nex3z.notificationbadge.NotificationBadge>-->
+        <androidx.cardview.widget.CardView
+            android:layout_width="15dp"
+            android:id="@+id/cv_notification_new_feed"
+            android:layout_toEndOf="@id/icon_addFriend_newFeed"
+            android:background="#F44336"
+            android:visibility="gone"
+            app:cardCornerRadius="10dp"
+            android:layout_height="15dp">
+            <TextView
+                android:id="@+id/badge_notification_new_feed"
+                android:layout_width="match_parent"
+                android:background="@color/red"
+                android:maxLength="2"
+                android:textStyle="bold"
+                android:textSize="10dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content">
+
+            </TextView>
+        </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 
 </RelativeLayout>

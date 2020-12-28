@@ -59,10 +59,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        <activity android:name=".FollowActivity">
-
-
-        </activity>
+        <activity android:name=".RequestFriendActivity"></activity>
+        <activity android:name=".FollowActivity"></activity>
         <activity android:name=".ActivityProfile" />
         <activity android:name=".LoginFacebook" />
         <activity android:name=".LoginSupportActivity" />

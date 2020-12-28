@@ -39,6 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import com.tdc.edu.vn.heathcareapp.Adapter.CommentAdapter;
 import com.tdc.edu.vn.heathcareapp.Functions.TimeFunc;
 import com.tdc.edu.vn.heathcareapp.Model.Comment;
+import com.tdc.edu.vn.heathcareapp.Model.Notification;
 import com.tdc.edu.vn.heathcareapp.Model.Post;
 import com.tdc.edu.vn.heathcareapp.Model.User;
 
@@ -57,12 +58,14 @@ public class DetailPostActivity extends AppCompatActivity {
     String id_post = "";
     ArrayList<Post> mDataPost = new ArrayList<>();
     TimeFunc timeFunc;
+    String user_post = "";
     // Firebase
     private FirebaseAuth mAuth;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference PostsRef = database.getReference("Posts");
     DatabaseReference commentsRef = database.getReference("Comments");
     DatabaseReference userRef = database.getReference("Users");
+    DatabaseReference notificationRef = database.getReference("Notifications");
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
@@ -130,6 +133,9 @@ public class DetailPostActivity extends AppCompatActivity {
                     Comment comment = new Comment(id_comment, id_post, user_id, content, System.currentTimeMillis() + "");
                     commentsRef.child(id_comment).setValue(comment);
                     editTextContentComment.setText("");
+                    String timestamp = System.currentTimeMillis()+"";
+                    Notification notification = new Notification(timestamp, user_post, user_id, " commented on your post. Check it out!", id_post, "comment", timestamp, false);
+                    notificationRef.child(timestamp).setValue(notification);
                 }
             }
         });
@@ -156,6 +162,7 @@ public class DetailPostActivity extends AppCompatActivity {
                         }
                     }
                     if (mDataPost != null) {
+                        user_post = mDataPost.get(0).getUser_id();
                         tv_content_post.setText(mDataPost.get(0).getContent_post());
                         tv_timestamp.setText(TimeFunc.getTimeAgo(Long.parseLong(mDataPost.get(0).getDay_create()), DetailPostActivity.this));
                         String strImg = mDataPost.get(0).getImage_id();

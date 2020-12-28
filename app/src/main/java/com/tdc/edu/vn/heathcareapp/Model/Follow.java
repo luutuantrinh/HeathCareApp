@@ -2,18 +2,27 @@ package com.tdc.edu.vn.heathcareapp.Model;
 
 public class Follow {
     String id_follow, sender, receiver, timestamp;
-    Boolean request_status;
+    Boolean request_status, isSeen;
 
     public Follow() {
 
     }
 
-    public Follow(String id_follow, String sender, String receiver, String timestamp, Boolean request_status) {
+    public Follow(String id_follow, String sender, String receiver, String timestamp, Boolean request_status, Boolean isSeen) {
         this.id_follow = id_follow;
         this.sender = sender;
         this.receiver = receiver;
         this.timestamp = timestamp;
         this.request_status = request_status;
+        this.isSeen = isSeen;
+    }
+
+    public Boolean getSeen() {
+        return isSeen;
+    }
+
+    public void setSeen(Boolean seen) {
+        isSeen = seen;
     }
 
     public String getId_follow() {
