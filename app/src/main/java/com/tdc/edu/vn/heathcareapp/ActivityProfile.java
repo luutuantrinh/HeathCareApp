@@ -315,7 +315,7 @@ public class ActivityProfile extends AppCompatActivity {
     }
 
     private void showEditProfileDialog() {
-        String option[]={"Edit Profile Picture","Edit Cover Photo","Edit First Name","Edit Last Name","Edit Location","Edit Age", "Edit Gender"};
+        String option[]={"Edit Profile Picture","Edit Cover Photo","Edit Profile","Sign Out"};
         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfile.this);
 
         builder.setTitle("Choose Action");
@@ -334,24 +334,25 @@ public class ActivityProfile extends AppCompatActivity {
                     showImagePicDialog();
                 }
                 else if(which == 2){
-                    pd.setMessage("Edit First Name");
-                    showInfomation("first_name");
+//                    pd.setMessage("Edit First Name");
+//                    showInfomation("first_name");
+                    Intent intent = new Intent(ActivityProfile.this, EditProfile.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
                 }
                 else if(which == 3){
-                    pd.setMessage("Edit Last Name");
-                    showInfomation("last_name");
-                }
-                else if(which == 4){
-                    pd.setMessage("Edit Location");
-                    showInfomation("location");
-                }
-                else if(which == 5){
-                    pd.setMessage("Edit Age");
-                    showInfomation("age");
-                }
-                else if(which == 6){
-                    pd.setMessage("Edit Gender");
-                    showInfomation("gender");
+//                    pd.setMessage("Sign Out");
+//                    showInfomation("last_name");
+                    try{
+                        auth.signOut();
+                        Intent intent = new Intent(ActivityProfile.this,LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
+                    }
+                    catch (Exception e){
+                        e.getMessage();
+                        Toast.makeText(ActivityProfile.this, "Please log in again",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <include
+        android:id="@+id/include_toolbar_user_profile"
+        layout="@layout/toolbar_edit_profile"></include>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,10 +33,10 @@
                     app:cardCornerRadius="100dp">
 
                     <ImageView
-                        android:id="@+id/imgAvatar"
-                        android:scaleType="fitXY"
+                        android:id="@+id/img_avatar"
                         android:layout_width="130dp"
                         android:layout_height="130dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/ic_add_image">
                     </ImageView>
                 </androidx.cardview.widget.CardView>
@@ -103,34 +106,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_email"
-                style="@style/text_Registration"></EditText>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-            <EditText
-                android:id="@+id/edtPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_password"
                 style="@style/text_Registration"
-                android:password="true"></EditText>
+                android:enabled="false"></EditText>
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
             <com.hbb20.CountryCodePicker
-                android:id="@+id/Location"
-                android:layout_width="match_parent"
+                android:id="@+id/cpp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:ccp_showFullName="true"
                 app:ccp_showPhoneCode="false"
                 app:ccp_textGravity="LEFT">
 
             </com.hbb20.CountryCodePicker>
+            <EditText
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></EditText>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -142,6 +137,34 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_age"
                 style="@style/text_Registration"></EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <EditText
+                    android:id="@+id/edtHeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="HEIGHT (CM)"
+                    style="@style/text_Registration"></EditText>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <EditText
+                    android:id="@+id/edtWidth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="WIDTH (KG)"
+                    style="@style/text_Registration"></EditText>
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

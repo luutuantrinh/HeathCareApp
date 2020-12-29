@@ -156,14 +156,14 @@ public class RegistrationActive extends AppCompatActivity {
                             user = mAuth.getCurrentUser();
                             String firstName = edtFirstName.getText().toString().trim();
                             String lastName = edtLastName.getText().toString().trim();
-                            String gender;
+                            String gender = "";
                             String location = ccp.getSelectedCountryName();
                             String age = edtAge.getText().toString().trim();
                             String phone ="";
                             if (radMale.isChecked()) {
-                                gender = "Male";
+                                gender = "0";
                             } else {
-                                gender = "Female";
+                                gender = "1";
                             }
                             String email = user.getEmail();
                             String uid = user.getUid();
