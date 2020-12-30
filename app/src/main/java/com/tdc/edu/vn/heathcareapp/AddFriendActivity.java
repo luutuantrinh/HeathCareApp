@@ -115,8 +115,6 @@ public class AddFriendActivity extends AppCompatActivity {
                             mDataUser.add(user);
                         }
                     }
-
-
                     searchFriendAdapter = new SearchFriendAdapter(AddFriendActivity.this, mDataUser);
                     searchFriendAdapter.notifyDataSetChanged();
                     recyclerView.setAdapter(searchFriendAdapter);

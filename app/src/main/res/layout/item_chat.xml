@@ -2,10 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="10dp">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,13 +14,13 @@
             android:id="@+id/img_item_chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+
             android:padding="10dp"
             app:cardCornerRadius="100dp"
-            app:cardElevation="10dp">
+            app:cardElevation="1dp">
 
             <ImageView
-                android:id="@+id/imgRows_ct"
+                android:id="@+id/img_user_item_chat"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/loaddingimage"></ImageView>
@@ -46,7 +43,10 @@
                 android:id="@+id/tv_username_item_chat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Khoi Nguyen"></TextView>
+                android:text="Khoi Nguyen"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:textStyle="bold"></TextView>
 
             <TextView
                 android:id="@+id/tv_description_item_chat"
@@ -64,7 +64,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:background="@color/white"
-            android:src="@drawable/telegram">
+            android:src="@drawable/ic_space_bar">
 
         </ImageButton>
     </RelativeLayout>

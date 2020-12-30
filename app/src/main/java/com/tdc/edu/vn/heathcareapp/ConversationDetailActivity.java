@@ -35,6 +35,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.tdc.edu.vn.heathcareapp.Adapter.MessageAdapter;
+import com.tdc.edu.vn.heathcareapp.Functions.KeyBoardApp;
+import com.tdc.edu.vn.heathcareapp.Model.ChatList;
 import com.tdc.edu.vn.heathcareapp.Model.Message;
 import com.tdc.edu.vn.heathcareapp.Model.User;
 
@@ -49,12 +51,13 @@ public class ConversationDetailActivity extends AppCompatActivity {
     TextView tv_userName;
     ImageView imageViewUserReceiver;
     String user_id = "";
-
+    KeyBoardApp keyBoardApp = new KeyBoardApp();
     // Firebase sender, receiver
     private FirebaseAuth mAuth;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference();
     DatabaseReference userRef = database.getReference("Users");
+    DatabaseReference chatListRef = database.getReference("ChatList");
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     String id_sender = "";
@@ -80,6 +83,13 @@ public class ConversationDetailActivity extends AppCompatActivity {
         if (currentUser != null) {
             id_sender = currentUser.getUid();
         }
+//        rcy_ListMessage.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                rcy_ListMessage.scrollToPosition(messageAdapter.getItemCount());
+//            }
+//        });
+
     }
 
     private void SetEvent() {
@@ -88,10 +98,11 @@ public class ConversationDetailActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rcy_ListMessage.setHasFixedSize(true);
+        //rcy_ListMessage.setHasFixedSize(true);
         rcy_ListMessage.setLayoutManager(linearLayoutManager);
         try {
             readMessage();
+            rcy_ListMessage.scrollToPosition(20);
             Toast.makeText(this, dataMessage.size() + "", Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
 
@@ -103,13 +114,13 @@ public class ConversationDetailActivity extends AppCompatActivity {
                 if (txt_message.getText().length() > 0) {
                     String message = txt_message.getText().toString().trim();
                     sendMessage(message);
+                    keyBoardApp.closeKeyBoard(ConversationDetailActivity.this);
                 }
             }
         });
         txt_message.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -202,6 +213,7 @@ public class ConversationDetailActivity extends AppCompatActivity {
                 messageAdapter = new MessageAdapter(ConversationDetailActivity.this, dataMessage, "");
                 messageAdapter.notifyDataSetChanged();
                 rcy_ListMessage.setAdapter(messageAdapter);
+
             }
 
             @Override
@@ -217,6 +229,10 @@ public class ConversationDetailActivity extends AppCompatActivity {
         Message mes1 = new Message(id_sender, id_receiver, message, "1", timestamp, false);
         mesRef.push().setValue(mes1);
         txt_message.setText("");
+        ChatList chatList = new ChatList(id_receiver);
+        chatListRef.child(id_sender).child(id_receiver).setValue(chatList);
+        ChatList chatList2 = new ChatList(id_sender);
+        chatListRef.child(id_receiver).child(id_sender).setValue(chatList2);
     }
 
     private void setControl() {

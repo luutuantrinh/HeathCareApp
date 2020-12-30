@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/bottom_sheet_detail_post"
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_sheet_backgroud"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/lnl_delete_btn_sheet_detail_post"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_border_toolbar"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="17dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"></ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/delete"
+            android:textColor="@color/black"
+            android:textSize="18dp"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="visible"
+        android:id="@+id/lnl_update_btn_sheet_detail_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_border_toolbar"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="17dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_create"></ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/common_google_play_services_update_button"
+            android:textColor="@color/black"
+            android:textSize="18dp"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="visible"
+        android:id="@+id/lnl_report_btn_sheet_detail_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_border_toolbar"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="17dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_report_24"></ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/catalyst_report_button"
+            android:textColor="@color/black"
+            android:textSize="18dp"></TextView>
+    </LinearLayout>
+</LinearLayout>

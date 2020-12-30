@@ -81,6 +81,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         Post posts = dataPosts.get(position);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String user_id = firebaseUser.getUid();
+        String user_id_of_post = posts.getUser_id();
         if (posts == null) {
             return;
         }
@@ -112,36 +113,30 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                             strImgUser = dataUsers.get(0).getImage_id();
                             if (!strImgUser.equals("")) {
                                 try {
-                                    StorageReference islandRef = storageRef.child("images/user/" + strImgUser);
-                                    final long ONE_MEGABYTE = 1024 * 1024;
-                                    islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                        @Override
-                                        public void onSuccess(byte[] bytes) {
-                                            // Data for "images/island.jpg" is returns, use this as needed
-                                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                            holder.imageViewUser.setImageBitmap(bitmap);
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception exception) {
-                                            // Handle any errors
-                                        }
-                                    });
-
-                                } catch (Exception ex) {
+                                    Picasso.get().load(strImg).into(holder.imageViewUser);
+                                } catch (Exception e) {
                                     try {
-                                        Picasso.get().load(strImg).into(holder.imageViewUser);
+                                        StorageReference islandRef = storageRef.child("images/user/" + strImgUser);
+                                        final long ONE_MEGABYTE = 1024 * 1024;
+                                        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                // Data for "images/island.jpg" is returns, use this as needed
+                                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                holder.imageViewUser.setImageBitmap(bitmap);
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception exception) {
+                                                // Handle any errors
+                                            }
+                                        });
+
+                                    } catch (Exception ex) {
+
                                     }
-                                    catch (Exception e){
-                                        Picasso.get().load(R.drawable.ic_cover).into(holder.imageViewUser);
-                                    }
-//                                    try {
-//                                        Picasso.get().load(cover).into(coverIV);
-//                                    }
-//                                    catch (Exception e){
-//                                        //Picasso.get().load(R.drawable.ic_cover).into(avatar);
-//                                    }
                                 }
+
                             }
                         }
                     } catch (Exception Ex) {
@@ -162,7 +157,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         strImg = posts.getImage_id();
         try {
             holder.tv_content_post.setText(posts.getContent_post());
-        }catch (Exception exception){
+        } catch (Exception exception) {
 
         }
 
@@ -199,6 +194,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 Intent intent = new Intent(context, DetailPostActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("post_id", posts.getId_post());
+                bundle.putString("user_id_of_post", user_id_of_post);
                 intent.putExtras(bundle);
                 ((Activity) context).startActivity(intent);
             }

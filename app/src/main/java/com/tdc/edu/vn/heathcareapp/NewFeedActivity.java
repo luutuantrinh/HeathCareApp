@@ -34,7 +34,7 @@ import java.util.Collections;
 public class NewFeedActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     TextView titleToolBar, tv_badge_chat, tv_badge_addFriend, tv_badge_notification;
-    ImageButton imageButtonCreateContent, imageButtonAddFriends, imageButtonNotification;
+    ImageButton imageButtonCreateContent, imageButtonAddFriends, imageButtonNotification, imageButtonChat;
     ArrayList<Post> dataPosts = new ArrayList<>();
     PostAdapter postAdapter;
     RecyclerView recyclerViewPost;
@@ -67,6 +67,7 @@ public class NewFeedActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        count_notification = 0;
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String user_id = currentUser.getUid();
         followRef.addValueEventListener(new ValueEventListener() {
@@ -78,11 +79,11 @@ public class NewFeedActivity extends AppCompatActivity {
                         count_notification += 1;
                     }
                 }
-                if (count_notification > 0){
+                if (count_notification > 0) {
                     String total = String.valueOf(count_notification);
                     tv_badge_notification.setText(total);
                     cv_badge_notification.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     tv_badge_notification.setText("0");
                     cv_badge_notification.setVisibility(View.GONE);
                 }
@@ -102,11 +103,11 @@ public class NewFeedActivity extends AppCompatActivity {
                         count_notification += 1;
                     }
                 }
-                if (count_notification > 0){
+                if (count_notification > 0) {
                     String total = String.valueOf(count_notification);
                     tv_badge_notification.setText(total);
                     cv_badge_notification.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     tv_badge_notification.setText("0");
                     cv_badge_notification.setVisibility(View.GONE);
                 }
@@ -151,27 +152,7 @@ public class NewFeedActivity extends AppCompatActivity {
 
 
         bottomNavigationView.setSelectedItemId(R.id.NewFeed);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                Fragment fragment = null;
-//                switch (item.getItemId()) {
-//                    case R.id.NewFeed:
-//                        return true;
-//                    case R.id.Nutrition:
-//                        Intent intent = new Intent(getApplicationContext(), NutritionActivity.class);
-//                        startActivity(intent);
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//                        overridePendingTransition(0, 0);
-//
-//                        return true;
-//                    case R.id.Profile:
-//                        fragment = new ProfileFragment();
-//                        return true;
-//                }
-//                return true;
-//            }
-//        });
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -192,6 +173,11 @@ public class NewFeedActivity extends AppCompatActivity {
                         intu.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         overridePendingTransition(0, 0);
                         return true;
+                    case R.id.Workouts:
+                        mAuth.signOut();
+                        Intent intent1 = new Intent(getApplicationContext(), SigninActivity.class);
+                        startActivity(intent1);
+                        return true;
 
                 }
                 return true;
@@ -203,6 +189,15 @@ public class NewFeedActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Create Content", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(NewFeedActivity.this, CreateContentActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        imageButtonChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Chat", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(NewFeedActivity.this, ChatUserToUserActivity.class);
                 startActivity(intent);
             }
         });
@@ -240,6 +235,7 @@ public class NewFeedActivity extends AppCompatActivity {
         tv_badge_addFriend = findViewById(R.id.badge_add_new_feed);
         tv_badge_chat = findViewById(R.id.badge_chat_new_feed);
         tv_badge_notification = findViewById(R.id.badge_notification_new_feed);
+        imageButtonChat = findViewById(R.id.icon_chat_newFeed);
     }
 
 }
