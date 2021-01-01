@@ -56,6 +56,7 @@
                     android:saveEnabled="true"
                     android:numStars="5"
                     android:rating="3.5"
+                    android:stepSize="0.1"
                     android:layout_height="wrap_content">
 
                 </RatingBar>

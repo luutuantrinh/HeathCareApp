@@ -10,14 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -64,9 +64,10 @@
                 android:id="@+id/tv_content_item_post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:paddingBottom="10dp"
-                android:text="Ngay hom nay se la mot ngay tuyet voi neu khi em van con ton taji tren the gian nay"
+                android:text=""
                 app:colorClickableText="@color/color_see_more"
                 app:trimCollapsedText="@string/read_more"
                 app:trimExpandedText="@string/read_less"
@@ -79,20 +80,23 @@
                 android:id="@+id/img_post_item_post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxHeight="400dp"
                 android:adjustViewBounds="true"
+                android:maxHeight="400dp"
                 android:src="@drawable/loaddingimage"
-                android:visibility="gone">
+                android:visibility="visible">
 
             </ImageView>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lnl_total_comment_item_post"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:paddingRight="5dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/total_comment_item_post"
@@ -106,7 +110,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="7dp"
+            android:paddingTop="5dp"
+            android:paddingRight="7dp"
+            android:paddingBottom="7dp">
 
             <ImageButton
                 android:id="@+id/icon_like_item_post"

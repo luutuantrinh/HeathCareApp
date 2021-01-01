@@ -1,8 +1,11 @@
 package com.tdc.edu.vn.heathcareapp.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,8 @@ import com.squareup.picasso.Picasso;
 import com.tdc.edu.vn.heathcareapp.Model.Counselor;
 import com.tdc.edu.vn.heathcareapp.Model.User;
 import com.tdc.edu.vn.heathcareapp.R;
+import com.tdc.edu.vn.heathcareapp.UserProfileActivity;
+import com.tdc.edu.vn.heathcareapp.ViewProfileCounselorActivity;
 
 import java.util.ArrayList;
 
@@ -60,6 +65,16 @@ public class CounselorAdapter extends RecyclerView.Adapter<CounselorAdapter.Coun
         if (counselor == null) {
             return;
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ViewProfileCounselorActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("ID_COUNSELOR", counselor.getId_counselor());
+                intent.putExtras(bundle);
+                ((Activity) context).startActivity(intent);
+            }
+        });
         UsersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

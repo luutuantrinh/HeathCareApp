@@ -85,7 +85,6 @@ public class NutritionActivity extends AppCompatActivity {
             nutritionTowerAdapter = new NutritionTowerAdapter(NutritionActivity.this, arrayListData);
             recyclerViewNutrition.setAdapter(nutritionTowerAdapter);
             recyclerViewNutrition.setLayoutManager(new LinearLayoutManager(NutritionActivity.this, RecyclerView.HORIZONTAL, false));
-
             newsAdapter  =new NewsAdapter(dataNews,NutritionActivity.this);
             recyclerViewNews.setAdapter(newsAdapter);
             recyclerViewNews.setLayoutManager(new LinearLayoutManager(NutritionActivity.this));

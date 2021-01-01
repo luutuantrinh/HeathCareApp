@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -71,7 +72,9 @@ public class ConversationDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation_detail);
+
         setControl();
+        //rcy_ListMessage.isAlwaysDrawnWithCacheEnabled() =
         mAuth = FirebaseAuth.getInstance();
         SetEvent();
     }
@@ -91,18 +94,39 @@ public class ConversationDetailActivity extends AppCompatActivity {
 //        });
 
     }
+    private void scrollToBottom(final RecyclerView recyclerView) {
+        // scroll to last item to get the view of last item
+        final LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        final RecyclerView.Adapter adapter = recyclerView.getAdapter();
+        final int lastItemPosition = adapter.getItemCount() - 1;
+
+        layoutManager.scrollToPositionWithOffset(lastItemPosition, 0);
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                // then scroll to specific offset
+                View target = layoutManager.findViewByPosition(lastItemPosition);
+                if (target != null) {
+                    int offset = recyclerView.getMeasuredHeight() - target.getMeasuredHeight();
+                    layoutManager.scrollToPositionWithOffset(lastItemPosition, offset);
+                }
+            }
+        });
+    }
 
     private void SetEvent() {
         id_receiver = getIntent().getExtras().getString("user_id");
         showInfo(id_receiver);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setStackFromEnd(true);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        linearLayoutManager.onSaveInstanceState();
+//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         //rcy_ListMessage.setHasFixedSize(true);
+        messageAdapter = new MessageAdapter(ConversationDetailActivity.this, dataMessage, "");
         rcy_ListMessage.setLayoutManager(linearLayoutManager);
+
         try {
             readMessage();
-            rcy_ListMessage.scrollToPosition(20);
+            scrollToBottom(rcy_ListMessage);
             Toast.makeText(this, dataMessage.size() + "", Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
 
@@ -112,31 +136,36 @@ public class ConversationDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (txt_message.getText().length() > 0) {
-                    String message = txt_message.getText().toString().trim();
-                    sendMessage(message);
-                    keyBoardApp.closeKeyBoard(ConversationDetailActivity.this);
+                    try {
+
+                    }catch (Exception exception){
+                        String message = txt_message.getText().toString().trim();
+                        sendMessage(message);
+                        keyBoardApp.closeKeyBoard(ConversationDetailActivity.this);
+                    }
+
                 }
             }
         });
-        txt_message.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() >= 1) {
-                    imageButtonSendMessage.setBackgroundResource(R.drawable.ic_send);
-                } else {
-                    imageButtonSendMessage.setBackgroundResource(R.drawable.ic_send_enable);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
+//        txt_message.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                if (charSequence.length() >= 1) {
+//                    imageButtonSendMessage.setBackgroundResource(R.drawable.ic_send);
+//                } else {
+//                    imageButtonSendMessage.setBackgroundResource(R.drawable.ic_send_enable);
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//            }
+//        });
         imageButtonImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -210,7 +239,7 @@ public class ConversationDetailActivity extends AppCompatActivity {
                         dataMessage.add(mes);
                     }
                 }
-                messageAdapter = new MessageAdapter(ConversationDetailActivity.this, dataMessage, "");
+                //messageAdapter = new MessageAdapter(ConversationDetailActivity.this, dataMessage, "");
                 messageAdapter.notifyDataSetChanged();
                 rcy_ListMessage.setAdapter(messageAdapter);
 
