@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tdc.edu.vn.heathcareapp.Model.NewAndNutrition;
 import com.tdc.edu.vn.heathcareapp.Model.NutritionTower;
 import com.tdc.edu.vn.heathcareapp.NutritionActivity;
 import com.tdc.edu.vn.heathcareapp.R;
@@ -17,19 +18,14 @@ import com.tdc.edu.vn.heathcareapp.R;
 import java.util.ArrayList;
 
 public class NutritionTowerAdapter extends RecyclerView.Adapter<NutritionTowerAdapter.NutritionTowerViewHolder> {
-    private ArrayList<NutritionTower> mNutritionTower;
+    private ArrayList<NewAndNutrition> mNutritionTower;
     Context context;
 
-    public NutritionTowerAdapter(NutritionActivity nutritionActivity, ArrayList<NutritionTower> arrayListData) {
+    public NutritionTowerAdapter(NutritionActivity nutritionActivity, ArrayList<NewAndNutrition> arrayListData) {
         this.context = context;
         this.mNutritionTower = arrayListData;
     }
 
-    public void setData(Context context, ArrayList<NutritionTower> data) {
-        this.context = context;
-        this.mNutritionTower = data;
-        notifyDataSetChanged();
-    }
 
     @NonNull
     @Override
@@ -41,11 +37,11 @@ public class NutritionTowerAdapter extends RecyclerView.Adapter<NutritionTowerAd
 
     @Override
     public void onBindViewHolder(@NonNull NutritionTowerViewHolder holder, int position) {
-        NutritionTower nutritionTower = mNutritionTower.get(position);
+        NewAndNutrition nutritionTower = mNutritionTower.get(position);
         if (nutritionTower == null){
             return;
         }
-        holder.tv_title_nutrition_tower.setText(nutritionTower.getTitle_nt());
+        holder.tv_title_nutrition_tower.setText(nutritionTower.getTitle());
         //holder.imageViewNT.setImageResource(nutritionTower.getId_nt());
     }
 

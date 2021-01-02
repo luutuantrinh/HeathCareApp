@@ -137,11 +137,11 @@ public class ConversationDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (txt_message.getText().length() > 0) {
                     try {
-
-                    }catch (Exception exception){
                         String message = txt_message.getText().toString().trim();
                         sendMessage(message);
                         keyBoardApp.closeKeyBoard(ConversationDetailActivity.this);
+                    }catch (Exception exception){
+
                     }
 
                 }

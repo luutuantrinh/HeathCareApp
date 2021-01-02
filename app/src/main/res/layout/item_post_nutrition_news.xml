@@ -3,8 +3,11 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
-    android:layout_margin="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
     app:cardElevation="20dp"
+    android:id="@+id/item_news_card"
     app:cardPreventCornerOverlap="true"
     android:layout_height="wrap_content">
 
@@ -15,10 +18,9 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/img_item_news"
-            android:layout_width="120dp"
+            android:layout_width="90dp"
             android:src="@drawable/loaddingimage"
-            android:layout_height="120dp">
-
+            android:layout_height="90dp">
         </ImageView>
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,20 +39,20 @@
             </TextView>
 
             <TextView
-                android:id="@+id/tv_category_item_news"
+                android:id="@+id/tv_category_item_post"
                 android:layout_width="match_parent"
-                android:text="#Khoi Nguyen"
-                android:textSize="15dp"
-                android:textStyle="italic"
+                android:text="#nutrtion"
                 android:layout_height="wrap_content">
 
             </TextView>
+
+
 
             <TextView
                 android:id="@+id/tv_content_item_news"
                 android:textStyle="italic"
                 android:layout_width="match_parent"
-                android:text="Rau bina, rau xanh. Để cải thiện thị lực, phải thường xuyên ăn rau bina cùng với các loại rau xanh khác..."
+                android:text="Rau bina, rau xanh. Để cải thiện thị lực, phải dược "
                 android:layout_height="wrap_content">
 
             </TextView>
