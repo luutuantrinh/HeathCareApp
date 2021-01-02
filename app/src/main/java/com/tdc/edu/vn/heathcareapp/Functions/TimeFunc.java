@@ -55,4 +55,11 @@ public class TimeFunc {
         }
     }
 
+    public static String getTimestampToString(long time) {
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        calendar.setTimeInMillis(time);
+        String dateTimeMes = DateFormat.format("dd/MM/yyyy", calendar).toString();
+        return dateTimeMes;
+    }
+
 }

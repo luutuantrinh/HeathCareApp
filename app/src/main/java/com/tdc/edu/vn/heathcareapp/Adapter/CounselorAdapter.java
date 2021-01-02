@@ -29,6 +29,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import com.tdc.edu.vn.heathcareapp.Model.Counselor;
+import com.tdc.edu.vn.heathcareapp.Model.Feedback;
 import com.tdc.edu.vn.heathcareapp.Model.User;
 import com.tdc.edu.vn.heathcareapp.R;
 import com.tdc.edu.vn.heathcareapp.UserProfileActivity;
@@ -42,6 +43,7 @@ public class CounselorAdapter extends RecyclerView.Adapter<CounselorAdapter.Coun
     FirebaseUser firebaseUser;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference UsersRef = database.getReference("Users");
+    DatabaseReference feedbackRef = database.getReference("Feedback");
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     ArrayList<User> dataUsers = new ArrayList<>();
@@ -126,6 +128,26 @@ public class CounselorAdapter extends RecyclerView.Adapter<CounselorAdapter.Coun
         });
         holder.tv_position.setText(counselor.getPosition_counselor());
         holder.ratingBar.setRating(counselor.getTotal_ratting());
+        feedbackRef.addValueEventListener(new ValueEventListener() {
+            float totalRatting = 0;
+            int numRatting = 0;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()){
+                    Feedback feedback  =ds.getValue(Feedback.class);
+                    if (feedback.getCounselor_id().equals(counselor.getId_counselor())){
+                        totalRatting += feedback.getRatting();
+                        numRatting += 1;
+                    }
+                }
+                holder.ratingBar.setRating(totalRatting/numRatting);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override

@@ -1814,6 +1814,7 @@ You can set personal records for these workouts and try to beat your best time f
     <string name="pref_key_faq_tour">faqTour</string>
     <string name="pref_key_fb">FB</string>
     <string name="pref_key_feedback">feedback</string>
+    <string name="feedback">Feedback</string>
     <string name="pref_key_follow_gplus">followGplus</string>
     <string name="pref_key_follow_twitter">followTwitter</string>
     <string name="pref_key_general_settings">generalSettings</string>
@@ -2967,5 +2968,6 @@ Remember, your cardio goal:"</string>
     <string name="year">year</string>
     <string name="shared">Shared</string>
     <string name="comments">Comments</string>
+
 
 </resources>
