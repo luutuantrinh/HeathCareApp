@@ -57,7 +57,7 @@ public class NutritionActivity extends AppCompatActivity {
         showDataNews();
         showDataNutrition();
         try {
-            nutritionTowerAdapter = new NutritionTowerAdapter( NutritionActivity.this, dataNutrition);
+            nutritionTowerAdapter = new NutritionTowerAdapter(NutritionActivity.this, dataNutrition);
             recyclerViewNutrition.setAdapter(nutritionTowerAdapter);
             recyclerViewNutrition.setLayoutManager(new LinearLayoutManager(NutritionActivity.this, RecyclerView.HORIZONTAL, false));
 
@@ -131,7 +131,7 @@ public class NutritionActivity extends AppCompatActivity {
                     NewAndNutrition newAndNutrition = ds.toObject(NewAndNutrition.class);
                     dataNutrition.add(newAndNutrition);
                 }
-                nutritionTowerAdapter = new NutritionTowerAdapter( NutritionActivity.this, dataNutrition);
+                nutritionTowerAdapter = new NutritionTowerAdapter(NutritionActivity.this, dataNutrition);
                 recyclerViewNutrition.setAdapter(nutritionTowerAdapter);
                 recyclerViewNutrition.setLayoutManager(new LinearLayoutManager(NutritionActivity.this, RecyclerView.HORIZONTAL, false));
             }

@@ -62,7 +62,9 @@
         <activity android:name=".ViewProfileCounselorActivity"></activity>
         <activity android:name=".ChatUserToUserActivity" />
         <activity android:name=".RequestFriendActivity" />
-        <activity android:name=".FollowActivity" />
+        <activity android:name=".FollowActivity">
+
+        </activity>
         <activity android:name=".ActivityProfile" />
         <activity android:name=".LoginFacebook" />
         <activity android:name=".LoginSupportActivity" />
