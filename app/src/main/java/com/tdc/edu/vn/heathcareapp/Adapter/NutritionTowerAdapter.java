@@ -1,6 +1,8 @@
 package com.tdc.edu.vn.heathcareapp.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.tdc.edu.vn.heathcareapp.Model.NewAndNutrition;
 import com.tdc.edu.vn.heathcareapp.Model.NutritionTower;
 import com.tdc.edu.vn.heathcareapp.NutritionActivity;
@@ -20,6 +26,8 @@ import java.util.ArrayList;
 public class NutritionTowerAdapter extends RecyclerView.Adapter<NutritionTowerAdapter.NutritionTowerViewHolder> {
     private ArrayList<NewAndNutrition> mNutritionTower;
     Context context;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
 
     public NutritionTowerAdapter(NutritionActivity nutritionActivity, ArrayList<NewAndNutrition> arrayListData) {
         this.context = context;
@@ -43,6 +51,26 @@ public class NutritionTowerAdapter extends RecyclerView.Adapter<NutritionTowerAd
         }
         holder.tv_title_nutrition_tower.setText(nutritionTower.getTitle());
         //holder.imageViewNT.setImageResource(nutritionTower.getId_nt());
+        String strImg = nutritionTower.getImage_id();
+        try {
+            StorageReference islandRef = storageRef.child("images/news/" + strImg);
+            final long ONE_MEGABYTE = 1024 * 1024;
+            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    holder.imageViewNT.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+
+        } catch (Exception ex) {
+
+        }
     }
 
     @Override

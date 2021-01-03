@@ -66,6 +66,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
         userRef.orderByChild(user_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataUser.clear();
                 for (DataSnapshot ds : snapshot.getChildren()){
                     User user = ds.getValue(User.class);
                     if (user.getUser_id().equals(user_id)){

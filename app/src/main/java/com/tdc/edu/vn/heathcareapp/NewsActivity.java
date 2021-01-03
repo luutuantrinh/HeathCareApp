@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.facebook.internal.CollectionMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,6 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.tdc.edu.vn.heathcareapp.Adapter.NewsAdapter;
@@ -93,15 +95,20 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     private void showDataNews() {
-        postsNewAndNutritionRef.whereEqualTo("category", "news").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//        Query query = postsNewAndNutritionRef.whereEqualTo("category", "news").orderBy("timestamp");
+        postsNewAndNutritionRef.orderBy("timestamp", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 dataNews.clear();
                 for (DocumentSnapshot ds : task.getResult()) {
                     NewAndNutrition newAndNutrition = ds.toObject(NewAndNutrition.class);
-                    dataNews.add(newAndNutrition);
+                    if (newAndNutrition.getCategory().equals("news")){
+                        dataNews.add(newAndNutrition);
+                    }
+
 
                 }
+
                 newsAdapter = new NewsAdapter(dataNews, NewsActivity.this);
                 recyclerViewNews.setAdapter(newsAdapter);
             }

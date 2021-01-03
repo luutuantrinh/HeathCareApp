@@ -54,13 +54,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         if (news == null) {
             return;
         }
+        strImg = news.getImage_id();
         try {
             StorageReference islandRef = storageRef.child("images/news/" + strImg);
             final long ONE_MEGABYTE = 1024 * 1024;
             islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
-                    // Data for "images/island.jpg" is returns, use this as needed
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     holder.imageViewNews.setImageBitmap(bitmap);
                 }

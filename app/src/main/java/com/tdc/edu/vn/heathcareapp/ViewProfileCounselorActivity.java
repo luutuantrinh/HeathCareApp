@@ -199,6 +199,7 @@ public class ViewProfileCounselorActivity extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataFeedback2.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Feedback feedback = ds.getValue(Feedback.class);
                     if (feedback.getCounselor_id().equals(id_counselor)) {

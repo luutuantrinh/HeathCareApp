@@ -19,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.tdc.edu.vn.heathcareapp.Adapter.NewsAdapter;
 import com.tdc.edu.vn.heathcareapp.Adapter.NutritionTowerAdapter;
@@ -123,13 +124,16 @@ public class NutritionActivity extends AppCompatActivity {
     }
 
     private void showDataNutrition() {
-        postsNewAndNutritionRef.whereEqualTo("category", "nutrition").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        postsNewAndNutritionRef.orderBy("timestamp", Query.Direction.DESCENDING).limit(3).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 dataNutrition.clear();
                 for (DocumentSnapshot ds : task.getResult()) {
                     NewAndNutrition newAndNutrition = ds.toObject(NewAndNutrition.class);
-                    dataNutrition.add(newAndNutrition);
+                    if (newAndNutrition.getCategory().equals("nutrition")) {
+                        dataNutrition.add(newAndNutrition);
+                    }
+
                 }
                 nutritionTowerAdapter = new NutritionTowerAdapter(NutritionActivity.this, dataNutrition);
                 recyclerViewNutrition.setAdapter(nutritionTowerAdapter);
@@ -139,13 +143,16 @@ public class NutritionActivity extends AppCompatActivity {
     }
 
     private void showDataNews() {
-        postsNewAndNutritionRef.whereEqualTo("category", "news").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        postsNewAndNutritionRef.orderBy("timestamp", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 dataNews.clear();
                 for (DocumentSnapshot ds : task.getResult()) {
                     NewAndNutrition newAndNutrition = ds.toObject(NewAndNutrition.class);
-                    dataNews.add(newAndNutrition);
+                    if (newAndNutrition.getCategory().equals("news")) {
+                        dataNews.add(newAndNutrition);
+                    }
+
 
                 }
                 newsAdapter = new NewsAdapter(dataNews, NutritionActivity.this);
