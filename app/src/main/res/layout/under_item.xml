@@ -7,23 +7,7 @@
     android:padding="5dp">
 <include layout="@layout/top_nav_bar_back_underitem"></include>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Great fat......"
-            android:layout_marginBottom="10dp">
-        </TextView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5-9 minute">
-        </TextView>
-    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

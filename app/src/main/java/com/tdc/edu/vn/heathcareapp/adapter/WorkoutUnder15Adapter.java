@@ -43,8 +43,8 @@ public class WorkoutUnder15Adapter extends RecyclerView.Adapter<WorkoutUnder15Ad
         WorkoutUnder15 workoutUnder15 = listunder.get(position);
         holder.txtTitle.setText(workoutUnder15.getsTitle());
         holder.Description.setText(workoutUnder15.getsDes());
-        String url = workoutUnder15.getUrl().toString();
-        Uri uri = Uri.parse(url);
+    String url = workoutUnder15.getUrl().toString();
+    Uri uri = Uri.parse(url);
         Picasso.get().load(uri).into(holder.img);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +72,7 @@ public class WorkoutUnder15Adapter extends RecyclerView.Adapter<WorkoutUnder15Ad
         public WorkoutGuidedViewHolder(@NonNull View itemView) {
 
             super(itemView);
-            img  = itemView.findViewById(R.id.imgunder);
+            img = itemView.findViewById(R.id.imgunder);
             txtTitle  = itemView.findViewById(R.id.txtunder);
             Description  = itemView.findViewById(R.id.txtdesunder);
 

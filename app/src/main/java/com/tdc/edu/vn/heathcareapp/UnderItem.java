@@ -32,7 +32,7 @@ public class UnderItem extends AppCompatActivity {
     UnderItemAdapter underItemAdapter;
     private StorageReference mStorageRef;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef  = database.getReference("Workout/Under/Image");
+    DatabaseReference myRef  = database.getReference("Workout/Under/Image/1/Boxhit/Image");
     ArrayList<AllExercises> listexercises = new ArrayList<>();
     ImageButton nav_back_underitem;
     @Override

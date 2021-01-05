@@ -46,7 +46,7 @@ public class WorkoutMain extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Workout/Trending/ImageTrending");
     DatabaseReference myRef1 = database.getReference("Workout/Guided/Image");
-    DatabaseReference myRef2 = database.getReference("Workout/Guided/Image");
+    DatabaseReference myRef2 = database.getReference("Workout/Under/Image");
 
     ArrayList<WorkoutGuided> listguided = new ArrayList<>();
     ArrayList<WorkoutTrending> listtrending = new ArrayList<>();
