@@ -62,9 +62,7 @@ public class ActivityProfile extends AppCompatActivity {
     private static final int STORAGE_REQUEST_CODE = 200;
     private static final int IMAGE_PICK_CAMERA_REQUEST_CODE = 300;
     private static final int IMAGE_PICK_GARLLERY_REQUEST_CODE = 400;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
     FirebaseUser user;
     BottomNavigationView bottomNavigationView;
     FirebaseAuth auth;
@@ -137,7 +135,7 @@ public class ActivityProfile extends AppCompatActivity {
                     String email = "" + ds.child("email").getValue();
                     String age = "" + ds.child("age").getValue();
                     String location = "" + ds.child("location").getValue();
-                    String image = "" + ds.child("image").getValue();
+                    String image_id = "" + ds.child("image_id").getValue();
                     String cover = "" + ds.child("cover").getValue();
                     String gender = "" + ds.child("gender").getValue();
 
@@ -147,7 +145,7 @@ public class ActivityProfile extends AppCompatActivity {
                     locationTV.setText(location);
 
                     try {
-                        Picasso.get().load(image).into(avatar);
+                        Picasso.get().load(image_id).into(avatar);
                     }
                     catch (Exception e){
                         Picasso.get().load(R.drawable.ic_cover).into(avatar);
@@ -325,7 +323,7 @@ public class ActivityProfile extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if(which == 0){
                     pd.setMessage("Edit Profile Picture");
-                    profileCoverPhoto = "image";
+                    profileCoverPhoto = "image_id";
                     showImagePicDialog();
                 }
                 else if(which == 1){
@@ -334,15 +332,11 @@ public class ActivityProfile extends AppCompatActivity {
                     showImagePicDialog();
                 }
                 else if(which == 2){
-//                    pd.setMessage("Edit First Name");
-//                    showInfomation("first_name");
                     Intent intent = new Intent(ActivityProfile.this, EditProfile.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
                 }
                 else if(which == 3){
-//                    pd.setMessage("Sign Out");
-//                    showInfomation("last_name");
                     try{
                         auth.signOut();
                         Intent intent = new Intent(ActivityProfile.this,LoginActivity.class);
@@ -359,54 +353,54 @@ public class ActivityProfile extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void showInfomation(String key) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfile.this);
-        builder.setTitle("Update " + key);
-        LinearLayout linearLayout = new LinearLayout(ActivityProfile.this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setPadding(10,10,10,10);
-        EditText editText = new EditText(ActivityProfile.this);
-        editText.setHint("Enter " + key);
-        linearLayout.addView(editText);
-
-        builder.setView(linearLayout);
-        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String value = editText.getText().toString().trim();
-                if(!TextUtils.isEmpty(value)){
-                    pd.show();
-                    HashMap<String ,Object> result = new HashMap<>();
-                    result.put(key, value);
-                    databaseReference.child(user.getUid()).updateChildren(result)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    pd.dismiss();
-                                    Toast.makeText(ActivityProfile.this,"Update...",Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    pd.dismiss();
-                                    Toast.makeText(ActivityProfile.this,"" + e.getMessage(),Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                }
-                else {
-                    Toast.makeText(ActivityProfile.this,"Please enter "+key,Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-    }
+//    private void showInfomation(String key) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfile.this);
+//        builder.setTitle("Update " + key);
+//        LinearLayout linearLayout = new LinearLayout(ActivityProfile.this);
+//        linearLayout.setOrientation(LinearLayout.VERTICAL);
+//        linearLayout.setPadding(10,10,10,10);
+//        EditText editText = new EditText(ActivityProfile.this);
+//        editText.setHint("Enter " + key);
+//        linearLayout.addView(editText);
+//
+//        builder.setView(linearLayout);
+//        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                String value = editText.getText().toString().trim();
+//                if(!TextUtils.isEmpty(value)){
+//                    pd.show();
+//                    HashMap<String ,Object> result = new HashMap<>();
+//                    result.put(key, value);
+//                    databaseReference.child(user.getUid()).updateChildren(result)
+//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                @Override
+//                                public void onSuccess(Void aVoid) {
+//                                    pd.dismiss();
+//                                    Toast.makeText(ActivityProfile.this,"Update...",Toast.LENGTH_SHORT).show();
+//                                }
+//                            })
+//                            .addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception e) {
+//                                    pd.dismiss();
+//                                    Toast.makeText(ActivityProfile.this,"" + e.getMessage(),Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//                }
+//                else {
+//                    Toast.makeText(ActivityProfile.this,"Please enter "+key,Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//        builder.create().show();
+//    }
 
     private void showImagePicDialog() {
         String option[]={"camera","Garllery"};

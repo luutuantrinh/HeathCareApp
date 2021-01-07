@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10px">
     <include
         android:id="@+id/include_toolbar_user_profile"
         layout="@layout/toolbar_edit_profile"></include>
@@ -25,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_weight="1"
-                android:paddingTop="60dp">
+                android:paddingTop="50dp">
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -117,15 +118,18 @@
                 android:id="@+id/cpp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:ccp_showFullName="true"
+                app:ccp_showFullName="false"
                 app:ccp_showPhoneCode="false"
                 app:ccp_textGravity="LEFT">
 
             </com.hbb20.CountryCodePicker>
             <EditText
+                style="@style/text_Registration"
+                android:paddingRight="30dp"
                 android:id="@+id/location"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></EditText>
+                android:layout_height="wrap_content"
+                android:enabled="false"></EditText>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -177,7 +181,7 @@
                 android:id="@+id/btnJoin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_join"
+                android:text="UPDATE"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:background="@drawable/btn_join"></Button>

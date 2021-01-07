@@ -11,6 +11,8 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -68,7 +70,12 @@ import android.os.Bundle;
 
 public class EditProfile extends AppCompatActivity {
 
-    ImageButton imageButtonBackSpace, imageButtonMore;
+    private static final int CAMERA_REQUEST_CODE = 100;
+    private static final int STORAGE_REQUEST_CODE = 200;
+    private static final int IMAGE_PICK_CAMERA_REQUEST_CODE = 300;
+    private static final int IMAGE_PICK_GARLLERY_REQUEST_CODE = 400;
+
+    ImageButton imageButtonBackSpace;
     EditText firstName, lastName, age, email, location, width,height;
     ImageView Avatar;
     Button btnJoin;
@@ -82,7 +89,6 @@ public class EditProfile extends AppCompatActivity {
     StorageReference storageReference;
     String storagePath = "Users_Profile_Imgs/";
     ImageView coverIV;
-    FloatingActionButton actionButton;
     ProgressDialog pd;
     String cameraPermission[];
     String storagePermission[];
@@ -102,6 +108,9 @@ public class EditProfile extends AppCompatActivity {
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
+        cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        pd = new ProgressDialog(EditProfile.this);
 
         btnJoin = (Button) findViewById(R.id.btnJoin);
         Avatar = (ImageView) findViewById(R.id.img_avatar);
@@ -146,17 +155,39 @@ public class EditProfile extends AppCompatActivity {
                     String Email = "" + ds.child("email").getValue();
                     String Age = "" + ds.child("age").getValue();
                     String Location = "" + ds.child("location").getValue();
-                    String image = "" + ds.child("image").getValue();
+                    String image = "" + ds.child("image_id").getValue();
                     //String cover = "" + ds.child("cover").getValue();
                     String gender = "" + ds.child("gender").getValue();
+                    String ss = ""+"0";
 
+//                    String strImg = user.getUid();
+//                    try {
+//                        StorageReference islandRef = storageReference.child(storagePath + strImg);
+//                        final long ONE_MEGABYTE = 1024 * 1024;
+//                        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+//                            @Override
+//                            public void onSuccess(byte[] bytes) {
+//                                // Data for "images/island.jpg" is returns, use this as needed
+//                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                                Avatar.setImageBitmap(bitmap);
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception exception) {
+//                                // Handle any errors
+//                            }
+//                        });
+//
+//                    } catch (Exception ex) {
+//
+//                    }
 
                     lastName.setText(LastName);
                     firstName.setText(FirstName);
                     email.setText(Email);
                     age.setText(Age);
                     location.setText(Location);
-                    if(gender.trim() == "0"){
+                    if(ss.equals(gender) == true){
                         male.setChecked(true);
                     }
                     else {
@@ -197,7 +228,209 @@ public class EditProfile extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        Avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEditProfileDialog();
+            }
+        });
     }
+
+
+    private boolean checkStoragePermission(){
+        boolean result = ContextCompat.checkSelfPermission(EditProfile.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == (PackageManager.PERMISSION_GRANTED);
+        return result;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestStoragePermission(){
+        requestPermissions(storagePermission,STORAGE_REQUEST_CODE);
+
+    }
+
+    private boolean checkCameraPermission(){
+        boolean result = ContextCompat.checkSelfPermission(EditProfile.this,Manifest.permission.CAMERA)
+                == (PackageManager.PERMISSION_GRANTED);
+        boolean result2 = ContextCompat.checkSelfPermission(EditProfile.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == (PackageManager.PERMISSION_GRANTED);
+        return result && result2;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestCameraPermission(){
+        requestPermissions(cameraPermission,CAMERA_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode){
+            case CAMERA_REQUEST_CODE:{
+                if(grantResults.length>0){
+                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeStorageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    if (cameraAccepted && writeStorageAccepted){
+                        pickFromCamera();
+                    }
+                    else {
+                        Toast.makeText(EditProfile.this,"Please enable permission camera", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            break;
+            case STORAGE_REQUEST_CODE:{
+                if(grantResults.length>0){
+                    boolean writeStorageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    if ( writeStorageAccepted){
+                        pickFromGallery();
+                    }
+                    else {
+                        Toast.makeText(EditProfile.this,"Please enable permission storage", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            break;
+        }
+
+    }
+
+    private void pickFromGallery() {
+        Intent gallery = new Intent(Intent.ACTION_PICK);
+        gallery.setType("image/*");
+        startActivityForResult(gallery,IMAGE_PICK_GARLLERY_REQUEST_CODE);
+    }
+
+    private void pickFromCamera() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE,"Temp pic");
+        values.put(MediaStore.Images.Media.DESCRIPTION,"Temp Description");
+        imageUri = EditProfile.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+        startActivityForResult(cameraIntent,IMAGE_PICK_CAMERA_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        if(resultCode == RESULT_OK)
+        {
+            if (requestCode == IMAGE_PICK_CAMERA_REQUEST_CODE){
+                uploadProfileCoverPhoto(imageUri);
+            }
+            if (requestCode == IMAGE_PICK_GARLLERY_REQUEST_CODE){
+                imageUri = data.getData();
+                uploadProfileCoverPhoto(imageUri);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void uploadProfileCoverPhoto(Uri uri) {
+        pd.show();
+
+        String filePathAndName = storagePath +  "" + profileCoverPhoto + "_" +  user.getUid();
+        StorageReference reference = storageReference.child(filePathAndName);
+        reference.putFile(uri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                        while (!uriTask.isSuccessful());
+                        Uri downloadUri = uriTask.getResult();
+
+                        if(uriTask.isSuccessful()){
+                            HashMap<String, Object> results = new HashMap<>();
+
+                            results.put(profileCoverPhoto,downloadUri.toString());
+                            databaseReference.child(user.getUid()).updateChildren(results)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            pd.dismiss();
+                                            Toast.makeText(EditProfile.this,"Image Update...",Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            pd.dismiss();
+                                            Toast.makeText(EditProfile.this,"Errol Updating image...",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                        else {
+                            pd.dismiss();
+                            Toast.makeText(EditProfile.this,"Some errol occured",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(EditProfile.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void showEditProfileDialog() {
+        String option[]={"Edit Profile Picture", "Edit Cover Photo"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
+
+        builder.setTitle("Choose Action");
+
+        builder.setItems(option, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which == 0){
+                    pd.setMessage("Edit Profile Picture");
+                    profileCoverPhoto = "image_id";
+                    showImagePicDialog();
+                }
+                else if(which == 1){
+                    pd.setMessage("Edit Cover Photo");
+                    profileCoverPhoto = "cover";
+                    showImagePicDialog();
+                }
+            }
+        });
+        builder.create().show();
+    }
+
+    private void showImagePicDialog() {
+        String option[]={"camera","Garllery"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
+
+        builder.setTitle("Pick Image From");
+
+        builder.setItems(option, new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which == 0){
+                    if(!checkCameraPermission()){
+                        requestCameraPermission();
+                    }
+                    else {
+                        pickFromCamera();
+                    }
+                }
+                else if(which == 1){
+                    if (!checkStoragePermission()){
+                        requestStoragePermission();
+                    }
+                    else {
+                        pickFromGallery();
+                    }
+                }
+            }
+        });
+        builder.create().show();
+    }
+
     private void Update(){
         String FirstName = firstName.getText().toString().trim();
         String LastName = lastName.getText().toString().trim();
@@ -205,7 +438,7 @@ public class EditProfile extends AppCompatActivity {
         String Age = age.getText().toString().trim();
         if(!isEmpty(FirstName)) {
             //pd.show();
-            String phone ="";
+            String phone = "";
             String gender = "";
             if (male.isChecked()) {
                 gender = "0";
@@ -214,7 +447,6 @@ public class EditProfile extends AppCompatActivity {
             }
             HashMap<String,Object> result = new HashMap<>();
             //result.put("email", email);
-            result.put("image", "");
             result.put("last_name", LastName);
             result.put("first_name", FirstName);
             result.put("gender", gender);

@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,16 +45,19 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
 import com.tdc.edu.vn.heathcareapp.Model.User;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import static android.app.PendingIntent.getActivity;
+import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
 public class RegistrationActive extends AppCompatActivity {
     private static final String TAG = "RegistrationActive";
@@ -81,8 +86,14 @@ public class RegistrationActive extends AppCompatActivity {
     DatabaseReference databaseReference;
     FirebaseUser user;
     StorageReference storageReference;
+    private Uri imgUri;
+    String image = "";
+    String url_image = "";
+    Boolean checkImage = false;
+    private StorageTask uploadTask;
     String storagePath = "Users_Profile_Imgs/";
-    int Request_code_image = 123;
+    private StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+    private static final int Request_code_image = 123;
     private FirebaseAuth mAuth;
     String profileCoverPhoto;
     private static final String tt = "EmailPassword";
@@ -94,8 +105,10 @@ public class RegistrationActive extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        storageReference = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+        storageRef = FirebaseStorage.getInstance().getReference(storagePath);
         btnJoin = (Button) findViewById(R.id.btnJoin);
         edtLastName = (EditText) findViewById(R.id.edtLastName);
         edtFirstName = (EditText) findViewById(R.id.edtFirstName);
@@ -120,18 +133,19 @@ public class RegistrationActive extends AppCompatActivity {
             public void onClick(View v) {
                 DangKy();
                 //uploadProfileCoverPhoto(imageUri);
-                //SaveUser(v);
-                //CapNhat();
             }
         });
         imgAvartar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent,Request_code_image);
+//                intent = new Intent(Intent.ACTION_PICK);
+//                intent.setType("image/*");
+//                startActivityForResult(intent,Request_code_image);
                 //showImagePicDialog();
                 //uploadProfileCoverPhoto(imageUri);
+                chooseImage();
+                checkImage = true;
+                Toast.makeText(RegistrationActive.this, "Choose Image", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -142,7 +156,7 @@ public class RegistrationActive extends AppCompatActivity {
         //updateUI(currentUser);
     }
 
-    private void DangKy(){
+    private void DangKy() {
         String email = edtEmail.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -159,7 +173,17 @@ public class RegistrationActive extends AppCompatActivity {
                             String gender = "";
                             String location = ccp.getSelectedCountryName();
                             String age = edtAge.getText().toString().trim();
-                            String phone ="";
+                            if (checkImage == true){
+                                image = System.currentTimeMillis() + "." + getExtension(imgUri);
+                                if (uploadTask != null && uploadTask.isInProgress()) {
+                                    Toast.makeText(RegistrationActive.this, "In progress upload!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    uploadFile(image);
+                                }
+                            }else {
+                                image = "";
+                            }
+                            String phone = "";
                             if (radMale.isChecked()) {
                                 gender = "0";
                             } else {
@@ -167,7 +191,7 @@ public class RegistrationActive extends AppCompatActivity {
                             }
                             String email = user.getEmail();
                             String uid = user.getUid();
-                            User = new User(System.currentTimeMillis()+"",age,gender,uid,firstName,lastName,"",email,phone,location);
+                            User = new User(System.currentTimeMillis()+"",age,gender,uid,firstName,lastName,image,email,phone,location);
 //                            HashMap<Object,String> hashMap = new HashMap<>();
 //                            hashMap.put("email", email);
 //                            hashMap.put("name", firstName + " " + lastName);
@@ -256,47 +280,7 @@ public class RegistrationActive extends AppCompatActivity {
                     }
                 });
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == Request_code_image && resultCode == RESULT_OK && data != null){
-            Uri uri = data.getData();
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(uri);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                imgAvartar.setImageBitmap(bitmap);
-            }
-            catch (FileNotFoundException e){
-                e.printStackTrace();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
 
-    }
-
-    private void SaveUser(View view){
-        //DocumentReference docRef = db.collection("users").document("alovelace");
-        String firstName = edtFirstName.getText().toString();
-        String lastName = edtLastName.getText().toString();
-        String email = edtEmail.getText().toString();
-        Map<String, Object> note = new HashMap<>();
-        note.put(KEY_FIRSTNAME,firstName);
-        note.put(KEY_LASTNAME,lastName);
-        note.put(KEY_EMAIL,email);
-        db.collection("User").document("My User").set(note)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(RegistrationActive.this,"Note Save",Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegistrationActive.this,"Error!",Toast.LENGTH_SHORT).show();
-                        Log.d(TAG,e.toString());
-                    }
-                });
-    }
     private boolean checkStoragePermission(){
         boolean result = ContextCompat.checkSelfPermission(RegistrationActive.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == (PackageManager.PERMISSION_GRANTED);
@@ -401,5 +385,54 @@ public class RegistrationActive extends AppCompatActivity {
         });
         builder.create().show();
     }
+    private void uploadFile(String id_image) {
+        StorageReference ref = storageRef.child(id_image);
+        uploadTask = ref.putFile(imgUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        url_image = taskSnapshot.getUploadSessionUri().toString();
+                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        // ...
+                    }
+                });
+    }
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), Request_code_image);
 
+    }
+    private String getExtension(Uri uri) {
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Request_code_image && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            imgUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imgUri);
+                imgAvartar.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

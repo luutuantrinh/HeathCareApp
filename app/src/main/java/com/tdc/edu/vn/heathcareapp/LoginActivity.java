@@ -51,6 +51,11 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 100;
 
+    private static final String TEG = "FacebookLogin";
+
+    //private ActivityFacebookBinding mBinding;
+    private CallbackManager mCallbackManager;
+
     private FirebaseAuth mAuth;
     //private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;

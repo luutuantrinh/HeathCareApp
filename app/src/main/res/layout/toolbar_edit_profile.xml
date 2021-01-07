@@ -17,25 +17,14 @@
         <TextView
             android:id="@+id/title_toolbar_user_profile"
             style="@style/title_toolbar"
-            android:layout_toStartOf="@id/icon_more_user_profile"
-            android:layout_toLeftOf="@id/icon_more_user_profile"
+            android:layout_marginStart="140dp"
+            android:layout_marginLeft="140dp"
             android:layout_toEndOf="@id/icon_backspace_edit_profile"
             android:layout_toRightOf="@id/icon_backspace_edit_profile"
             android:text="Edit Profile">
 
         </TextView>
 
-        <ImageButton
-            android:id="@+id/icon_more_user_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-
-            android:layout_alignParentRight="true"
-            android:background="@color/white"
-            android:src="@drawable/ic_more">
-
-        </ImageButton>
     </RelativeLayout>
 
 </RelativeLayout>
