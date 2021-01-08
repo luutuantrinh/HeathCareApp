@@ -1,5 +1,6 @@
 package com.tdc.edu.vn.heathcareapp.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -71,6 +74,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                holder.cv_message_not_seen.setVisibility(View.GONE);
                 Intent intent = new Intent(context, ConversationDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("user_id", user_id);
@@ -127,13 +131,20 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             }
         });
         messageRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataMessage.clear();
+                int count_message_seen = 0;
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Message message = ds.getValue(Message.class);
                     if (message.getReceiver().equals(myUserId) && message.getSender().equals(user_id)
                             || message.getReceiver().equals(user_id) && message.getSender().equals(myUserId)) {
                         dataMessage.add(message);
+                    }
+
+                    if (message.getReceiver().equals(myUserId) && message.getSender().equals(user_id) && message.getSeen() == false) {
+                        count_message_seen += 1;
                     }
                 }
                 if (dataMessage != null) {
@@ -143,6 +154,20 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
                             holder.tv_description_message.setText("You: " + dataMessage.get(0).getMessage());
                         } else {
                             holder.tv_description_message.setText(dataMessage.get(0).getMessage());
+                            if (count_message_seen < 10 && count_message_seen > 0) {
+                                holder.cv_message_not_seen.setVisibility(View.VISIBLE);
+                                holder.tv_total_not_seen.setText(count_message_seen + "");
+                                holder.rll_item_chat.setBackgroundResource(R.color.color_background_activity);
+                            } else {
+                                if (count_message_seen > 0) {
+                                    holder.cv_message_not_seen.setVisibility(View.VISIBLE);
+                                    holder.tv_total_not_seen.setText("9+");
+                                    holder.rll_item_chat.setBackgroundResource(R.color.color_background_activity);
+                                } else {
+                                    holder.cv_message_not_seen.setVisibility(View.GONE);
+                                    holder.rll_item_chat.setBackgroundResource(R.color.white);
+                                }
+                            }
                         }
 
                     } catch (Exception exception) {
@@ -169,13 +194,18 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
     public class ChatListViewHolder extends RecyclerView.ViewHolder {
         ImageView imageViewAvatar;
-        TextView tv_userName, tv_description_message;
+        TextView tv_userName, tv_description_message, tv_total_not_seen;
+        CardView cv_message_not_seen;
+        RelativeLayout rll_item_chat;
 
         public ChatListViewHolder(@NonNull View itemView) {
             super(itemView);
+            tv_total_not_seen = itemView.findViewById(R.id.tv_total_message_not_seen_item_chat);
+            cv_message_not_seen = itemView.findViewById(R.id.cv_total_message_not_seen_item_chat);
             imageViewAvatar = itemView.findViewById(R.id.img_user_item_chat);
             tv_userName = itemView.findViewById(R.id.tv_username_item_chat);
             tv_description_message = itemView.findViewById(R.id.tv_description_item_chat);
+            rll_item_chat = itemView.findViewById(R.id.rll_item_chat);
         }
     }
 }

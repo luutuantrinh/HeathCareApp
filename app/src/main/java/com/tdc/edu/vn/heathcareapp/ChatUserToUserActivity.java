@@ -24,21 +24,17 @@ import com.tdc.edu.vn.heathcareapp.Adapter.ChatListAdapter;
 import com.tdc.edu.vn.heathcareapp.Model.ChatList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ChatUserToUserActivity extends AppCompatActivity {
     ImageButton imageButtonBackSpace, imageButtonCreateNewMessage;
-    EditText txt_search_message;
     RecyclerView recyclerViewChatList;
     ArrayList<ChatList> dataChatList = new ArrayList<>();
     ChatListAdapter chatListAdapter;
     // firebase
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference ref = database.getReference();
-    DatabaseReference userRef = database.getReference("Users");
     DatabaseReference chatListRef = database.getReference("ChatList");
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRef = storage.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +64,14 @@ public class ChatUserToUserActivity extends AppCompatActivity {
         imageButtonCreateNewMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(ChatUserToUserActivity.this, AddFriendActivity.class));
             }
         });
     }
 
     private void showListChat(String user_id) {
         DatabaseReference listU = chatListRef.child(user_id);
-        listU.addValueEventListener(new ValueEventListener() {
+        listU.orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dataChatList.clear();
@@ -83,6 +79,7 @@ public class ChatUserToUserActivity extends AppCompatActivity {
                     ChatList chatList = ds.getValue(ChatList.class);
                     dataChatList.add(chatList);
                 }
+                Collections.reverse(dataChatList);
                 if (dataChatList != null) {
                     try {
                         chatListAdapter = new ChatListAdapter(ChatUserToUserActivity.this, dataChatList);
@@ -104,7 +101,6 @@ public class ChatUserToUserActivity extends AppCompatActivity {
     private void setControl() {
         imageButtonBackSpace = findViewById(R.id.icon_backspace_chat_list_user_to_user);
         imageButtonCreateNewMessage = findViewById(R.id.icon_new_message_user_to_user);
-        txt_search_message = findViewById(R.id.txt_search_message);
         recyclerViewChatList = findViewById(R.id.rcy_chat_list_user_to_user);
     }
 }

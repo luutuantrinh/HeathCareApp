@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -25,27 +26,32 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tdc.edu.vn.heathcareapp.Adapter.PostAdapter;
 import com.tdc.edu.vn.heathcareapp.Model.Follow;
+import com.tdc.edu.vn.heathcareapp.Model.Message;
 import com.tdc.edu.vn.heathcareapp.Model.Notification;
 import com.tdc.edu.vn.heathcareapp.Model.Post;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class NewFeedActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     TextView titleToolBar, tv_badge_chat, tv_badge_addFriend, tv_badge_notification;
     ImageButton imageButtonCreateContent, imageButtonAddFriends, imageButtonNotification, imageButtonChat;
     ArrayList<Post> dataPosts = new ArrayList<>();
+    SwipeRefreshLayout swipeRefresh_new_feed;
     PostAdapter postAdapter;
     RecyclerView recyclerViewPost;
     CardView cv_badge_chat, cv_addFriend_chat, cv_badge_notification;
 
     int count_notification = 0;
+    int count_message_new = 0;
     // Firebase
     private FirebaseAuth mAuth;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference postsRef = database.getReference("Posts");
     DatabaseReference followRef = database.getReference("Follows");
+    DatabaseReference messageRef = database.getReference("Messages");
     DatabaseReference notificationRef = database.getReference("Notifications");
 
     @Override
@@ -70,9 +76,38 @@ public class NewFeedActivity extends AppCompatActivity {
         count_notification = 0;
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String user_id = currentUser.getUid();
+
+
+        messageRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                count_message_new = 0;
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Message message = ds.getValue(Message.class);
+                    if (message.getReceiver().equals(user_id) && message.getSeen() == false) {
+                        count_message_new += 1;
+                    }
+                }
+                if (count_message_new > 0) {
+                    String total = String.valueOf(count_message_new);
+                    tv_badge_chat.setText(total);
+                    cv_badge_chat.setVisibility(View.VISIBLE);
+                } else {
+                    tv_badge_chat.setText("0");
+                    cv_badge_chat.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         followRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                count_notification = 0;
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Follow follow = ds.getValue(Follow.class);
                     if (follow.getReceiver().equals(user_id) && follow.getSeen() == false) {
@@ -94,6 +129,7 @@ public class NewFeedActivity extends AppCompatActivity {
 
             }
         });
+
         notificationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -123,30 +159,22 @@ public class NewFeedActivity extends AppCompatActivity {
 
     private void setEvent() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        String myId = currentUser.getUid();
         try {
+            loadDataPost(myId);
             postAdapter = new PostAdapter(NewFeedActivity.this, dataPosts);
             recyclerViewPost.setAdapter(postAdapter);
             recyclerViewPost.setLayoutManager(new LinearLayoutManager(NewFeedActivity.this));
         } catch (Exception ex) {
 
         }
-        postsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getChildren() != null) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        Post post = ds.getValue(Post.class);
-                        dataPosts.add(post);
-                    }
-                    Collections.reverse(dataPosts);
-                    postAdapter = new PostAdapter(NewFeedActivity.this, dataPosts);
-                    recyclerViewPost.setAdapter(postAdapter);
-                }
-            }
 
+        swipeRefresh_new_feed.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onRefresh() {
+                loadDataPost(myId);
+                postAdapter.notifyDataSetChanged();
+                swipeRefresh_new_feed.setRefreshing(false);
             }
         });
 
@@ -221,6 +249,57 @@ public class NewFeedActivity extends AppCompatActivity {
         });
     }
 
+    private void loadDataPost(String myId) {
+        postsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataPosts.clear();
+                if (snapshot.getChildren() != null) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Post post = ds.getValue(Post.class);
+                        String ID_USER_POST = post.getUser_id();
+                        if (ID_USER_POST.equals(myId)) {
+                            dataPosts.add(post);
+                        }
+                        followRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                    Follow follow = ds.getValue(Follow.class);
+                                    if (follow.getSender().equals(myId) && follow.getRequest_status() == true && follow.getReceiver().equals(ID_USER_POST)) {
+                                        dataPosts.add(post);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
+
+                    }
+
+                    Collections.sort(dataPosts, new Comparator<Post>() {
+                        @Override
+                        public int compare(Post post, Post t1) {
+
+                            return t1.getDay_create().compareTo(post.getDay_create());
+                        }
+                    });
+//                    Collections.reverse(dataPosts);
+                    postAdapter = new PostAdapter(NewFeedActivity.this, dataPosts);
+                    recyclerViewPost.setAdapter(postAdapter);
+                    postAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     @SuppressLint("WrongViewCast")
     private void setControl() {
         bottomNavigationView = findViewById(R.id.BottomNavView);
@@ -236,6 +315,7 @@ public class NewFeedActivity extends AppCompatActivity {
         tv_badge_chat = findViewById(R.id.badge_chat_new_feed);
         tv_badge_notification = findViewById(R.id.badge_notification_new_feed);
         imageButtonChat = findViewById(R.id.icon_chat_newFeed);
+        swipeRefresh_new_feed = findViewById(R.id.swipeRefresh_new_feed);
     }
 
 }

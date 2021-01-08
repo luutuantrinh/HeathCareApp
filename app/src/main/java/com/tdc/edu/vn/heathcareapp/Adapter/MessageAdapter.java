@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -50,8 +51,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     DatabaseReference userRef = database.getReference("Users");
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
-
-
+    StorageReference ImageSendStorageRef = FirebaseStorage.getInstance().getReference("images/message");
     public MessageAdapter(Context context, ArrayList<Message> dataMessage, String imageURL) {
         this.context = context;
         this.dataMessage = dataMessage;
@@ -74,8 +74,37 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         String message = dataMessage.get(position).getMessage();
+        String imageMes = dataMessage.get(position).getImage();
         String timestamp = dataMessage.get(position).getTimestamp();
         holder.tv_message.setText(message);
+        if (!message.equals("")) {
+            holder.tv_message.setVisibility(View.VISIBLE);
+        }
+        if (!imageMes.equals("") && !imageMes.equals("1")) {
+            holder.imageViewMes.setVisibility(View.VISIBLE);
+            try {
+                StorageReference islandRef = ImageSendStorageRef.child(imageMes);
+                final long ONE_MEGABYTE = 1024 * 1024;
+                islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        // Data for "images/island.jpg" is returns, use this as needed
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        holder.imageViewMes.setImageBitmap(bitmap);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+
+            } catch (Exception ex) {
+
+            }
+
+        }
+
         holder.tv_timestamp.setText(TimeFunc.getTimeAgo(Long.parseLong(timestamp), context));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +115,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 } else {
                     holder.tv_timestamp.setVisibility(View.GONE);
                     visibleTimestamp = true;
+
                 }
 
             }
@@ -146,14 +176,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     public class MessageViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageViewUser;
-        TextView tv_message, tv_timestamp, tv_idSeen;
+        ImageView imageViewUser, imageViewMes;
+        TextView tv_message, tv_timestamp, tv_idSeen, tv_total_not_seen;
+        CardView cv_message_not_seen;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
             imageViewUser = itemView.findViewById(R.id.img_user_message);
             tv_message = itemView.findViewById(R.id.tv_message);
             tv_timestamp = itemView.findViewById(R.id.tv_timestamp_message);
+            imageViewMes = itemView.findViewById(R.id.image_message);
 
         }
     }

@@ -211,7 +211,6 @@ public class CreateContentActivity extends AppCompatActivity {
                 }
                 if (post_id.equals("")) {
                     String id_posts = System.currentTimeMillis() + user_id;
-
                     Post post = new Post(id_posts, user_id, id_image, content, System.currentTimeMillis() + "", 0);
                     postsRef.child(id_posts).setValue(post);
                     onBackPressed();
@@ -260,7 +259,7 @@ public class CreateContentActivity extends AppCompatActivity {
                                         // Handle any errors
                                     }
                                 });
-                                linearLayoutInfoUserName.setVisibility(View.VISIBLE);
+                                //linearLayoutInfoUserName.setVisibility(View.VISIBLE);
 
                             } catch (Exception ex) {
 

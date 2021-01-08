@@ -1,8 +1,11 @@
 package com.tdc.edu.vn.heathcareapp.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.tdc.edu.vn.heathcareapp.DetailNewsActivity;
+import com.tdc.edu.vn.heathcareapp.Model.Counselor;
 import com.tdc.edu.vn.heathcareapp.Model.NewAndNutrition;
 import com.tdc.edu.vn.heathcareapp.Model.NutritionTower;
 import com.tdc.edu.vn.heathcareapp.NutritionActivity;
@@ -29,7 +34,7 @@ public class NutritionTowerAdapter extends RecyclerView.Adapter<NutritionTowerAd
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
-    public NutritionTowerAdapter(NutritionActivity nutritionActivity, ArrayList<NewAndNutrition> arrayListData) {
+    public NutritionTowerAdapter(Context context, ArrayList<NewAndNutrition> arrayListData) {
         this.context = context;
         this.mNutritionTower = arrayListData;
     }
@@ -49,6 +54,16 @@ public class NutritionTowerAdapter extends RecyclerView.Adapter<NutritionTowerAd
         if (nutritionTower == null){
             return;
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailNewsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("url_news", nutritionTower.getUrl());
+                intent.putExtras(bundle);
+                ((Activity) context).startActivity(intent);
+            }
+        });
         holder.tv_title_nutrition_tower.setText(nutritionTower.getTitle());
         //holder.imageViewNT.setImageResource(nutritionTower.getId_nt());
         String strImg = nutritionTower.getImage_id();

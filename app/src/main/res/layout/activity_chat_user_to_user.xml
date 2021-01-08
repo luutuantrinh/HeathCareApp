@@ -10,21 +10,11 @@
         android:id="@+id/include_toolbar_user_to_user"
         layout="@layout/toolbar_chat_list_user_to_user"></include>
 
-    <EditText
-        android:id="@+id/txt_search_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/include_toolbar_user_to_user"
-        android:layout_margin="10dp"
-        android:background="@drawable/custom_btn_user_profile1"
-        android:hint="Enter name or email address"
-        android:padding="10dp"></EditText>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcy_chat_list_user_to_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txt_search_message">
+        android:layout_below="@id/include_toolbar_user_to_user">
 
     </androidx.recyclerview.widget.RecyclerView>
 </RelativeLayout>
