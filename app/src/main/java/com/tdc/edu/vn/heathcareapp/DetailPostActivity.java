@@ -148,7 +148,6 @@ public class DetailPostActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String ID_LIKE = id_post + user_id;
                 if (statusLike.equals("0")) {
-                    //String id_like, String id_post, String id_user, String timestamp
                     String timestamp = System.currentTimeMillis() + "";
                     Like like = new Like(ID_LIKE, id_post, user_id, timestamp);
                     likesRef.child(ID_LIKE).setValue(like);

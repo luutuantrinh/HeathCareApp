@@ -44,14 +44,14 @@
                     android:id="@+id/tv_user_item_post"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Khoi Nguyen"
+                    android:text=""
                     android:textColor="@color/black"></TextView>
 
                 <TextView
                     android:id="@+id/tv_created_At_item_post"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Shared a month ago"></TextView>
+                    android:text=""></TextView>
             </LinearLayout>
         </LinearLayout>
 
@@ -83,7 +83,7 @@
                 android:adjustViewBounds="true"
                 android:maxHeight="400dp"
                 android:src="@drawable/loaddingimage"
-                android:visibility="visible">
+                android:visibility="gone">
 
             </ImageView>
         </LinearLayout>

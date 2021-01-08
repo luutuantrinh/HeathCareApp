@@ -227,6 +227,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
         statusLike = "0";
+        holder.icon_like.setImageResource(R.drawable.ic_favorite_unlike);
         LikesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -257,20 +258,46 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             @Override
             public void onClick(View view) {
                 String ID_LIKE = post_id + user_id;
+                LikesRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        countLike = 0;
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            Like like = ds.getValue(Like.class);
+                            if (like.getId_post().equals(posts.getId_post())) {
+                                countLike += 1;
+                                if (like.getId_user().equals(user_id)) {
+                                    holder.icon_like.setImageResource(R.drawable.ic_favorite_like);
+                                    statusLike = "1";
+                                } else {
+                                    holder.icon_like.setImageResource(R.drawable.ic_favorite_unlike);
+                                    statusLike = "0";
+                                }
+                            }
+
+                        }
+                        holder.tv_total_like.setText(countLike + "");
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 if (statusLike.equals("0")) {
+                    statusLike = "1";
                     //String id_like, String id_post, String id_user, String timestamp
                     String timestamp = System.currentTimeMillis() + "";
                     Like like = new Like(ID_LIKE, post_id, user_id, timestamp);
                     LikesRef.child(ID_LIKE).setValue(like);
                     holder.icon_like.setImageResource(R.drawable.ic_favorite_like);
-
                     if (!user_id_of_post.equals(user_id)) {
                         Notification notification = new Notification(timestamp, user_id_of_post, user_id, " Liked your post!", post_id, "like", timestamp, false);
                         notificationRef.child(timestamp).setValue(notification);
                     }
                 } else {
-                    holder.icon_like.setImageResource(R.drawable.ic_favorite_unlike);
                     LikesRef.child(ID_LIKE).removeValue();
+                    holder.icon_like.setImageResource(R.drawable.ic_favorite_unlike);
                     statusLike = "0";
                 }
             }

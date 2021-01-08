@@ -103,13 +103,13 @@ public class ConversationDetailActivity extends AppCompatActivity {
         if (currentUser != null) {
             id_sender = currentUser.getUid();
         }
-//        rcy_ListMessage.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                rcy_ListMessage.scrollToPosition(messageAdapter.getItemCount());
-//            }
-//        });
+        try {
+            readMessage();
+            scrollToBottom(rcy_ListMessage);
+            Toast.makeText(this, dataMessage.size() + "", Toast.LENGTH_SHORT).show();
+        } catch (Exception ex) {
 
+        }
     }
 
     private void scrollToBottom(final RecyclerView recyclerView) {
@@ -142,13 +142,6 @@ public class ConversationDetailActivity extends AppCompatActivity {
         messageAdapter = new MessageAdapter(ConversationDetailActivity.this, dataMessage, "");
         rcy_ListMessage.setLayoutManager(linearLayoutManager);
 
-        try {
-            readMessage();
-            scrollToBottom(rcy_ListMessage);
-            Toast.makeText(this, dataMessage.size() + "", Toast.LENGTH_SHORT).show();
-        } catch (Exception ex) {
-
-        }
 
         imageButtonImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,7 +186,7 @@ public class ConversationDetailActivity extends AppCompatActivity {
     }
 
     private void setSeenMessage(String id_receiver, String id_sender) {
-        dbMessageRef.addValueEventListener(new ValueEventListener() {
+        dbMessageRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
@@ -270,10 +263,10 @@ public class ConversationDetailActivity extends AppCompatActivity {
                     String ID_Mess = ds.getKey();
                     if (mes.getReceiver().equals(id_receiver) && mes.getSender().equals(id_sender) || mes.getReceiver().equals(id_sender) && mes.getSender().equals(id_receiver)) {
                         dataMessage.add(mes);
-                        if (mes.getReceiver().equals(id_sender) && mes.getSender().equals(id_receiver)) {
-                            Message message = new Message(mes.getSender(), mes.getReceiver(), mes.getMessage(), mes.getImage(), mes.getTimestamp(), true);
-                            dbMessageRef.child(ID_Mess).setValue(message);
-                        }
+//                        if (mes.getReceiver().equals(id_sender) && mes.getSender().equals(id_receiver)) {
+//                            Message message = new Message(mes.getSender(), mes.getReceiver(), mes.getMessage(), mes.getImage(), mes.getTimestamp(), true);
+//                            dbMessageRef.child(ID_Mess).setValue(message);
+//                        }
                         // String sender, String receiver, String message, String image, String timestamp, Boolean isSeen
                     }
                 }

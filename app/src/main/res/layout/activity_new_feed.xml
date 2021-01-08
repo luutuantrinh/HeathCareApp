@@ -12,17 +12,17 @@
         layout="@layout/toolbar_newfeed"></include>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
         android:id="@+id/swipeRefresh_new_feed"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/include_toolbar_newFeed"
-        android:layout_marginTop="7dp">
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="60dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcy_post_newFeed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp">
+            android:layout_height="wrap_content">
 
         </androidx.recyclerview.widget.RecyclerView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

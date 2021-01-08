@@ -39,6 +39,7 @@ public class NewFeedActivity extends AppCompatActivity {
     TextView titleToolBar, tv_badge_chat, tv_badge_addFriend, tv_badge_notification;
     ImageButton imageButtonCreateContent, imageButtonAddFriends, imageButtonNotification, imageButtonChat;
     ArrayList<Post> dataPosts = new ArrayList<>();
+    ArrayList<String> dataFollower = new ArrayList<>();
     SwipeRefreshLayout swipeRefresh_new_feed;
     PostAdapter postAdapter;
     RecyclerView recyclerViewPost;
@@ -76,7 +77,6 @@ public class NewFeedActivity extends AppCompatActivity {
         count_notification = 0;
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String user_id = currentUser.getUid();
-
 
         messageRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -249,7 +249,30 @@ public class NewFeedActivity extends AppCompatActivity {
         });
     }
 
+    private ArrayList<String> getListFollower(String user_id) {
+        ArrayList<String> data = new ArrayList<>();
+        data.add(user_id);
+        followRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Follow follow = ds.getValue(Follow.class);
+                    if (follow.getSender().equals(user_id) && follow.getRequest_status() == true) {
+                        data.add(follow.getReceiver());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return data;
+    }
+
     private void loadDataPost(String myId) {
+        dataFollower = getListFollower(myId);
         postsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -258,35 +281,11 @@ public class NewFeedActivity extends AppCompatActivity {
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         Post post = ds.getValue(Post.class);
                         String ID_USER_POST = post.getUser_id();
-                        if (ID_USER_POST.equals(myId)) {
+                        if (dataFollower.contains(ID_USER_POST)) {
                             dataPosts.add(post);
                         }
-                        followRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot ds : snapshot.getChildren()) {
-                                    Follow follow = ds.getValue(Follow.class);
-                                    if (follow.getSender().equals(myId) && follow.getRequest_status() == true && follow.getReceiver().equals(ID_USER_POST)) {
-                                        dataPosts.add(post);
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
-
                     }
-
-                    Collections.sort(dataPosts, new Comparator<Post>() {
-                        @Override
-                        public int compare(Post post, Post t1) {
-
-                            return t1.getDay_create().compareTo(post.getDay_create());
-                        }
-                    });
-//                    Collections.reverse(dataPosts);
+                    Collections.reverse(dataPosts);
                     postAdapter = new PostAdapter(NewFeedActivity.this, dataPosts);
                     recyclerViewPost.setAdapter(postAdapter);
                     postAdapter.notifyDataSetChanged();
