@@ -431,6 +431,9 @@
     <color name="dialog_title_color">#5DBCD2</color>
 
 
+   //Phuong
+    <color name="feedbacka">#FF0000</color>
+    <color name="colorapp">#008080</color>
 
 
 </resources>

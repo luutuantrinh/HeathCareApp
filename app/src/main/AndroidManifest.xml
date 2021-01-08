@@ -51,6 +51,7 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -63,6 +64,39 @@
 
 
         </activity>
+
+        //Phuong
+        <activity android:name=".VideoMain">
+
+        </activity>
+        <activity android:name=".GuidedItem">
+        </activity>
+
+        <activity android:name=".ProgressMain">
+
+        </activity>
+
+
+        <activity android:name=".AllWorkoutMain">
+
+        </activity>
+        <activity android:name=".UnderItem">
+
+        </activity>
+        <activity android:name=".AllExercisesMain">
+
+        </activity>
+
+        <activity android:name=".DetailMorningMain">
+
+        </activity>
+
+        <activity android:name=".TrendingItem">
+
+        </activity>
+        <activity
+            android:name=".intro.MainIntroActivity"
+            android:theme="@style/Theme.Intro"/>
         <activity android:name=".ActivityProfile" />
         <activity android:name=".LoginFacebook" />
         <activity android:name=".LoginSupportActivity" />
