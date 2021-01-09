@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -338,7 +339,9 @@ public class ActivityProfile extends AppCompatActivity {
                 }
                 else if(which == 3){
                     try{
+                        //auth.signOut();
                         auth.signOut();
+                        LoginManager.getInstance().logOut();
                         Intent intent = new Intent(ActivityProfile.this,LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);

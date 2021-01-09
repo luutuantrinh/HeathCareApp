@@ -877,6 +877,7 @@ Please try again in a moment."</string>
     <string name="flavor_emarsys_app_code">EMS2C-231F4</string>
     <string name="flavor_facebook_app_event_logging_id">1479361172378014</string>
     <string name="flavor_facebook_app_id">162918433202</string>
+
     <string name="flavor_facebook_app_id_staging">162918433202</string>
     <string name="flavor_gcm_project_id" />
     <string name="flavor_global_app_id">2802</string>
