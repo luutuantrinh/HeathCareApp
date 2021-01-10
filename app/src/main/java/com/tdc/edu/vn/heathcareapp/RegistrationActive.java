@@ -192,15 +192,6 @@ public class RegistrationActive extends AppCompatActivity {
                             String email = user.getEmail();
                             String uid = user.getUid();
                             User = new User(System.currentTimeMillis()+"",age,gender,uid,firstName,lastName,image,email,phone,location);
-//                            HashMap<Object,String> hashMap = new HashMap<>();
-//                            hashMap.put("email", email);
-//                            hashMap.put("name", firstName + " " + lastName);
-//                            hashMap.put("image", "");
-//                            hashMap.put("cover", "");
-//                            hashMap.put("uid", uid);
-//                            hashMap.put("gender", gender);
-//                            hashMap.put("location", location);
-//                            hashMap.put("age", age);
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference reference = database.getReference("Users");
                             reference.child(uid).setValue(User);
