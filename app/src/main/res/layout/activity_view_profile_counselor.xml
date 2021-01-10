@@ -138,6 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="7dp"
+                android:visibility="gone"
                 android:id="@+id/lnl_feedback"
                 android:background="#D8D8D8"
                 android:orientation="horizontal">

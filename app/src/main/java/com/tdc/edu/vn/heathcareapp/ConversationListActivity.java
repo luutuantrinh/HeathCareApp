@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +34,7 @@ import java.util.ArrayList;
 
 public class ConversationListActivity extends AppCompatActivity {
     ImageButton imageButtonBackSpace, imageButtonMoreOption;
+    BottomNavigationView bottomNavigationView;
     RecyclerView recyclerViewListChat;
     Spinner spinnerCategory;
     EditText txt_search;
@@ -116,7 +120,30 @@ public class ConversationListActivity extends AppCompatActivity {
 
             }
         });
+        bottomNavigationView.setSelectedItemId(R.id.Nutrition);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.NewFeed:
+                        Intent intent = new Intent(getApplicationContext(), NewFeedActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(0, 0);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        return true;
+                    case R.id.Nutrition:
+                        return true;
+                    case R.id.Profile:
+                        Intent inten = new Intent(getApplicationContext(), ActivityProfile.class);
+                        startActivity(inten);
+                        overridePendingTransition(0, 0);
+                        inten.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        return true;
 
+                }
+                return true;
+            }
+        });
     }
 
     private void searchUser(String key) {
@@ -226,5 +253,6 @@ public class ConversationListActivity extends AppCompatActivity {
         recyclerViewListChat = findViewById(R.id.rcy_chat_list);
         spinnerCategory = findViewById(R.id.sp_consultants);
         txt_search = findViewById(R.id.txt_search_counselor);
+        bottomNavigationView = findViewById(R.id.BottomNavView);
     }
 }

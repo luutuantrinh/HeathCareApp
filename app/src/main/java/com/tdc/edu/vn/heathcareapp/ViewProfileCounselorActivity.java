@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.tdc.edu.vn.heathcareapp.Adapter.FeedbackAdapter;
+import com.tdc.edu.vn.heathcareapp.Model.ChatList;
 import com.tdc.edu.vn.heathcareapp.Model.Counselor;
 import com.tdc.edu.vn.heathcareapp.Model.Feedback;
 import com.tdc.edu.vn.heathcareapp.Model.User;
@@ -51,6 +52,8 @@ public class ViewProfileCounselorActivity extends AppCompatActivity {
     LinearLayout lnl_info_counselor, lnl_feedback;
 
     // variable
+    Boolean check1 = false;
+    Boolean check2 = false;
     ArrayList<Counselor> dataCounselor = new ArrayList<>();
     ArrayList<User> dataUser = new ArrayList<>();
     ArrayList<Feedback> dataFeedback = new ArrayList<>();
@@ -67,6 +70,7 @@ public class ViewProfileCounselorActivity extends AppCompatActivity {
     DatabaseReference userRef = database.getReference("Users");
     DatabaseReference counselorRef = database.getReference("Counselors");
     DatabaseReference feedbackRef = database.getReference("Feedback");
+    DatabaseReference chatListRef = database.getReference("ChatList");
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
@@ -88,6 +92,7 @@ public class ViewProfileCounselorActivity extends AppCompatActivity {
         ID_counselor = getIntent().getExtras().getString("ID_COUNSELOR");
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String myId = currentUser.getUid();
+        checkIsCantFeedback(ID_counselor, myId);
         averageRating(ID_counselor);
         if (!ID_counselor.equals("")) {
             counselorRef.addValueEventListener(new ValueEventListener() {
@@ -189,6 +194,29 @@ public class ViewProfileCounselorActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void checkIsCantFeedback(String id_counselor, String myId) {
+
+        chatListRef.child(id_counselor).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds: snapshot.getChildren()){
+                    ChatList chatList = ds.getValue(ChatList.class);
+                    if (chatList.getId().equals(myId)){
+                       lnl_feedback.setVisibility(View.VISIBLE);
+                    }else {
+                        lnl_feedback.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 

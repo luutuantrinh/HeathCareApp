@@ -31,7 +31,6 @@ import java.util.ArrayList;
 
 public class AddFriendActivity extends AppCompatActivity {
     ImageButton imageButtonBackSpace;
-    TextView titleToolbar;
     RecyclerView recyclerView;
     EditText txt_key;
 
@@ -128,7 +127,6 @@ public class AddFriendActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void setControl() {

@@ -62,6 +62,7 @@ public class CreateContentActivity extends AppCompatActivity {
     private final int PICK_IMAGE_REQUEST = 71;
     String id_image = "";
     String url_image = "";
+    Boolean isImageHas = false;
     Boolean checkImage = false;
     ArrayList<User> dataUser = new ArrayList<>();
     String post_id = "";
@@ -115,6 +116,7 @@ public class CreateContentActivity extends AppCompatActivity {
                             txt_content.setText(dataPost.get(0).getContent_post());
                             if (!dataPost.get(0).getImage_id().equals("")) {
                                 checkImage = true;
+                                isImageHas = true;
                                 String img_id = dataPost.get(0).getImage_id().toString();
                                 linearLayoutImageView.setVisibility(View.VISIBLE);
                                 try {
@@ -186,7 +188,7 @@ public class CreateContentActivity extends AppCompatActivity {
                 String user_id = currentUser.getUid().toString();
                 String content = txt_content.getText().toString();
                 if (checkImage == true) {
-                    if (post_id.equals("")) {
+                    if (post_id.equals("") || isImageHas == false) {
                         id_image = System.currentTimeMillis() + "." + getExtension(imgUri);
                     } else {
                         try {
@@ -209,6 +211,10 @@ public class CreateContentActivity extends AppCompatActivity {
                 } else {
                     id_image = "";
                 }
+
+
+
+
                 if (post_id.equals("")) {
                     String id_posts = System.currentTimeMillis() + user_id;
                     Post post = new Post(id_posts, user_id, id_image, content, System.currentTimeMillis() + "", 0);

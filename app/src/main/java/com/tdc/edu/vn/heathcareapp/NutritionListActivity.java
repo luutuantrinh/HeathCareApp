@@ -68,7 +68,7 @@ public class NutritionListActivity extends AppCompatActivity {
                 //Fragment fragment = null;
                 switch (item.getItemId()) {
                     case R.id.NewFeed:
-                        Intent intent = new Intent(getApplicationContext(), NutritionActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), NewsActivity.class);
                         startActivity(intent);
                         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         overridePendingTransition(0, 0);

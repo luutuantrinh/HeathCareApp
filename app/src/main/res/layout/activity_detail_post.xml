@@ -131,13 +131,20 @@
                 </TextView>
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcy_cmt_detail_post"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp">
+                android:orientation="vertical">
 
-            </androidx.recyclerview.widget.RecyclerView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcy_cmt_detail_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp">
+
+                </androidx.recyclerview.widget.RecyclerView>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
@@ -151,30 +158,30 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-<!--        <ImageButton-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@color/white"-->
-<!--            android:src="@drawable/ic_favorite">-->
+        <!--        <ImageButton-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:background="@color/white"-->
+        <!--            android:src="@drawable/ic_favorite">-->
 
-<!--        </ImageButton>-->
+        <!--        </ImageButton>-->
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_total_like_item_post"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="10dp"-->
-<!--            android:text="0">-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_total_like_item_post"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:padding="10dp"-->
+        <!--            android:text="0">-->
 
-<!--        </TextView>-->
+        <!--        </TextView>-->
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:paddingRight="10dp"-->
-<!--            android:text="|">-->
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:paddingRight="10dp"-->
+        <!--            android:text="|">-->
 
-<!--        </TextView>-->
+        <!--        </TextView>-->
 
         <EditText
             android:id="@+id/txt_content_comment_detail_post"

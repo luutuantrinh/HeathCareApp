@@ -3,6 +3,8 @@ package com.tdc.edu.vn.heathcareapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,8 +33,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.tdc.edu.vn.heathcareapp.Adapter.PostAdapter;
 import com.tdc.edu.vn.heathcareapp.Model.Follow;
 import com.tdc.edu.vn.heathcareapp.Model.Notification;
+import com.tdc.edu.vn.heathcareapp.Model.Post;
 import com.tdc.edu.vn.heathcareapp.Model.User;
 
 import java.util.ArrayList;
@@ -46,16 +50,20 @@ public class UserProfileActivity extends AppCompatActivity {
     LinearLayout lnl_follow_user;
     ImageView imageViewAvatarUser;
     Button btn_chat_with_user;
+    RecyclerView rcl_viewPost;
     String user_id = "";
     String option = "0";
     String strCheckFollow = "0";
     private ArrayList<User> mDataUser = new ArrayList<>();
     ArrayList<User> data = new ArrayList<>();
+    ArrayList<Post> dataPost = new ArrayList<>();
+    PostAdapter postAdapter;
     // Firebase
     private FirebaseAuth mAuth;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference userRef = database.getReference("Users");
     DatabaseReference followRef = database.getReference("Follows");
+    DatabaseReference postRef = database.getReference("Posts");
     DatabaseReference notificationRef = database.getReference("Notifications");
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
@@ -86,7 +94,7 @@ public class UserProfileActivity extends AppCompatActivity {
         lnl_follow_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (strCheckFollow.equals("2") || user_id.equals(currentUser.getUid())){
+                if (strCheckFollow.equals("2") || user_id.equals(currentUser.getUid())) {
                     Intent intent = new Intent(UserProfileActivity.this, FollowActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("user_id", user_id);
@@ -95,7 +103,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
-
+        if (strCheckFollow.equals("1") || currentUser.getUid().equals(user_id)){
+            showDataPost(user_id);
+        }
         cv_follower.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,6 +180,46 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+        cv_editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inten = new Intent(getApplicationContext(), ActivityProfile.class);
+                startActivity(inten);
+                overridePendingTransition(0, 0);
+                inten.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            }
+        });
+
+    }
+
+    private void showDataPost(String user_id) {
+        postRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataPost.clear();
+                try {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Post post = ds.getValue(Post.class);
+                        if (post.getUser_id().equals(user_id)) {
+                            dataPost.add(post);
+                        }
+                    }
+                    if (dataPost != null) {
+                        postAdapter = new PostAdapter(UserProfileActivity.this, dataPost);
+                        rcl_viewPost.setAdapter(postAdapter);
+                        rcl_viewPost.setLayoutManager(new LinearLayoutManager(UserProfileActivity.this));
+                    }
+                }catch (Exception exception){
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
@@ -287,5 +337,6 @@ public class UserProfileActivity extends AppCompatActivity {
         btn_chat_with_user = findViewById(R.id.btn_chat_user_profile);
         tv_status_follow = findViewById(R.id.tv_status_follow_user_profile);
         lnl_follow_user = findViewById(R.id.lnl_follow_user);
+        rcl_viewPost = findViewById(R.id.rcy_post_user_profile);
     }
 }

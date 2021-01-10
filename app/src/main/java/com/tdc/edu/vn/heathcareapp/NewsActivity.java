@@ -62,7 +62,7 @@ public class NewsActivity extends AppCompatActivity {
             //newsAdapter = new NewsAdapter(dataNews, NewsActivity.this);
             recyclerViewNews.setAdapter(newsAdapter);
             recyclerViewNews.setLayoutManager(new LinearLayoutManager(NewsActivity.this));
-        }catch (Exception ex){
+        } catch (Exception ex) {
 
         }
 
@@ -74,11 +74,17 @@ public class NewsActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.NewFeed:
                         Intent intent = new Intent(getApplicationContext(), NewFeedActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
                         overridePendingTransition(0, 0);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         return true;
                     case R.id.Nutrition:
+                        return true;
+                    case R.id.Profile:
+                        Intent inten = new Intent(getApplicationContext(), ActivityProfile.class);
+                        startActivity(inten);
+                        overridePendingTransition(0, 0);
+                        inten.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         return true;
 
                 }
@@ -102,7 +108,7 @@ public class NewsActivity extends AppCompatActivity {
                 dataNews.clear();
                 for (DocumentSnapshot ds : task.getResult()) {
                     NewAndNutrition newAndNutrition = ds.toObject(NewAndNutrition.class);
-                    if (newAndNutrition.getCategory().equals("news")){
+                    if (newAndNutrition.getCategory().equals("news")) {
                         dataNews.add(newAndNutrition);
                     }
 
@@ -117,7 +123,7 @@ public class NewsActivity extends AppCompatActivity {
 
     private void setControl() {
         recyclerViewNews = findViewById(R.id.rcy_news);
-        bottomNavigationView = findViewById(R.id.BottomNavViewNews);
+        bottomNavigationView = findViewById(R.id.BottomNavView);
         imageButtonBackSpace = findViewById(R.id.icon_backspace_news);
     }
 }

@@ -176,10 +176,9 @@ public class DetailPostActivity extends AppCompatActivity {
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy > 0) {
                     lnl_editText_comment_detail_post.setVisibility(View.GONE);
-                    lnl_post.setVisibility(View.GONE);
+
                 } else {
                     lnl_editText_comment_detail_post.setVisibility(View.VISIBLE);
-                    lnl_post.setVisibility(View.VISIBLE);
                 }
             }
         });
