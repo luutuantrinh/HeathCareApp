@@ -10,16 +10,20 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -53,6 +57,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static android.app.Activity.RESULT_OK;
 import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
@@ -80,8 +86,44 @@ public class ActivityProfile extends AppCompatActivity {
     String storagePermission[];
     Uri imageUri;
     String profileCoverPhoto;
+
+    /*Fragment*/
+    private SettingsFragment mpSettingFrag = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        /*Night mode*/
+
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String dayNightAuto = SP.getString("dayNightAuto", "2");
+        int dayNightAutoValue;
+        try {
+            dayNightAutoValue = Integer.parseInt(dayNightAuto);
+        }catch(NumberFormatException e) {
+            dayNightAutoValue = 2;
+        }
+        if(dayNightAutoValue == getResources().getInteger(R.integer.dark_mode_value)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            SweetAlertDialog.DARK_STYLE=true;
+        } else if (dayNightAutoValue == getResources().getInteger(R.integer.light_mode_value)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            SweetAlertDialog.DARK_STYLE=false;
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            int currentNightMode = getResources().getConfiguration().uiMode
+                    & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO:
+                    SweetAlertDialog.DARK_STYLE=false; break;
+                case Configuration.UI_MODE_NIGHT_YES:
+                    SweetAlertDialog.DARK_STYLE=true; break;
+                default:
+                    SweetAlertDialog.DARK_STYLE=false;
+            }
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         auth = getInstance();
@@ -174,6 +216,11 @@ public class ActivityProfile extends AppCompatActivity {
                 showEditProfileDialog();
             }
         });
+
+
+
+
+
     }
     private boolean checkStoragePermission(){
         boolean result = ContextCompat.checkSelfPermission(ActivityProfile.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)

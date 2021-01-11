@@ -12,57 +12,30 @@ import android.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.List;
+import com.tdc.edu.vn.heathcareapp.utils.CustomExceptionHandler;
+
 public class MainActivity extends AppCompatActivity {
-    private BottomNavigationView bottomNavigationView;
-    private Menu menu;
-    Toolbar toolbar;
+    public static String WEIGHT = "Weight";
+    public static String BODYTRACKING = "BodyTracking";
+    public static String BODYTRACKINGDETAILS = "BodyTrackingDetail";
+    public static String ABOUT = "About";
+    public static String SETTINGS = "Settings";
+    public static String MACHINES = "Machines";
+    public static String MACHINESDETAILS = "MachinesDetails";
+    public static String WORKOUTS = "Workouts";
+    public static String WORKOUTPAGER = "WorkoutPager";
+    public static String PREFS_NAME = "prefsfile";
+    private final int REQUEST_CODE_INTRO = 111;
+    private final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1001;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setControl();
-        setEvent();
+
 
     }
-
-    private void setEvent() {
-        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new WorkoutsFragment()).commit();
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    private void setControl() {
-        bottomNavigationView = findViewById(R.id.BottomNavView);
-    }
-
-    BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment = null;
-            switch (item.getItemId()) {
-                case R.id.NewFeed:
-                    fragment = new NewFeedFragment();
-                    break;
-                case R.id.Nutrition:
-                    fragment = new NutritionFragment();
-                    break;
-                case R.id.Progress:
-                    fragment = new ProgressFragment();
-                    break;
-                case R.id.Workouts:
-                    fragment = new WorkoutsFragment();
-                    break;
-                case R.id.Profile:
-                    fragment = new ProfileFragment();
-                    break;
-            }
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-            return true;
-        }
-    };
 }

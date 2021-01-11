@@ -97,6 +97,7 @@
         <activity
             android:name=".intro.MainIntroActivity"
             android:theme="@style/Theme.Intro"/>
+
         <activity android:name=".ActivityProfile" />
         <activity android:name=".LoginFacebook" />
         <activity android:name=".LoginSupportActivity" />
