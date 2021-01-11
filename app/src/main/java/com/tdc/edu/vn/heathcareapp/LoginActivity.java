@@ -2,13 +2,14 @@ package com.tdc.edu.vn.heathcareapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.tdc.edu.vn.heathcareapp.intro.MainIntroActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -45,11 +46,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.tdc.edu.vn.heathcareapp.Model.User;
 
 import java.security.MessageDigest;
+import java.time.Instant;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "SignInActivity";
+
     private static final int RC_SIGN_IN = 100;
+
+    //intro
+    private final int REQUEST_CODE_INTRO = 111;
 
     private FirebaseAuth mAuth;
     //private GoogleApiClient mGoogleApiClient;
@@ -62,9 +68,13 @@ public class LoginActivity extends AppCompatActivity {
     SignInButton btnGoogle;
     ImageButton btnFacebook;
     private CallbackManager callbackManager;
+
+    /*intro*/
+    private boolean mIntro014Launched = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
@@ -119,18 +129,36 @@ public class LoginActivity extends AppCompatActivity {
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
+
+        if (!mIntro014Launched) {
+            Intent intent = new Intent(this, MainIntroActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_INTRO);
+        }
+
     }
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
+        if (mIntro014Launched) {
+            // Check if user is signed in (non-null) and update UI accordingly.
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            //updateUI(currentUser);
+        }
+
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+//
+//        if (requestCode == REQUEST_CODE_INTRO) {
+//            if (resultCode == RESULT_OK) {
+//                mIntro014Launched = true;
+//
+//            } else {
+//                // Cancelled the intro. You can then e.g. finish this activity too.
+//                finish();
+//            }
+//        }
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -160,15 +188,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String email = user.getEmail();
                                 String uid = user.getUid();
                                 User User = new User(System.currentTimeMillis()+"","","",uid,"","","",email,"","");
-//                                HashMap<Object, String> hashMap = new HashMap<>();
-//                                hashMap.put("email",email);
-//                                hashMap.put("name","");
-//                                hashMap.put("image","");
-//                                hashMap.put("cover","");
-//                                hashMap.put("uid",uid);
-//                                hashMap.put("gender","");
-//                                hashMap.put("location","");
-//                                hashMap.put("age","");
+
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 DatabaseReference reference = database.getReference("Users");
                                 reference.child(uid).setValue(User);
@@ -196,4 +216,5 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }

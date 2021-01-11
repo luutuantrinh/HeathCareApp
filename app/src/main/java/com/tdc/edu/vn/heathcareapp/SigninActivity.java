@@ -83,25 +83,9 @@ public class SigninActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             //FirebaseUser user = mAuth.getCurrentUser();
+
                             Toast.makeText(SigninActivity.this, "Logged in successfully",
                                     Toast.LENGTH_SHORT).show();
-//                            FirebaseUser user = mAuth.getCurrentUser();
-//                            if(task.getResult().getAdditionalUserInfo().isNewUser()){
-//                                String email = user.getEmail();
-//                                String uid = user.getUid();
-//                                HashMap<Object, String> hashMap = new HashMap<>();
-//                                hashMap.put("email",email);
-//                                hashMap.put("name","");
-//                                hashMap.put("image","");
-//                                hashMap.put("cover","");
-//                                hashMap.put("uid",uid);
-//                                hashMap.put("gender","");
-//                                hashMap.put("location","");
-//                                hashMap.put("age","");
-//                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                                DatabaseReference reference = database.getReference("Users");
-//                                reference.child(uid).setValue();
-//                            }
                             intent = new Intent(SigninActivity.this,NewFeedActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(intent);
@@ -153,4 +137,5 @@ public class SigninActivity extends AppCompatActivity {
                     }
                 });
     }
+    
 }
