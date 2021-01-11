@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <include android:id="@+id/include_toolbar_user_profile" layout="@layout/toolbar_user_profile"></include>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -102,6 +101,7 @@
             android:layout_marginEnd="347dp"
             android:layout_marginRight="347dp"
             android:layout_marginBottom="417dp"
+
             app:srcCompat="@drawable/ic_person">
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>

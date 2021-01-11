@@ -124,7 +124,7 @@ public class ActivityProfile extends AppCompatActivity {
                 return true;
             }
         });
-
+        
         Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -343,7 +343,8 @@ public class ActivityProfile extends AppCompatActivity {
                         auth.signOut();
                         LoginManager.getInstance().logOut();
                         Intent intent = new Intent(ActivityProfile.this,LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }
                     catch (Exception e){
