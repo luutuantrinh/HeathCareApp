@@ -192,8 +192,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
-                        // ...
+                        
                     }
                 });
     }
@@ -203,6 +202,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser!=null){
+            startActivity(new Intent(LoginActivity.this, NewFeedActivity.class));
+            finish();
+        }
         //updateUI(currentUser);
     }
 
