@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.borjabravo.readmoretextview.ReadMoreTextView
+            <TextView
                 android:id="@+id/tv_content_item_post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,13 +69,9 @@
                 android:paddingRight="10dp"
                 android:paddingBottom="10dp"
                 android:text=""
-                app:colorClickableText="@color/color_see_more"
-                app:trimCollapsedText="@string/read_more"
-                app:trimExpandedText="@string/read_less"
-                app:trimLines="3"
-                app:trimMode="trimModeLine">
+                >
 
-            </com.borjabravo.readmoretextview.ReadMoreTextView>
+            </TextView>
 
             <ImageView
                 android:id="@+id/img_post_item_post"
