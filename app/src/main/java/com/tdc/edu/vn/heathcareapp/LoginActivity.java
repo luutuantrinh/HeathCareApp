@@ -51,6 +51,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tdc.edu.vn.heathcareapp.Model.User;
+import com.tdc.edu.vn.heathcareapp.intro.MainIntroActivity;
+
 import java.security.MessageDigest;
 import java.time.Instant;
 import java.util.HashMap;
