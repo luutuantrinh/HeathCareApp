@@ -53,8 +53,6 @@ public class WorkoutUnder15Adapter extends RecyclerView.Adapter<WorkoutUnder15Ad
                 Intent intent = new Intent(context, UnderItem.class);
                 ((Activity)context).startActivity(intent);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-
             }
         });
     }

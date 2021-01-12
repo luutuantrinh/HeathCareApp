@@ -1,7 +1,9 @@
 package com.tdc.edu.vn.heathcareapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -32,6 +34,7 @@ public class UnderItem extends AppCompatActivity {
     DatabaseReference myRef  = database.getReference("Workout/Under/Image/1/Boxhit/Image");
     ArrayList<AllExercises> listexercises = new ArrayList<>();
     ImageButton nav_back_underitem;
+    Button btnstart;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,7 @@ public class UnderItem extends AppCompatActivity {
         rvitemunderitem = findViewById(R.id.rv_underitem);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         nav_back_underitem = findViewById(R.id.icon_back_toolbar_underitem);
+        btnstart = findViewById(R.id.btnStartunder);
         /*listexercises.add(new AllExercises(1,"Title 1"));
         listexercises.add(new AllExercises(1,"Title 2"));
         listexercises.add(new AllExercises(1,"Title 4"));
@@ -71,7 +75,13 @@ public class UnderItem extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
+        btnstart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UnderItem.this,VideoMain.class);
+                startActivity(intent);
+            }
+        });
 
 
     }

@@ -57,6 +57,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/btnstart1"
                 android:text="Start"
                 android:background="@drawable/custom">></Button>
         </LinearLayout>
@@ -101,21 +102,24 @@
             android:gravity="center"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:textColor="@color/white"
            ></TextView>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Select body"
-            android:textStyle="bold"
             android:textColor="@color/white"
-            android:gravity="center"></TextView>
+            android:textStyle="bold"></TextView>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="LET'S GET STARTED"
-            android:background="@color/colorapp">></Button>
+            android:id="@+id/btnplan"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:background="@drawable/custom"></Button>
 
 
     </LinearLayout>

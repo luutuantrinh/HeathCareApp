@@ -49,7 +49,7 @@ public class WorkoutMain extends AppCompatActivity {
     ArrayList<WorkoutUnder15> listunder = new ArrayList<>();
     TextView txtworkout, txtexercises;
     Intent intent;
-    Button btndetail;
+    Button btndetail,btnstart1,btnplan;
 
 
     @Override
@@ -62,6 +62,8 @@ public class WorkoutMain extends AppCompatActivity {
         txtworkout = findViewById(R.id.txtworkout);
         txtexercises = findViewById(R.id.txtexercises);
         btndetail = findViewById(R.id.btndetail);
+        btnstart1 = findViewById(R.id.btnstart1);
+        btnplan = findViewById(R.id.btnplan);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         intent = getIntent();
 
@@ -87,7 +89,7 @@ public class WorkoutMain extends AppCompatActivity {
                         rv_guided.setLayoutManager(new LinearLayoutManager(WorkoutMain.this));
                     }else {
 
-                        Toast.makeText(WorkoutMain.this, "asdasdasdasdasd", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WorkoutMain.this, "Danh Sách không có", Toast.LENGTH_SHORT).show();
                     }
                 }catch (Exception exception){
 
@@ -204,6 +206,18 @@ public class WorkoutMain extends AppCompatActivity {
             public void onClick(View v) {
                 intent.setClass(WorkoutMain.this, DetailMorningMain.class);
                 startActivity(intent);
+            }
+        });
+        btnstart1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(WorkoutMain.this, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnplan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(WorkoutMain.this, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
             }
         });
     }

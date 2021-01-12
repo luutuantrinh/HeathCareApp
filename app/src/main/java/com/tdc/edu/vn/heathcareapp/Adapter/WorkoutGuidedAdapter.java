@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import com.tdc.edu.vn.heathcareapp.GuidedItem;
 import com.tdc.edu.vn.heathcareapp.Model.WorkoutGuided;
 import com.tdc.edu.vn.heathcareapp.R;
+import com.tdc.edu.vn.heathcareapp.TrendingItem;
 
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class WorkoutGuidedAdapter extends RecyclerView.Adapter<WorkoutGuidedAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, GuidedItem.class);
+                Intent intent = new Intent(context, TrendingItem.class);
                 ((Activity)context).startActivity(intent);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 

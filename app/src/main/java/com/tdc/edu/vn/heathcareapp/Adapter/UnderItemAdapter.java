@@ -1,6 +1,8 @@
 package com.tdc.edu.vn.heathcareapp.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import com.tdc.edu.vn.heathcareapp.Model.AllExercises;
 import com.tdc.edu.vn.heathcareapp.R;
+import com.tdc.edu.vn.heathcareapp.TrendingItem;
 
 
 import java.util.ArrayList;
