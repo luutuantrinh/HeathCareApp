@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
-//    id 'com.google.gms.g
 }
 
 android {
@@ -15,65 +14,18 @@ android {
         versionCode 1
         versionName "1.0"
 
-        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-//    signingConfigs {
-//        if (rootProject.file('release.properties').exists()) {
-//            def props = new Properties()
-//            props.load(new FileInputStream(rootProject.file('release.properties')))
-//            release {
-//                storeFile file(props.keyStore)
-//                storePassword props.keyStorePassword
-//                keyAlias props.keyAlias
-//                keyPassword props.keyAliasPassword
-//            }
-//        }
-//        if (rootProject.file('debug.properties').exists()) {
-//            def props2 = new Properties()
-//            props2.load(new FileInputStream(rootProject.file('debug.properties')))
-//            debug {
-//                storeFile file(props2.keyStore)
-//                storePassword props2.keyStorePassword
-//                keyAlias props2.keyAlias
-//                keyPassword props2.keyAliasPassword
-//            }
-//        }
-//    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            resValue("bool", "FIREBASE_CRASH_ENABLED", "true")
-//            if (rootProject.file('release.properties').exists()) {
-//                signingConfig signingConfigs.release
-//            }
-//            debug {
-//                resValue("bool", "FIREBASE_CRASH_ENABLED", "false")
-//                if (rootProject.file('debug.properties').exists()) {
-//                    signingConfig signingConfigs.debug
-//                }
-//                buildConfigField "Boolean", "DEBUG_MODE", "true"
-//                applicationIdSuffix ".debug"
-//            }
         }
     }
-
-    buildFeatures{
-        dataBinding = true
-    }
-
     compileOptions {
-        encoding = 'UTF-8'
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    lintOptions {
-        disable 'GoogleAppIndexingWarning'
     }
 }
 
@@ -88,7 +40,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-   implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
     implementation platform('com.google.firebase:firebase-bom:26.1.1')
 
     //noinspection GradleCompatible
@@ -109,13 +61,15 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:19.2.0'
     //facebook
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    //implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
     implementation 'com.google.firebase:firebase-firestore:22.0.0'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
     testImplementation 'junit:junit:4.+'
+    implementation 'com.facebook.android:facebook-login:[8.1)'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    compile 'com.borjabravo:readmoretextview:2.1.0'
+    implementation 'com.borjabravo:readmoretextview:2.1.0'
     implementation platform('com.google.firebase:firebase-bom:26.1.1')
 
     implementation 'com.kovachcode:timePickerWithSeconds:1.0.1'

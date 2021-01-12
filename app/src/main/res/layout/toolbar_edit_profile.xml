@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_border_toolbar">
+
+    <RelativeLayout
+        style="@style/rl_toolbar_basic">
+
+        <ImageButton
+            android:id="@+id/icon_backspace_edit_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:src="@drawable/ic_keyboard_backspace">
+
+        </ImageButton>
+
+        <TextView
+            android:id="@+id/title_toolbar_user_profile"
+            style="@style/title_toolbar"
+            android:layout_marginStart="140dp"
+            android:layout_marginLeft="140dp"
+            android:layout_toEndOf="@id/icon_backspace_edit_profile"
+            android:layout_toRightOf="@id/icon_backspace_edit_profile"
+            android:text="Edit Profile">
+
+        </TextView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

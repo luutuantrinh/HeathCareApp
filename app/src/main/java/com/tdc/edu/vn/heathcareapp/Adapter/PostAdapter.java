@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.tdc.edu.vn.heathcareapp.ActivityProfile;
 import com.tdc.edu.vn.heathcareapp.DetailNewsActivity;
 import com.tdc.edu.vn.heathcareapp.DetailPostActivity;
 import com.tdc.edu.vn.heathcareapp.Model.Like;
@@ -250,6 +252,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 //                        });
 //
 //                    }
+//                    holder.profile.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Intent intent = new Intent(context, ActivityProfile.class);
+//                            intent.putExtra("user_id",user_id);
+//                            context.startActivity(intent);
+//                        }
+//                    });
                 }
             }
 
@@ -308,6 +318,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         ImageButton icon_like;
         ImageView imageViewPost, imageViewUser;
         TextView tv_total_comment;
+        //LinearLayout profile;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -319,6 +330,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             tv_total_comment = itemView.findViewById(R.id.total_comment_item_post);
             imageViewUser = itemView.findViewById(R.id.img_user_item_post);
             tv_user_post = itemView.findViewById(R.id.tv_user_item_post);
+            //profile = itemView.findViewById(R.id.ProfileLayout);
         }
     }
 }

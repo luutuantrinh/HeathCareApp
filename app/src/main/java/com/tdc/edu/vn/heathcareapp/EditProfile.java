@@ -10,20 +10,18 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -31,18 +29,22 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -54,151 +56,133 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.hbb20.CountryCodePicker;
 import com.squareup.picasso.Picasso;
+import com.tdc.edu.vn.heathcareapp.Model.User;
 
 import java.util.HashMap;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 import static android.app.Activity.RESULT_OK;
+import static android.text.TextUtils.isEmpty;
 import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
-public class ActivityProfile extends AppCompatActivity {
+import android.os.Bundle;
+
+public class EditProfile extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int STORAGE_REQUEST_CODE = 200;
     private static final int IMAGE_PICK_CAMERA_REQUEST_CODE = 300;
     private static final int IMAGE_PICK_GARLLERY_REQUEST_CODE = 400;
 
+    ImageButton imageButtonBackSpace;
+    EditText firstName, lastName, age, email, location, width,height;
+    ImageView Avatar;
+    Button btnJoin;
+    CountryCodePicker ccp;
+    RadioButton male,female;
     FirebaseUser user;
-    BottomNavigationView bottomNavigationView;
     FirebaseAuth auth;
+    Intent intent;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     StorageReference storageReference;
     String storagePath = "Users_Profile_Imgs/";
-    ImageView avatar, coverIV;
-    TextView nameTV, emailTV, ageTV, locationTV;
-    FloatingActionButton actionButton;
+    ImageView coverIV;
     ProgressDialog pd;
     String cameraPermission[];
     String storagePermission[];
     Uri imageUri;
     String profileCoverPhoto;
-
-    /*Fragment*/
-    private SettingsFragment mpSettingFrag = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-        /*Night mode*/
-
-        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        String dayNightAuto = SP.getString("dayNightAuto", "2");
-        int dayNightAutoValue;
-        try {
-            dayNightAutoValue = Integer.parseInt(dayNightAuto);
-        }catch(NumberFormatException e) {
-            dayNightAutoValue = 2;
-        }
-        if(dayNightAutoValue == getResources().getInteger(R.integer.dark_mode_value)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            SweetAlertDialog.DARK_STYLE=true;
-        } else if (dayNightAutoValue == getResources().getInteger(R.integer.light_mode_value)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            SweetAlertDialog.DARK_STYLE=false;
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-            int currentNightMode = getResources().getConfiguration().uiMode
-                    & Configuration.UI_MODE_NIGHT_MASK;
-            switch (currentNightMode) {
-                case Configuration.UI_MODE_NIGHT_NO:
-                    SweetAlertDialog.DARK_STYLE=false; break;
-                case Configuration.UI_MODE_NIGHT_YES:
-                    SweetAlertDialog.DARK_STYLE=true; break;
-                default:
-                    SweetAlertDialog.DARK_STYLE=false;
-            }
-        }
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_edit_profile);
         auth = getInstance();
         user = auth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
+        DatabaseReference databaseIBM = firebaseDatabase.getReference("IBM");
         storageReference = FirebaseStorage.getInstance().getReference();
 
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        bottomNavigationView = findViewById(R.id.BottomNavView);
-        avatar = (ImageView) findViewById(R.id.avatar);
-        nameTV = (TextView) findViewById(R.id.Name);
-        emailTV = (TextView) findViewById(R.id.Email);
-        ageTV = (TextView) findViewById(R.id.Age);
-        locationTV = (TextView)findViewById(R.id.Location);
-        coverIV = (ImageView) findViewById(R.id.coverIV);
-        actionButton = (FloatingActionButton) findViewById(R.id.fab);
-        pd = new ProgressDialog(ActivityProfile.this);
-        bottomNavigationView.setSelectedItemId(R.id.Profile);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.NewFeed:
-                        Intent intent = new Intent(getApplicationContext(), NewFeedActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(0, 0);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        return true;
-                    case R.id.Nutrition:
-                        Intent inten = new Intent(getApplicationContext(), NutritionActivity.class);
-                        startActivity(inten);
-                        inten.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.Profile:
-                        return true;
 
+        cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        pd = new ProgressDialog(EditProfile.this);
+
+        btnJoin = (Button) findViewById(R.id.btnJoin);
+        Avatar = (ImageView) findViewById(R.id.img_avatar);
+        firstName = (EditText) findViewById(R.id.edtFirstName);
+        imageButtonBackSpace = findViewById(R.id.icon_backspace_edit_profile);
+        lastName = (EditText) findViewById(R.id.edtLastName);
+        age = (EditText) findViewById(R.id.edtAge);
+        email = (EditText) findViewById(R.id.edtEmail);
+        location = (EditText) findViewById(R.id.location);
+        width = (EditText) findViewById(R.id.edtWidth);
+        height = (EditText) findViewById(R.id.edtHeight);
+        ccp = (CountryCodePicker) findViewById(R.id.cpp);
+        male = (RadioButton) findViewById(R.id.radMale);
+        female = (RadioButton) findViewById(R.id.radFemale);
+
+        Query qq = databaseIBM.orderByChild("uid").equalTo(user.getUid());
+        qq.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    String Height = "" + ds.child("height").getValue();
+                    String Width = "" + ds.child("width").getValue();
+
+                    height.setText(Height);
+                    width.setText(Width);
                 }
-                return true;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-        
         Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot ds : snapshot.getChildren()){
-                    String Lastname = "" + ds.child("last_name").getValue();
-                    String Firstname = "" + ds.child("first_name").getValue();
-                    String email = "" + ds.child("email").getValue();
-                    String age = "" + ds.child("age").getValue();
-                    String location = "" + ds.child("location").getValue();
-                    String image_id = "" + ds.child("image_id").getValue();
-                    String cover = "" + ds.child("cover").getValue();
+                    String LastName = "" + ds.child("last_name").getValue();
+                    String FirstName = "" + ds.child("first_name").getValue();
+                    String Email = "" + ds.child("email").getValue();
+                    String Age = "" + ds.child("age").getValue();
+                    String Location = "" + ds.child("location").getValue();
+                    String image = "" + ds.child("image_id").getValue();
+                    //String cover = "" + ds.child("cover").getValue();
                     String gender = "" + ds.child("gender").getValue();
+                    String ss = ""+"0";
 
-                    nameTV.setText(Firstname + " " + Lastname);
-                    emailTV.setText(email);
-                    ageTV.setText(age);
-                    locationTV.setText(location);
-
+                    lastName.setText(LastName);
+                    firstName.setText(FirstName);
+                    email.setText(Email);
+                    age.setText(Age);
+                    location.setText(Location);
+                    if(ss.equals(gender) == true){
+                        male.setChecked(true);
+                    }
+                    else {
+                        female.setChecked(true);
+                    }
                     try {
-                        Picasso.get().load(image_id).into(avatar);
+                        Picasso.get().load(image).into(Avatar);
                     }
                     catch (Exception e){
-                        Picasso.get().load(R.drawable.ic_cover).into(avatar);
+                        Picasso.get().load(R.drawable.ic_cover).into(Avatar);
                     }
-                    try {
-                        Picasso.get().load(cover).into(coverIV);
-                    }
-                    catch (Exception e){
-                        //Picasso.get().load(R.drawable.ic_cover).into(avatar);
-                    }
+//                    try {
+//                        Picasso.get().load(cover).into(coverIV);
+//                    }
+//                    catch (Exception e){
+//                        //Picasso.get().load(R.drawable.ic_cover).into(avatar);
+//                    }
 
                 }
             }
@@ -208,21 +192,31 @@ public class ActivityProfile extends AppCompatActivity {
 
             }
         });
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        actionButton.setOnClickListener(new View.OnClickListener() {
+                ThongTinThem();
+                Update();
+            }
+        });
+        imageButtonBackSpace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        Avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showEditProfileDialog();
             }
         });
-
-
-
-
-
     }
+
+
     private boolean checkStoragePermission(){
-        boolean result = ContextCompat.checkSelfPermission(ActivityProfile.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        boolean result = ContextCompat.checkSelfPermission(EditProfile.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == (PackageManager.PERMISSION_GRANTED);
         return result;
     }
@@ -234,9 +228,9 @@ public class ActivityProfile extends AppCompatActivity {
     }
 
     private boolean checkCameraPermission(){
-        boolean result = ContextCompat.checkSelfPermission(ActivityProfile.this,Manifest.permission.CAMERA)
+        boolean result = ContextCompat.checkSelfPermission(EditProfile.this,Manifest.permission.CAMERA)
                 == (PackageManager.PERMISSION_GRANTED);
-        boolean result2 = ContextCompat.checkSelfPermission(ActivityProfile.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        boolean result2 = ContextCompat.checkSelfPermission(EditProfile.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == (PackageManager.PERMISSION_GRANTED);
         return result && result2;
     }
@@ -259,7 +253,7 @@ public class ActivityProfile extends AppCompatActivity {
                         pickFromCamera();
                     }
                     else {
-                        Toast.makeText(ActivityProfile.this,"Please enable permission camera", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditProfile.this,"Please enable permission camera", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -271,7 +265,7 @@ public class ActivityProfile extends AppCompatActivity {
                         pickFromGallery();
                     }
                     else {
-                        Toast.makeText(ActivityProfile.this,"Please enable permission storage", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditProfile.this,"Please enable permission storage", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -290,7 +284,7 @@ public class ActivityProfile extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE,"Temp pic");
         values.put(MediaStore.Images.Media.DESCRIPTION,"Temp Description");
-        imageUri = ActivityProfile.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+        imageUri = EditProfile.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
         startActivityForResult(cameraIntent,IMAGE_PICK_CAMERA_REQUEST_CODE);
@@ -334,20 +328,20 @@ public class ActivityProfile extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             pd.dismiss();
-                                            Toast.makeText(ActivityProfile.this,"Image Update...",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(EditProfile.this,"Image Update...",Toast.LENGTH_SHORT).show();
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             pd.dismiss();
-                                            Toast.makeText(ActivityProfile.this,"Errol Updating image...",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(EditProfile.this,"Errol Updating image...",Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
                         else {
                             pd.dismiss();
-                            Toast.makeText(ActivityProfile.this,"Some errol occured",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProfile.this,"Some errol occured",Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
@@ -355,14 +349,14 @@ public class ActivityProfile extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         pd.dismiss();
-                        Toast.makeText(ActivityProfile.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditProfile.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private void showEditProfileDialog() {
-        String option[]={"Edit Profile Picture","Edit Cover Photo","Edit Profile","Sign Out"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfile.this);
+        String option[]={"Edit Profile Picture", "Edit Cover Photo"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
 
         builder.setTitle("Choose Action");
 
@@ -379,83 +373,14 @@ public class ActivityProfile extends AppCompatActivity {
                     profileCoverPhoto = "cover";
                     showImagePicDialog();
                 }
-                else if(which == 2){
-                    Intent intent = new Intent(ActivityProfile.this, EditProfile.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(intent);
-                }
-                else if(which == 3){
-                    try{
-                        //auth.signOut();
-                        auth.signOut();
-                        LoginManager.getInstance().logOut();
-                        Intent intent = new Intent(ActivityProfile.this,LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-                    catch (Exception e){
-                        e.getMessage();
-                        Toast.makeText(ActivityProfile.this, "Please log in again",Toast.LENGTH_SHORT).show();
-                    }
-                }
             }
         });
         builder.create().show();
     }
 
-//    private void showInfomation(String key) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfile.this);
-//        builder.setTitle("Update " + key);
-//        LinearLayout linearLayout = new LinearLayout(ActivityProfile.this);
-//        linearLayout.setOrientation(LinearLayout.VERTICAL);
-//        linearLayout.setPadding(10,10,10,10);
-//        EditText editText = new EditText(ActivityProfile.this);
-//        editText.setHint("Enter " + key);
-//        linearLayout.addView(editText);
-//
-//        builder.setView(linearLayout);
-//        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                String value = editText.getText().toString().trim();
-//                if(!TextUtils.isEmpty(value)){
-//                    pd.show();
-//                    HashMap<String ,Object> result = new HashMap<>();
-//                    result.put(key, value);
-//                    databaseReference.child(user.getUid()).updateChildren(result)
-//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                @Override
-//                                public void onSuccess(Void aVoid) {
-//                                    pd.dismiss();
-//                                    Toast.makeText(ActivityProfile.this,"Update...",Toast.LENGTH_SHORT).show();
-//                                }
-//                            })
-//                            .addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    pd.dismiss();
-//                                    Toast.makeText(ActivityProfile.this,"" + e.getMessage(),Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
-//                }
-//                else {
-//                    Toast.makeText(ActivityProfile.this,"Please enter "+key,Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
-//        builder.create().show();
-//    }
-
     private void showImagePicDialog() {
         String option[]={"camera","Garllery"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfile.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
 
         builder.setTitle("Pick Image From");
 
@@ -484,4 +409,57 @@ public class ActivityProfile extends AppCompatActivity {
         builder.create().show();
     }
 
+    private void Update(){
+        String FirstName = firstName.getText().toString().trim();
+        String LastName = lastName.getText().toString().trim();
+        String location = ccp.getSelectedCountryName();
+        String Age = age.getText().toString().trim();
+        if(!isEmpty(FirstName)) {
+            //pd.show();
+            String phone = "";
+            String gender = "";
+            if (male.isChecked()) {
+                gender = "0";
+            } else {
+                gender = "1";
+            }
+            HashMap<String,Object> result = new HashMap<>();
+            //result.put("email", email);
+            result.put("last_name", LastName);
+            result.put("first_name", FirstName);
+            result.put("gender", gender);
+            result.put("location", location);
+            result.put("age", Age);
+            databaseReference.child(user.getUid()).updateChildren(result)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            //pd.dismiss();
+                            Toast.makeText(EditProfile.this,"Update...",Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //pd.dismiss();
+                            Toast.makeText(EditProfile.this,"" + e.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+        else {
+            Toast.makeText(EditProfile.this,"Please enter ",Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void ThongTinThem(){
+        String Height = height.getText().toString().trim();
+        String Width = width.getText().toString().trim();
+        String uid = user.getUid();
+        HashMap<Object,String> hashMap = new HashMap<>();
+        hashMap.put("height", Height);
+        hashMap.put("width", Width);
+        hashMap.put("uid", uid);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("IBM");
+        reference.child(uid).setValue(hashMap);
+    }
 }
