@@ -94,7 +94,7 @@ public class UserProfileActivity extends AppCompatActivity {
         lnl_follow_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (strCheckFollow.equals("2") || user_id.equals(currentUser.getUid())) {
+                if (strCheckFollow.equals("1") || user_id.equals(currentUser.getUid())) {
                     Intent intent = new Intent(UserProfileActivity.this, FollowActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("user_id", user_id);

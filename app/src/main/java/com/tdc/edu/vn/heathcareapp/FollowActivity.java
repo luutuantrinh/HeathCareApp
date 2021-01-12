@@ -65,6 +65,12 @@ public class FollowActivity extends AppCompatActivity {
         recyclerViewListFollow.setAdapter(searchFriendAdapter);
         recyclerViewListFollow.setLayoutManager(new LinearLayoutManager(FollowActivity.this));
         searchFriendAdapter.notifyDataSetChanged();
+        imageButtonBackSpace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         tabLayoutFollow.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -94,7 +100,22 @@ public class FollowActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                switch (tab.getPosition()) {
+                    case 0:
+                        getUserFollower(user_id);
+                        Toast.makeText(getApplicationContext(), tab.getText(), Toast.LENGTH_SHORT).show();
+                        searchFriendAdapter = new SearchFriendAdapter(FollowActivity.this, dataUserFollower);
+                        recyclerViewListFollow.setAdapter(searchFriendAdapter);
+                        recyclerViewListFollow.setLayoutManager(new LinearLayoutManager(FollowActivity.this));
+                        break;
+                    case 1:
+                        getUserFollowing(user_id);
+                        Toast.makeText(getApplicationContext(), tab.getText(), Toast.LENGTH_SHORT).show();
+                        searchFriendAdapter = new SearchFriendAdapter(FollowActivity.this, dataUserFollowing);
+                        recyclerViewListFollow.setAdapter(searchFriendAdapter);
+                        recyclerViewListFollow.setLayoutManager(new LinearLayoutManager(FollowActivity.this));
+                        break;
+                }
             }
         });
     }

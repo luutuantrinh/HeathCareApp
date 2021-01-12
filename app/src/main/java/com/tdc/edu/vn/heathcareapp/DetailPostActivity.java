@@ -232,7 +232,7 @@ public class DetailPostActivity extends AppCompatActivity {
                                     }
                                     Toast.makeText(getApplicationContext(), "deleted", Toast.LENGTH_SHORT).show();
                                     bottomSheetDialog.dismiss();
-                                    onBackPressed();
+                                    startActivity(new Intent(DetailPostActivity.this, NewFeedActivity.class));
                                 }
                             });
                             builder.setPositiveButton("CANCEL", new DialogInterface.OnClickListener() {
