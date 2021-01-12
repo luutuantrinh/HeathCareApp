@@ -5,23 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ConversationListActivity">
-    <include android:id="@+id/include_toolbar_chat_list" layout="@layout/toolbar_chat_list"></include>
 
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:layout_below="@id/include_toolbar_chat_list"
-        android:id="@+id/sp_consultants"
-        android:padding="10dp"
+    <include
+        android:id="@+id/include_toolbar_chat_list"
+        layout="@layout/toolbar_chat_list"></include>
 
-        android:layout_margin="10dp"
+    <LinearLayout
+        android:id="@+id/lnl_dashboard_chat_counselor"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_below="@id/include_toolbar_chat_list"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-    </androidx.appcompat.widget.AppCompatSpinner>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/txt_search_counselor"
+            android:background="@drawable/custom_btn_user_profile1"
+            android:padding="7dp"
+            android:hint="Enter name or fullName">
+
+        </EditText>
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/sp_consultants"
+            android:padding="7dp"
+            style="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content">
+
+        </androidx.appcompat.widget.AppCompatSpinner>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcy_chat_list"
         android:layout_width="match_parent"
-        android:layout_below="@id/sp_consultants"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lnl_dashboard_chat_counselor">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -30,8 +53,8 @@
         android:id="@+id/BottomNavView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/btn_join"
         android:layout_alignParentBottom="true"
+        android:background="@color/btn_join"
         app:menu="@menu/menu">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>

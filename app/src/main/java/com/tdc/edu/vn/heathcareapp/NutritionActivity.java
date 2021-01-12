@@ -1,7 +1,6 @@
 package com.tdc.edu.vn.heathcareapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,16 +13,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.tdc.edu.vn.heathcareapp.Adapter.NewsAdapter;
 import com.tdc.edu.vn.heathcareapp.Adapter.NutritionTowerAdapter;
-import com.tdc.edu.vn.heathcareapp.Model.New;
+import com.tdc.edu.vn.heathcareapp.Model.NewAndNutrition;
 import com.tdc.edu.vn.heathcareapp.Model.NutritionTower;
 
 import java.util.ArrayList;
@@ -34,12 +34,13 @@ public class NutritionActivity extends AppCompatActivity {
     RecyclerView recyclerViewNutrition, recyclerViewNews;
     NutritionTowerAdapter nutritionTowerAdapter;
     NewsAdapter newsAdapter;
-    ArrayList<NutritionTower> arrayListData = new ArrayList<>();
-    ArrayList<New> dataNews = new ArrayList<>();
+    ArrayList<NewAndNutrition> dataNews = new ArrayList<>();
+    ArrayList<NewAndNutrition> dataNutrition = new ArrayList<>();
     ImageButton imageButtonChat;
     // Firebase
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference newsRef = db.collection("News");
+    private CollectionReference postsNewAndNutritionRef = db.collection("PostsNewAndNutrition");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,50 +48,25 @@ public class NutritionActivity extends AppCompatActivity {
         setControl();
         setEvent();
     }
+
     @Override
     protected void onStart() {
         super.onStart();
-        newsRef.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    return;
-                }
-                dataNews.clear();
-                for (QueryDocumentSnapshot documentSnapshot : value) {
-                    New news = documentSnapshot.toObject(New.class);
-                    news.setId_new(documentSnapshot.getId());
-                    String title = news.getTitle_new();
-                    String id = news.getId_new();
-                    String des = news.getContent_new();
-                    String url = news.getUrl_new();
-                    dataNews.add(new New(id, title, des, url, ""));
-                }
-
-                newsAdapter = new NewsAdapter(dataNews, NutritionActivity.this);
-                recyclerViewNews.setAdapter(newsAdapter);
-            }
-        });
     }
+
     private void setEvent() {
-        NutritionTower nutritionTower1 = new NutritionTower(1, "Van Phong", "13333");
-        arrayListData.add(nutritionTower1);
-        NutritionTower nutritionTower2 = new NutritionTower(2, "Hoc Sinh", "13333");
-        arrayListData.add(nutritionTower2);
-        NutritionTower nutritionTower3 = new NutritionTower(3, "Sinh Vien", "13333");
-        arrayListData.add(nutritionTower3);
-
-
+        showDataNews();
+        showDataNutrition();
         try {
-            nutritionTowerAdapter = new NutritionTowerAdapter(NutritionActivity.this, arrayListData);
+            nutritionTowerAdapter = new NutritionTowerAdapter(NutritionActivity.this, dataNutrition);
             recyclerViewNutrition.setAdapter(nutritionTowerAdapter);
             recyclerViewNutrition.setLayoutManager(new LinearLayoutManager(NutritionActivity.this, RecyclerView.HORIZONTAL, false));
 
-            newsAdapter  =new NewsAdapter(dataNews,NutritionActivity.this);
+            newsAdapter = new NewsAdapter(dataNews, NutritionActivity.this);
             recyclerViewNews.setAdapter(newsAdapter);
             recyclerViewNews.setLayoutManager(new LinearLayoutManager(NutritionActivity.this));
-        }catch (Exception ex){
-            Toast.makeText(getApplicationContext(), "Error: "+ ex, Toast.LENGTH_SHORT).show();
+        } catch (Exception ex) {
+            Toast.makeText(getApplicationContext(), "Error: " + ex, Toast.LENGTH_SHORT).show();
         }
 
         tv_see_more_nutrition_tower.setOnClickListener(new View.OnClickListener() {
@@ -121,9 +97,6 @@ public class NutritionActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         bottomNavigationView.setSelectedItemId(R.id.Nutrition);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -146,6 +119,44 @@ public class NutritionActivity extends AppCompatActivity {
 
                 }
                 return true;
+            }
+        });
+    }
+
+    private void showDataNutrition() {
+        postsNewAndNutritionRef.orderBy("timestamp", Query.Direction.DESCENDING).limit(3).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                dataNutrition.clear();
+                for (DocumentSnapshot ds : task.getResult()) {
+                    NewAndNutrition newAndNutrition = ds.toObject(NewAndNutrition.class);
+                    if (newAndNutrition.getCategory().equals("nutrition")) {
+                        dataNutrition.add(newAndNutrition);
+                    }
+
+                }
+                nutritionTowerAdapter = new NutritionTowerAdapter(NutritionActivity.this, dataNutrition);
+                recyclerViewNutrition.setAdapter(nutritionTowerAdapter);
+                recyclerViewNutrition.setLayoutManager(new LinearLayoutManager(NutritionActivity.this, RecyclerView.HORIZONTAL, false));
+            }
+        });
+    }
+
+    private void showDataNews() {
+        postsNewAndNutritionRef.orderBy("timestamp", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                dataNews.clear();
+                for (DocumentSnapshot ds : task.getResult()) {
+                    NewAndNutrition newAndNutrition = ds.toObject(NewAndNutrition.class);
+                    if (newAndNutrition.getCategory().equals("news")) {
+                        dataNews.add(newAndNutrition);
+                    }
+
+
+                }
+                newsAdapter = new NewsAdapter(dataNews, NutritionActivity.this);
+                recyclerViewNews.setAdapter(newsAdapter);
             }
         });
     }

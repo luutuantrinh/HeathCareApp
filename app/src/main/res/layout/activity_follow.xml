@@ -12,7 +12,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/include_toolbar_follow"
         android:orientation="vertical">
 
@@ -21,26 +21,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/include_toolbar_follow">
+
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tab_item_follower"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/followers_connection_management_followers_title">
-            </com.google.android.material.tabs.TabItem>
+                android:text="@string/followers_connection_management_followers_title"></com.google.android.material.tabs.TabItem>
+
             <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
                 android:id="@+id/tab_item_following"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/followers_connection_management_following_title">
-            </com.google.android.material.tabs.TabItem>
+                android:text="@string/followers_connection_management_following_title"></com.google.android.material.tabs.TabItem>
 
         </com.google.android.material.tabs.TabLayout>
-        <androidx.viewpager.widget.ViewPager
-            android:layout_width="match_parent"
-            android:id="@+id/viewPage_follow"
-            android:layout_height="wrap_content">
 
-        </androidx.viewpager.widget.ViewPager>
+        <EditText
+            android:id="@+id/txt_search_follow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/custom_btn_user_profile1"
+            android:hint="Enter name or email dress"
+            android:padding="8dp">
+
+        </EditText>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcy_followList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

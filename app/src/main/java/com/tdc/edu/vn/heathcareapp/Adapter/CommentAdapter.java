@@ -69,30 +69,35 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     }
                 }
                 if (dataUser != null){
-                    holder.tv_username.setText(dataUser.get(0).getFirst_name() + " " + dataUser.get(0).getLast_name());
-                    String imgUser = dataUser.get(0).getImage_id();
-                    if (!imgUser.equals("")){
-                        try {
-                            StorageReference islandRef = storageRef.child("images/user/" + imgUser);
-                            final long ONE_MEGABYTE = 1024 * 1024;
-                            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                @Override
-                                public void onSuccess(byte[] bytes) {
-                                    // Data for "images/island.jpg" is returns, use this as needed
-                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                    holder.img_user.setImageBitmap(bitmap);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-                                    // Handle any errors
-                                }
-                            });
+                    try {
+                        holder.tv_username.setText(dataUser.get(0).getFirst_name() + " " + dataUser.get(0).getLast_name());
+                        String imgUser = dataUser.get(0).getImage_id();
+                        if (!imgUser.equals("")){
+                            try {
+                                StorageReference islandRef = storageRef.child("images/user/" + imgUser);
+                                final long ONE_MEGABYTE = 1024 * 1024;
+                                islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                    @Override
+                                    public void onSuccess(byte[] bytes) {
+                                        // Data for "images/island.jpg" is returns, use this as needed
+                                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                        holder.img_user.setImageBitmap(bitmap);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                        // Handle any errors
+                                    }
+                                });
 
-                        } catch (Exception ex) {
+                            } catch (Exception ex) {
 
+                            }
                         }
+                    }catch (Exception exception){
+
                     }
+
                 }
             }
 

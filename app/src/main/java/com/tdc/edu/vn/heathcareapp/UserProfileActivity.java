@@ -3,8 +3,12 @@ package com.tdc.edu.vn.heathcareapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +33,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.tdc.edu.vn.heathcareapp.Adapter.PostAdapter;
 import com.tdc.edu.vn.heathcareapp.Model.Follow;
 import com.tdc.edu.vn.heathcareapp.Model.Notification;
+import com.tdc.edu.vn.heathcareapp.Model.Post;
 import com.tdc.edu.vn.heathcareapp.Model.User;
 
 import java.util.ArrayList;
@@ -40,18 +47,23 @@ public class UserProfileActivity extends AppCompatActivity {
     ImageButton imageButtonBackSpace, imageButtonMore;
     TextView tv_title_user_profile, tv_name_user, tv_follower, tv_following, tv_location, tv_since, tv_status_follow;
     CardView cv_follower, cv_editProfile;
+    LinearLayout lnl_follow_user;
     ImageView imageViewAvatarUser;
     Button btn_chat_with_user;
+    RecyclerView rcl_viewPost;
     String user_id = "";
     String option = "0";
     String strCheckFollow = "0";
     private ArrayList<User> mDataUser = new ArrayList<>();
     ArrayList<User> data = new ArrayList<>();
+    ArrayList<Post> dataPost = new ArrayList<>();
+    PostAdapter postAdapter;
     // Firebase
     private FirebaseAuth mAuth;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference userRef = database.getReference("Users");
     DatabaseReference followRef = database.getReference("Follows");
+    DatabaseReference postRef = database.getReference("Posts");
     DatabaseReference notificationRef = database.getReference("Notifications");
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
@@ -78,8 +90,21 @@ public class UserProfileActivity extends AppCompatActivity {
         checkFollow(user_id, currentUser.getUid());
         if (!user_id.equals("")) {
             showInfo(user_id);
-
-
+        }
+        lnl_follow_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (strCheckFollow.equals("2") || user_id.equals(currentUser.getUid())) {
+                    Intent intent = new Intent(UserProfileActivity.this, FollowActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("user_id", user_id);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
+        if (strCheckFollow.equals("1") || currentUser.getUid().equals(user_id)){
+            showDataPost(user_id);
         }
         cv_follower.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,16 +112,45 @@ public class UserProfileActivity extends AppCompatActivity {
                 String sender = currentUser.getUid();
                 String id_follow = sender + user_id;
                 if (strCheckFollow.equals("2")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
+                    builder.setMessage("Do you want cancel request follow?");
+                    builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            followRef.child(id_follow).removeValue();
+                            tv_status_follow.setText(R.string.followers_connection_management_follow);
+                        }
+                    });
+                    builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    builder.show();
                 } else {
                     if (strCheckFollow.equals("1")) {
-                        followRef.child(id_follow).removeValue();
-                        tv_status_follow.setText(R.string.followers_connection_management_following_title);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
+                        builder.setMessage("Do you want unfollow?");
+                        builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                followRef.child(id_follow).removeValue();
+                                tv_status_follow.setText(R.string.followers_connection_management_follow);
+                            }
+                        });
+                        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        builder.show();
                     } else {
 
-                        Follow follow = new Follow(id_follow, sender, user_id, System.currentTimeMillis() + "", false);
+                        Follow follow = new Follow(id_follow, sender, user_id, System.currentTimeMillis() + "", false, false);
                         followRef.child(id_follow).setValue(follow);
-                        // String id_notification, String user_id, String from_user_id, String content, String post_id, String url, String timestamp, Boolean seen)
-                        String timestamp = System.currentTimeMillis()+"";
+                        String timestamp = System.currentTimeMillis() + "";
                         Notification notification = new Notification(timestamp, user_id, sender, "Want to follow you", "", "follow", timestamp, false);
                         notificationRef.child(timestamp).setValue(notification);
                     }
@@ -105,8 +159,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-
-        if (option.equals("0")) {
+        if (option.equals("0") && !user_id.equals(currentUser.getUid())) {
             cv_follower.setVisibility(View.VISIBLE);
             btn_chat_with_user.setVisibility(View.VISIBLE);
             btn_chat_with_user.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +173,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             });
         } else {
+            cv_follower.setVisibility(View.GONE);
             cv_editProfile.setVisibility(View.VISIBLE);
         }
         imageButtonBackSpace.setOnClickListener(new View.OnClickListener() {
@@ -128,12 +182,54 @@ public class UserProfileActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        cv_editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inten = new Intent(getApplicationContext(), ActivityProfile.class);
+                startActivity(inten);
+                overridePendingTransition(0, 0);
+                inten.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            }
+        });
+
+    }
+
+    private void showDataPost(String user_id) {
+        postRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataPost.clear();
+                try {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Post post = ds.getValue(Post.class);
+                        if (post.getUser_id().equals(user_id)) {
+                            dataPost.add(post);
+                        }
+                    }
+                    if (dataPost != null) {
+                        postAdapter = new PostAdapter(UserProfileActivity.this, dataPost);
+                        rcl_viewPost.setAdapter(postAdapter);
+                        rcl_viewPost.setLayoutManager(new LinearLayoutManager(UserProfileActivity.this));
+                    }
+                }catch (Exception exception){
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void checkFollow(String user_id, String myId) {
         followRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int count_following = 0;
+                int count_follower = 0;
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Follow follow = ds.getValue(Follow.class);
                     if (follow.getSender().equals(myId) && follow.getReceiver().equals(user_id)) {
@@ -144,9 +240,16 @@ public class UserProfileActivity extends AppCompatActivity {
                             strCheckFollow = "2";
                             tv_status_follow.setText(R.string.followers_connection_management_requested);
                         }
-
+                    }
+                    if (follow.getSender().equals(user_id)) {
+                        count_following += 1;
+                    }
+                    if (follow.getReceiver().equals(user_id)) {
+                        count_follower += 1;
                     }
                 }
+                tv_follower.setText(count_follower + " followers");
+                tv_following.setText(count_following + " followings");
             }
 
             @Override
@@ -155,6 +258,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void showInfo(String user_id) {
         userRef.addValueEventListener(new ValueEventListener() {
@@ -232,5 +336,7 @@ public class UserProfileActivity extends AppCompatActivity {
         imageViewAvatarUser = findViewById(R.id.img_avatar_user_profile);
         btn_chat_with_user = findViewById(R.id.btn_chat_user_profile);
         tv_status_follow = findViewById(R.id.tv_status_follow_user_profile);
+        lnl_follow_user = findViewById(R.id.lnl_follow_user);
+        rcl_viewPost = findViewById(R.id.rcy_post_user_profile);
     }
 }

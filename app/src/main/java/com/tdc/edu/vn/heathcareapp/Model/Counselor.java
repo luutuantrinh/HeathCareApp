@@ -1,36 +1,67 @@
 package com.tdc.edu.vn.heathcareapp.Model;
 
 public class Counselor {
-    int id_counselor;
-    String name_counselor, des_counselor;
+    String id_counselor, user_id, category, introduce, position_counselor;
+    Float total_ratting;
 
-    public Counselor(int id_counselor, String name_counselor, String des_counselor) {
-        this.id_counselor = id_counselor;
-        this.name_counselor = name_counselor;
-        this.des_counselor = des_counselor;
+    public Counselor() {
+
     }
 
-    public int getId_counselor() {
+    public Counselor(String id_counselor, String user_id, String category, String introduce, String position_counselor, Float total_ratting) {
+        this.id_counselor = id_counselor;
+        this.user_id = user_id;
+        this.category = category;
+        this.introduce = introduce;
+        this.position_counselor = position_counselor;
+        this.total_ratting = total_ratting;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getId_counselor() {
         return id_counselor;
     }
 
-    public void setId_counselor(int id_counselor) {
+    public void setId_counselor(String id_counselor) {
         this.id_counselor = id_counselor;
     }
 
-    public String getName_counselor() {
-        return name_counselor;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setName_counselor(String name_counselor) {
-        this.name_counselor = name_counselor;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
-    public String getDes_counselor() {
-        return des_counselor;
+    public String getIntroduce() {
+        return introduce;
     }
 
-    public void setDes_counselor(String des_counselor) {
-        this.des_counselor = des_counselor;
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
+
+    public String getPosition_counselor() {
+        return position_counselor;
+    }
+
+    public void setPosition_counselor(String position_counselor) {
+        this.position_counselor = position_counselor;
+    }
+
+    public Float getTotal_ratting() {
+        return total_ratting;
+    }
+
+    public void setTotal_ratting(Float total_ratting) {
+        this.total_ratting = total_ratting;
     }
 }

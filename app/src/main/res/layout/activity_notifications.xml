@@ -4,24 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".NotificationsActivity">
-    <include android:id="@+id/include_toolbar_notification" layout="@layout/toolbar_notifications"></include>
-    <ScrollView
-        android:layout_below="@id/include_toolbar_notification"
+
+    <include
+        android:id="@+id/include_toolbar_notification"
+        layout="@layout/toolbar_notifications"></include>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_height="wrap_content">
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/include_toolbar_notification"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/lnl_request_friend_notification"
             android:layout_width="match_parent"
-            app:lottie_rawRes="@raw/error404"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/friends_new_requests"
+                    android:textColor="#2B2A2A"
+                    android:textSize="17dp"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/tv_total_request_follow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 request follow"
+                    android:textColor="#009688"
+                    android:textStyle="bold">
+
+                </TextView>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_baseline_arrow_forward">
+
+            </ImageView>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="@color/color_background_activity"></View>
+
+        <TextView
+            android:id="@+id/tv_mark_all_as_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_gravity="end"
+            android:drawableLeft="@drawable/ic_baseline_check_24"
+            android:fontFamily="@font/roboto_medium_numbers"
+            android:gravity="end"
+            android:text="Mark all as read">
+
+        </TextView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcy_notification"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        </com.airbnb.lottie.LottieAnimationView>
-    </ScrollView>
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
 
 </RelativeLayout>

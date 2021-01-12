@@ -37,7 +37,7 @@
             </TextView>
 
             <TextView
-                android:id="@+id/tv_author_item_news"
+                android:id="@+id/tv_category_item_news"
                 android:layout_width="match_parent"
                 android:text="#Khoi Nguyen"
                 android:textSize="15dp"

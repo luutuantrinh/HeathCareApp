@@ -13,29 +13,35 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.facebook.internal.CollectionMapper;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.tdc.edu.vn.heathcareapp.Adapter.NewsAdapter;
 import com.tdc.edu.vn.heathcareapp.Model.New;
+import com.tdc.edu.vn.heathcareapp.Model.NewAndNutrition;
 
 import java.util.ArrayList;
 
 public class NewsActivity extends AppCompatActivity {
     NewsAdapter newsAdapter;
-    ArrayList<New> dataNews = new ArrayList<>();
     RecyclerView recyclerViewNews;
     ImageButton imageButtonBackSpace;
     BottomNavigationView bottomNavigationView;
+    ArrayList<NewAndNutrition> dataNews = new ArrayList<>();
     // Firebase
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference cateRef = db.document("News/NewsTest");
-    private CollectionReference categoryRef = db.collection("News");
+    private CollectionReference postsNewAndNutritionRef = db.collection("PostsNewAndNutrition");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,35 +53,16 @@ public class NewsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        categoryRef.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    return;
-                }
-                dataNews.clear();
-                for (QueryDocumentSnapshot documentSnapshot : value) {
-                    New news = documentSnapshot.toObject(New.class);
-                    news.setId_new(documentSnapshot.getId());
-                    String title = news.getTitle_new();
-                    String id = news.getId_new();
-                    String des = news.getContent_new();
-                    String url = news.getUrl_new();
-                    dataNews.add(new New(id, title, des, url, ""));
-                }
 
-                newsAdapter = new NewsAdapter(dataNews, NewsActivity.this);
-                recyclerViewNews.setAdapter(newsAdapter);
-            }
-        });
     }
 
     private void setEvent() {
+        showDataNews();
         try {
-            newsAdapter = new NewsAdapter(dataNews, NewsActivity.this);
+            //newsAdapter = new NewsAdapter(dataNews, NewsActivity.this);
             recyclerViewNews.setAdapter(newsAdapter);
             recyclerViewNews.setLayoutManager(new LinearLayoutManager(NewsActivity.this));
-        }catch (Exception ex){
+        } catch (Exception ex) {
 
         }
 
@@ -87,11 +74,17 @@ public class NewsActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.NewFeed:
                         Intent intent = new Intent(getApplicationContext(), NewFeedActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
                         overridePendingTransition(0, 0);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         return true;
                     case R.id.Nutrition:
+                        return true;
+                    case R.id.Profile:
+                        Intent inten = new Intent(getApplicationContext(), ActivityProfile.class);
+                        startActivity(inten);
+                        overridePendingTransition(0, 0);
+                        inten.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         return true;
 
                 }
@@ -107,9 +100,30 @@ public class NewsActivity extends AppCompatActivity {
         });
     }
 
+    private void showDataNews() {
+//        Query query = postsNewAndNutritionRef.whereEqualTo("category", "news").orderBy("timestamp");
+        postsNewAndNutritionRef.orderBy("timestamp", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                dataNews.clear();
+                for (DocumentSnapshot ds : task.getResult()) {
+                    NewAndNutrition newAndNutrition = ds.toObject(NewAndNutrition.class);
+                    if (newAndNutrition.getCategory().equals("news")) {
+                        dataNews.add(newAndNutrition);
+                    }
+
+
+                }
+
+                newsAdapter = new NewsAdapter(dataNews, NewsActivity.this);
+                recyclerViewNews.setAdapter(newsAdapter);
+            }
+        });
+    }
+
     private void setControl() {
         recyclerViewNews = findViewById(R.id.rcy_news);
-        bottomNavigationView = findViewById(R.id.BottomNavViewNews);
+        bottomNavigationView = findViewById(R.id.BottomNavView);
         imageButtonBackSpace = findViewById(R.id.icon_backspace_news);
     }
 }

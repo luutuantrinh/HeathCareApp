@@ -22,17 +22,20 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.tdc.edu.vn.heathcareapp.DetailNewsActivity;
 import com.tdc.edu.vn.heathcareapp.Model.New;
+import com.tdc.edu.vn.heathcareapp.Model.NewAndNutrition;
 import com.tdc.edu.vn.heathcareapp.R;
+import com.tdc.edu.vn.heathcareapp.UserProfileActivity;
 
 import java.util.ArrayList;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
-    ArrayList<New> mNews;
+    ArrayList<NewAndNutrition> mNews;
     Context context;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     private String strImg = "";
-    public NewsAdapter(ArrayList<New> mNews, Context context) {
+
+    public NewsAdapter(ArrayList<NewAndNutrition> mNews, Context context) {
         this.mNews = mNews;
         this.context = context;
     }
@@ -47,18 +50,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        New news = mNews.get(position);
-        if (news == null){
+        NewAndNutrition news = mNews.get(position);
+        if (news == null) {
             return;
         }
-        strImg = news.getImg_new();
+        strImg = news.getImage_id();
         try {
-            StorageReference islandRef = storageRef.child("images/news/"+strImg);
+            StorageReference islandRef = storageRef.child("images/news/" + strImg);
             final long ONE_MEGABYTE = 1024 * 1024;
             islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
-                    // Data for "images/island.jpg" is returns, use this as needed
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     holder.imageViewNews.setImageBitmap(bitmap);
                 }
@@ -69,17 +71,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 }
             });
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
 
         }
-        holder.tv_title_news.setText(news.getTitle_new());
-        holder.tv_content_news.setText(news.getContent_new());
+        holder.tv_category.setText("#" + news.getCategory());
+        holder.tv_title_news.setText(news.getTitle());
+        holder.tv_content_news.setText(news.getDescription());
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailNewsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("url_news", news.getUrl_new());
+                bundle.putString("url_news", news.getUrl());
                 intent.putExtras(bundle);
                 ((Activity) context).startActivity(intent);
             }
@@ -88,7 +92,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public int getItemCount() {
-        if (mNews != null){
+        if (mNews != null) {
             return mNews.size();
         }
         return 0;
@@ -96,11 +100,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     public class NewsViewHolder extends RecyclerView.ViewHolder {
         ImageView imageViewNews;
-        TextView tv_title_news, tv_content_news, tv_author_news;
+        TextView tv_title_news, tv_content_news, tv_category;
+
         public NewsViewHolder(@NonNull View itemView) {
             super(itemView);
             imageViewNews = itemView.findViewById(R.id.img_item_news);
-            tv_author_news = itemView.findViewById(R.id.tv_author_item_news);
+            tv_category = itemView.findViewById(R.id.tv_category_item_news);
             tv_content_news = itemView.findViewById(R.id.tv_content_item_news);
             tv_title_news = itemView.findViewById(R.id.tv_title_item_news);
 

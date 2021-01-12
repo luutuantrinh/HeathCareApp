@@ -62,8 +62,12 @@ public class CreateContentActivity extends AppCompatActivity {
     private final int PICK_IMAGE_REQUEST = 71;
     String id_image = "";
     String url_image = "";
+    Boolean isImageHas = false;
     Boolean checkImage = false;
     ArrayList<User> dataUser = new ArrayList<>();
+    String post_id = "";
+    Boolean checkUpdate = false;
+    ArrayList<Post> dataPost = new ArrayList<>();
     // Firebase
     private FirebaseAuth mAuth;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -72,6 +76,7 @@ public class CreateContentActivity extends AppCompatActivity {
     private StorageReference storageRef = FirebaseStorage.getInstance().getReference();
     private Uri imgUri;
     private StorageTask uploadTask;
+
     // Date
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +95,63 @@ public class CreateContentActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
+        try {
+            post_id = getIntent().getExtras().getString("post_id");
+        } catch (Exception e) {
+        }
+
+        if (!post_id.equals("")) {
+            postsRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    dataPost.clear();
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Post post = ds.getValue(Post.class);
+                        if (post.getId_post().equals(post_id)) {
+                            dataPost.add(post);
+                        }
+                    }
+                    if (dataPost != null) {
+                        try {
+                            txt_content.setText(dataPost.get(0).getContent_post());
+                            if (!dataPost.get(0).getImage_id().equals("")) {
+                                checkImage = true;
+                                isImageHas = true;
+                                String img_id = dataPost.get(0).getImage_id().toString();
+                                linearLayoutImageView.setVisibility(View.VISIBLE);
+                                try {
+                                    StorageReference islandRef = storageRef.child("images/posts/" + img_id);
+                                    final long ONE_MEGABYTE = 1024 * 1024;
+                                    islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                        @Override
+                                        public void onSuccess(byte[] bytes) {
+                                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                            imageView.setImageBitmap(bitmap);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle any errors
+                                        }
+                                    });
+
+                                } catch (Exception ex) {
+
+                                }
+                            }
+                        } catch (Exception exception) {
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         showInfo(currentUser.getUid().toString());
         btn_getImgByGallery.setOnClickListener(new View.OnClickListener() {
@@ -122,27 +184,48 @@ public class CreateContentActivity extends AppCompatActivity {
         buttonPublish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 FirebaseUser currentUser = mAuth.getCurrentUser();
                 String user_id = currentUser.getUid().toString();
                 String content = txt_content.getText().toString();
-                String id_posts = System.currentTimeMillis()+user_id;
-
-                    if (checkImage == true){
+                if (checkImage == true) {
+                    if (post_id.equals("") || isImageHas == false) {
                         id_image = System.currentTimeMillis() + "." + getExtension(imgUri);
-                        if (uploadTask != null && uploadTask.isInProgress()) {
-                            Toast.makeText(CreateContentActivity.this, "In progress upload!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            uploadFile(id_image);
+                    } else {
+                        try {
+                            id_image = dataPost.get(0).getImage_id();
+                        } catch (Exception exception) {
+
                         }
-                    }else {
-                        id_image = "";
                     }
-                    Post post = new Post(id_posts, user_id, id_image, content, System.currentTimeMillis()+"", 0);
+
+                    if (uploadTask != null && uploadTask.isInProgress()) {
+                        Toast.makeText(CreateContentActivity.this, "In progress upload!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        try {
+                            uploadFile(id_image);
+                        }catch (Exception exception){
+
+                        }
+
+                    }
+                } else {
+                    id_image = "";
+                }
+
+
+
+
+                if (post_id.equals("")) {
+                    String id_posts = System.currentTimeMillis() + user_id;
+                    Post post = new Post(id_posts, user_id, id_image, content, System.currentTimeMillis() + "", 0);
                     postsRef.child(id_posts).setValue(post);
                     onBackPressed();
-
-
+                } else {
+                    Post post = new Post(post_id, user_id, id_image, content, dataPost.get(0).getDay_create(), 0);
+                    postsRef.child(post_id).setValue(post);
+                    Toast.makeText(getApplicationContext(), "updated", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }
 
             }
         });
@@ -152,17 +235,17 @@ public class CreateContentActivity extends AppCompatActivity {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.hasChild(uid)){
-                    for (DataSnapshot ds : snapshot.getChildren()){
+                if (snapshot.hasChild(uid)) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
                         User user = ds.getValue(User.class);
-                        if (user.getUser_id().equals(uid)){
+                        if (user.getUser_id().equals(uid)) {
                             dataUser.add(user);
                         }
 
                     }
                 }
                 try {
-                    if (dataUser != null){
+                    if (dataUser != null) {
                         String imageUrl = dataUser.get(0).getImage_id().toString();
                         textViewUserName.setText(dataUser.get(0).getFirst_name() + " " + dataUser.get(0).getLast_name());
                         if (!imageUrl.equals("")) {
@@ -174,7 +257,7 @@ public class CreateContentActivity extends AppCompatActivity {
                                     public void onSuccess(byte[] bytes) {
                                         // Data for "images/island.jpg" is returns, use this as needed
                                         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                       imageViewAvatarUser.setImageBitmap(bitmap);
+                                        imageViewAvatarUser.setImageBitmap(bitmap);
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -182,17 +265,16 @@ public class CreateContentActivity extends AppCompatActivity {
                                         // Handle any errors
                                     }
                                 });
-                                linearLayoutInfoUserName.setVisibility(View.VISIBLE);
+                                //linearLayoutInfoUserName.setVisibility(View.VISIBLE);
 
                             } catch (Exception ex) {
 
                             }
                         }
-                    }
-                    else {
+                    } else {
 
                     }
-                }catch (Exception ex){
+                } catch (Exception ex) {
 
                 }
             }
@@ -227,6 +309,7 @@ public class CreateContentActivity extends AppCompatActivity {
                     }
                 });
     }
+
     private void chooseImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -234,6 +317,7 @@ public class CreateContentActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
 
     }
+
     private String getExtension(Uri uri) {
         ContentResolver cr = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
@@ -254,6 +338,7 @@ public class CreateContentActivity extends AppCompatActivity {
             }
         }
     }
+
     @SuppressLint("WrongViewCast")
     private void setControl() {
         buttonCancel = findViewById(R.id.btn_cancel_createContent);

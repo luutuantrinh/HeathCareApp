@@ -60,6 +60,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
         <activity android:name=".EditProfile"></activity>
+        <activity android:name=".ViewProfileCounselorActivity"></activity>
+        <activity android:name=".ChatUserToUserActivity" />
+        <activity android:name=".RequestFriendActivity" />
         <activity android:name=".FollowActivity">
 
         </activity>
@@ -120,14 +123,22 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".ResetPassword" />
-        <activity android:name=".SigninActivity" />
-        <activity android:name=".RegistrationActive" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".SigninActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".RegistrationActive" />
+        <activity android:name=".LoginActivity">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".MainActivity" />
     </application>

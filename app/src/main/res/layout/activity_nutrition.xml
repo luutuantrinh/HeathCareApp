@@ -15,6 +15,7 @@
         android:id="@+id/lnl_quickViewNutrition"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/color_background_activity"
         android:layout_below="@+id/include_toolbar_nutrition"
         android:orientation="horizontal"
         android:padding="10dp">
@@ -32,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+
             android:gravity="right"
             android:text="see more"
             android:textColor="@color/color_see_more"></TextView>
@@ -48,6 +49,7 @@
     <LinearLayout
         android:id="@+id/lnl_quickViewNews"
         android:layout_width="match_parent"
+        android:background="@color/color_background_activity"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ryc_nutrition_tower"
         android:orientation="horizontal"
@@ -69,7 +71,6 @@
             android:id="@+id/tv_see_more_news"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:layout_weight="1"
             android:gravity="right"
             android:text="see more"

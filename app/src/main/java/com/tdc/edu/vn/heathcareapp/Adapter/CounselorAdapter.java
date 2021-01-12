@@ -3,81 +3,176 @@ package com.tdc.edu.vn.heathcareapp.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.tdc.edu.vn.heathcareapp.ConversationDetailActivity;
-import com.tdc.edu.vn.heathcareapp.DetailNewsActivity;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 import com.tdc.edu.vn.heathcareapp.Model.Counselor;
+import com.tdc.edu.vn.heathcareapp.Model.Feedback;
+import com.tdc.edu.vn.heathcareapp.Model.User;
 import com.tdc.edu.vn.heathcareapp.R;
+import com.tdc.edu.vn.heathcareapp.UserProfileActivity;
+import com.tdc.edu.vn.heathcareapp.ViewProfileCounselorActivity;
 
 import java.util.ArrayList;
 
 public class CounselorAdapter extends RecyclerView.Adapter<CounselorAdapter.CounselorViewHolder> {
     Context context;
-    ArrayList<Counselor> mDataCounselor;
+    ArrayList<Counselor> mCounselors = new ArrayList<>();
+    FirebaseUser firebaseUser;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference UsersRef = database.getReference("Users");
+    DatabaseReference feedbackRef = database.getReference("Feedback");
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+    ArrayList<User> dataUsers = new ArrayList<>();
 
-    public CounselorAdapter(Context context, ArrayList<Counselor> mDataCounselor) {
+    public CounselorAdapter(Context context, ArrayList<Counselor> mCounselors) {
         this.context = context;
-        this.mDataCounselor = mDataCounselor;
+        this.mCounselors = mCounselors;
     }
 
     @NonNull
     @Override
     public CounselorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.item_chat, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_counselor, parent, false);
         return new CounselorViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CounselorViewHolder holder, int position) {
-        Counselor counselor = mDataCounselor.get(position);
-        if (counselor == null){
+        Counselor counselor = mCounselors.get(position);
+        if (counselor == null) {
             return;
         }
-
-        holder.tv_name_counselor.setText(counselor.getName_counselor());
-        holder.tv_des_counselor.setText(counselor.getDes_counselor());
-        holder.img_button_messenger.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(holder.itemView, "Messenger for ...", Snackbar.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, ConversationDetailActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("url_news", news.getUrl_new());
-//                intent.putExtras(bundle);
+                Intent intent = new Intent(context, ViewProfileCounselorActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("ID_COUNSELOR", counselor.getId_counselor());
+                intent.putExtras(bundle);
                 ((Activity) context).startActivity(intent);
+            }
+        });
+        UsersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataUsers.clear();
+                if (snapshot.hasChild(counselor.getUser_id())) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        User user = ds.getValue(User.class);
+                        if (user.getUser_id().equals(counselor.getId_counselor())) {
+                            dataUsers.add(user);
+                        }
+                    }
+                    if (dataUsers != null) {
+                        holder.tv_fullName.setText(dataUsers.get(0).getFirst_name() + " " + dataUsers.get(0).getLast_name());
+                        holder.tv_email.setText(dataUsers.get(0).getEmail());
+                        holder.tv_phone.setText(dataUsers.get(0).getPhone());
+
+                        String imgUser = dataUsers.get(0).getImage_id();
+                        if (!imgUser.equals("")){
+
+                            try {
+                                StorageReference islandRef = storageRef.child("images/user/" + imgUser);
+                                final long ONE_MEGABYTE = 1024 * 1024;
+                                islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                    @Override
+                                    public void onSuccess(byte[] bytes) {
+                                        // Data for "images/island.jpg" is returns, use this as needed
+                                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                        holder.img_avatar.setImageBitmap(bitmap);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                        // Handle any errors
+                                    }
+                                });
+
+                            } catch (Exception ex) {
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        holder.tv_position.setText(counselor.getPosition_counselor());
+        holder.ratingBar.setRating(counselor.getTotal_ratting());
+        feedbackRef.addValueEventListener(new ValueEventListener() {
+            float totalRatting = 0;
+            int numRatting = 0;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()){
+                    Feedback feedback  =ds.getValue(Feedback.class);
+                    if (feedback.getCounselor_id().equals(counselor.getId_counselor())){
+                        totalRatting += feedback.getRatting();
+                        numRatting += 1;
+                    }
+                }
+                holder.ratingBar.setRating(totalRatting/numRatting);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        if (mDataCounselor != null){
-            return mDataCounselor.size();
+        if (mCounselors != null) {
+            return mCounselors.size();
         }
         return 0;
     }
 
-    public class CounselorViewHolder extends RecyclerView.ViewHolder{
-        ImageButton img_button_messenger;
-        ImageView imageViewUser;
-        TextView tv_name_counselor, tv_des_counselor;
+
+    public class CounselorViewHolder extends RecyclerView.ViewHolder {
+        ImageView img_avatar;
+        RatingBar ratingBar;
+        TextView tv_fullName, tv_phone, tv_email, tv_position;
+
         public CounselorViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv_des_counselor = itemView.findViewById(R.id.tv_description_item_chat);
-            tv_name_counselor = itemView.findViewById(R.id.tv_username_item_chat);
-            img_button_messenger = itemView.findViewById(R.id.btn_telegram_item_chat);
+            img_avatar = itemView.findViewById(R.id.img_item_counselor);
+            ratingBar = itemView.findViewById(R.id.ratting_item_counselor);
+            tv_email = itemView.findViewById(R.id.tv_email_item_counselor);
+            tv_fullName = itemView.findViewById(R.id.tv_fullName_item_counselor);
+            tv_phone = itemView.findViewById(R.id.tv_phone_item_counselor);
+            tv_position = itemView.findViewById(R.id.tv_position_item_counselor);
+
         }
     }
 }

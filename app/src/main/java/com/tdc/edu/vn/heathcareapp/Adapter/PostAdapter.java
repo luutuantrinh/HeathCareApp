@@ -33,10 +33,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 import com.tdc.edu.vn.heathcareapp.ActivityProfile;
 import com.tdc.edu.vn.heathcareapp.DetailNewsActivity;
 import com.tdc.edu.vn.heathcareapp.DetailPostActivity;
+import com.tdc.edu.vn.heathcareapp.Functions.TimeFunc;
+import com.tdc.edu.vn.heathcareapp.Model.Comment;
 import com.tdc.edu.vn.heathcareapp.Model.Like;
+import com.tdc.edu.vn.heathcareapp.Model.Notification;
 import com.tdc.edu.vn.heathcareapp.Model.Post;
 import com.tdc.edu.vn.heathcareapp.Model.User;
 import com.tdc.edu.vn.heathcareapp.R;
@@ -59,13 +63,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference LikesRef = database.getReference("Likes");
     DatabaseReference UserRef = database.getReference("Users");
+    DatabaseReference notificationRef = database.getReference("Notifications");
+    DatabaseReference commentRef = database.getReference("Comments");
     private String strImg = "";
     private String strImgUser = "";
-
-    private static final int SECOND_MILLIS = 1000;
-    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
-    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
-    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+    String statusLike = "0";
 
     public PostAdapter(Context context, ArrayList<Post> dataPosts) {
         this.context = context;
@@ -85,6 +87,32 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         Post posts = dataPosts.get(position);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String user_id = firebaseUser.getUid();
+        String user_id_of_post = posts.getUser_id();
+        String post_id = posts.getId_post();
+        if (posts.getContent_post().equals("")) {
+            holder.tv_content_post.setVisibility(View.GONE);
+        }
+        commentRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int count_comment = 0;
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Comment comment = ds.getValue(Comment.class);
+                    if (comment.getId_post().equals(post_id)) {
+                        count_comment += 1;
+                    }
+                }
+                if (count_comment > 0) {
+                    holder.tv_total_comment.setText(count_comment + " Comments");
+                    holder.lnl_total_comment.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         if (posts == null) {
             return;
         }
@@ -115,6 +143,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                             holder.tv_user_post.setText(dataUsers.get(0).getFirst_name() + " " + dataUsers.get(0).getLast_name());
                             strImgUser = dataUsers.get(0).getImage_id();
                             if (!strImgUser.equals("")) {
+
                                 try {
                                     StorageReference islandRef = storageRef.child("images/user/" + strImgUser);
                                     final long ONE_MEGABYTE = 1024 * 1024;
@@ -135,6 +164,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                                 } catch (Exception ex) {
 
                                 }
+
+
                             }
                         }
                     } catch (Exception Ex) {
@@ -153,9 +184,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
         strImg = posts.getImage_id();
-        holder.tv_content_post.setText(posts.getContent_post());
+        try {
+            holder.tv_content_post.setText(posts.getContent_post());
+        } catch (Exception exception) {
+        }
         String timestamp = posts.getDay_create();
-        holder.tv_create_at.setText(getTimeAgo(Long.parseLong(timestamp), context));
+        holder.tv_create_at.setText(TimeFunc.getTimeAgo(Long.parseLong(timestamp), context));
         String totalLike = String.valueOf(posts.getTotal_like());
         holder.tv_total_like.setText(totalLike);
         if (!strImg.equals("")) {
@@ -187,80 +221,32 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 Intent intent = new Intent(context, DetailPostActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("post_id", posts.getId_post());
+                bundle.putString("user_id_of_post", user_id_of_post);
                 intent.putExtras(bundle);
                 ((Activity) context).startActivity(intent);
             }
         });
+        statusLike = "0";
+        holder.icon_like.setImageResource(R.drawable.ic_favorite_unlike);
         LikesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dataLikes.clear();
                 countLike = 0;
-                if (snapshot.getChildren() != null) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        Like like1 = ds.getValue(Like.class);
-                        if (like1.getId_post().equals(posts.getId_post()) && like1.getId_user().equals(user_id)) {
-                            dataLikes.add(like1);
-                            countLike += 1;
-                            Toast.makeText(context, countLike + "", Toast.LENGTH_SHORT).show();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Like like = ds.getValue(Like.class);
+                    if (like.getId_post().equals(posts.getId_post())) {
+                        countLike += 1;
+                        if (like.getId_user().equals(user_id)) {
+                            holder.icon_like.setImageResource(R.drawable.ic_favorite_like);
+                            statusLike = "1";
+                        } else {
+                            holder.icon_like.setImageResource(R.drawable.ic_favorite_unlike);
+                            statusLike = "0";
                         }
                     }
-                    if (dataLikes != null) {
-                        //holder.icon_like.setImageResource(R.drawable.ic_favorite_like);
-                        holder.tv_total_like.setText(countLike + "");
-                        holder.icon_like.setOnClickListener(new View.OnClickListener() {
-                            @SuppressLint("WrongConstant")
-                            @Override
-                            public void onClick(View view) {
-                                countLike -= 1;
-                                holder.tv_total_like.setText(countLike + "");
-                                String id_like = System.currentTimeMillis() + "";
-                                //Like like = new Like(id_like, posts.getId_post(), user_id, System.currentTimeMillis()+"");
-                                holder.icon_like.setImageResource(R.drawable.ic_favorite_unlike);
-                                Snackbar.make(holder.itemView, "Unlike", Snackbar.LENGTH_SHORT).show();
-                            }
-                        });
-                    } else {
-                        holder.icon_like.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                countLike += 1;
-                                holder.tv_total_like.setText(countLike + "");
-                                String id_like = System.currentTimeMillis() + "";
-                                Like like = new Like(id_like, posts.getId_post(), user_id, System.currentTimeMillis() + "");
-                                holder.icon_like.setImageResource(R.drawable.ic_favorite_like);
-                                Snackbar.make(holder.itemView, "Like", Snackbar.LENGTH_SHORT).show();
-                            }
-                        });
 
-                    }
-                    //else {
-//                        holder.icon_like.setImageResource(R.drawable.ic_favorite_unlike);
-//                        holder.icon_like.setOnClickListener(new View.OnClickListener() {
-//                            @SuppressLint("WrongConstant")
-//                            @Override
-//                            public void onClick(View view) {
-//                                int totalLike = Integer.parseInt(holder.tv_total_like.getText().toString());
-//                                totalLike+=1;
-//                                holder.tv_total_like.setText(totalLike+"");
-//                                Snackbar.make(holder.itemView, "Like", Snackbar.LENGTH_SHORT).show();
-//                                String id_like = System.currentTimeMillis()+ "";
-//                                Like like = new Like(id_like, posts.getId_post(), user_id, System.currentTimeMillis()+"");
-//                                LikesRef.child(id_like).setValue(like);
-//                                holder.icon_like.setImageResource(R.drawable.ic_favorite_like);
-//                            }
-//                        });
-//
-//                    }
-//                    holder.profile.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Intent intent = new Intent(context, ActivityProfile.class);
-//                            intent.putExtra("user_id",user_id);
-//                            context.startActivity(intent);
-//                        }
-//                    });
                 }
+                holder.tv_total_like.setText(countLike + "");
             }
 
             @Override
@@ -268,41 +254,54 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
             }
         });
+        holder.icon_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String ID_LIKE = post_id + user_id;
+                LikesRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        countLike = 0;
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            Like like = ds.getValue(Like.class);
+                            if (like.getId_post().equals(posts.getId_post())) {
+                                countLike += 1;
+                                if (like.getId_user().equals(user_id)) {
+                                    holder.icon_like.setImageResource(R.drawable.ic_favorite_like);
+                                    statusLike = "1";
+                                } else {
+                                    holder.icon_like.setImageResource(R.drawable.ic_favorite_unlike);
+                                    statusLike = "0";
+                                }
+                            }
 
+                        }
+                        holder.tv_total_like.setText(countLike + "");
+                    }
 
-    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-    public static String getTimeAgo(long time, Context context) {
-        if (time < 1000000000000L) {
-            // if timestamp given in seconds, convert to millis
-            time *= 1000;
-        }
-
-        long now = System.currentTimeMillis();
-        if (time > now || time <= 0) {
-            return null;
-        }
-
-        // TODO: localize
-        final long diff = now - time;
-        if (diff < MINUTE_MILLIS) {
-            return context.getResources().getString(R.string.just_now);
-        } else if (diff < 2 * MINUTE_MILLIS) {
-            return context.getResources().getString(R.string.a_minute_ago);
-        } else if (diff < 50 * MINUTE_MILLIS) {
-            return diff / MINUTE_MILLIS + " " + context.getResources().getString(R.string.minutes_ago);
-        } else if (diff < 90 * MINUTE_MILLIS) {
-            return context.getResources().getString(R.string.an_hour_ago);
-        } else if (diff < 24 * HOUR_MILLIS) {
-            return diff / HOUR_MILLIS + " " + context.getResources().getString(R.string.hours_ago);
-        } else if (diff < 48 * HOUR_MILLIS) {
-            return context.getResources().getString(R.string.yesterday);
-        } else {
-            Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
-            calendar.setTimeInMillis(time);
-            String dateTimeMes = DateFormat.format("dd/MM/yyyy hh:mm", calendar).toString();
-            return diff / DAY_MILLIS + " " + context.getResources().getString(R.string.days_ago) + " | " + dateTimeMes;
-        }
+                    }
+                });
+                if (statusLike.equals("0")) {
+                    statusLike = "1";
+                    //String id_like, String id_post, String id_user, String timestamp
+                    String timestamp = System.currentTimeMillis() + "";
+                    Like like = new Like(ID_LIKE, post_id, user_id, timestamp);
+                    LikesRef.child(ID_LIKE).setValue(like);
+                    holder.icon_like.setImageResource(R.drawable.ic_favorite_like);
+                    if (!user_id_of_post.equals(user_id)) {
+                        Notification notification = new Notification(timestamp, user_id_of_post, user_id, " Liked your post!", post_id, "like", timestamp, false);
+                        notificationRef.child(timestamp).setValue(notification);
+                    }
+                } else {
+                    LikesRef.child(ID_LIKE).removeValue();
+                    holder.icon_like.setImageResource(R.drawable.ic_favorite_unlike);
+                    statusLike = "0";
+                }
+            }
+        });
     }
 
     @Override
@@ -318,7 +317,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         ImageButton icon_like;
         ImageView imageViewPost, imageViewUser;
         TextView tv_total_comment;
-        //LinearLayout profile;
+        LinearLayout lnl_total_comment;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -330,7 +329,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             tv_total_comment = itemView.findViewById(R.id.total_comment_item_post);
             imageViewUser = itemView.findViewById(R.id.img_user_item_post);
             tv_user_post = itemView.findViewById(R.id.tv_user_item_post);
-            //profile = itemView.findViewById(R.id.ProfileLayout);
+            lnl_total_comment = itemView.findViewById(R.id.lnl_total_comment_item_post);
         }
     }
 }

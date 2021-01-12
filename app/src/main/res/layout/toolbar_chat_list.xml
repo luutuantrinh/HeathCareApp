@@ -30,7 +30,7 @@
             android:layout_alignParentEnd="true"
             android:background="@color/white"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_more"
+            android:src="@drawable/ic_space_bar"
             android:layout_alignParentRight="true">
 
         </ImageButton>
