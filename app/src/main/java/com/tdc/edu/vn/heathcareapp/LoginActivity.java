@@ -130,23 +130,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        btnFacebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*try {
-                    PackageInfo packageInfo = getPackageManager().getPackageInfo("com.tdc.edu.vn.heathcareapp", PackageManager.GET_SIGNATURES);
-                    for(Signature signature: packageInfo.signatures){
-                        MessageDigest messageDigest = MessageDigest.getInstance("SHA");
-                        messageDigest.update(signature.toByteArray());
-                        Log.d("KeyHash", Base64.encodeToString(messageDigest.digest(),Base64.DEFAULT));
-                    }
-                }catch (Exception e){
-                }*/
-                intent = new Intent(LoginActivity.this,LoginFacebook.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-            }
-        });
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
