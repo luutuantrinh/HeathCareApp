@@ -7,6 +7,7 @@
     <color name="abc_search_url_text_pressed">@android:color/black</color>
     <color name="abc_search_url_text_selected">@android:color/black</color>
     <color name="accent">@color/primary</color>
+    <color name="colorapp">#008080</color>
     <color name="accent_gold">#ff3959ac</color>
     <color name="accent_gold_light">#ff4367c2</color>
     <color name="accent_material_dark">@color/material_deep_teal_200</color>

@@ -109,6 +109,10 @@
         <activity android:name=".SigninActivity" />
         <activity android:name=".RegistrationActive" />
         <activity android:name=".LoginActivity">
+
+        </activity>
+
+        <activity android:name=".WorkoutMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
