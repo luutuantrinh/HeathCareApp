@@ -148,7 +148,7 @@ public class RequestFriendAdapter extends RecyclerView.Adapter<RequestFriendAdap
                 Follow follow = new Follow(id_follow, id_sender, user_id, System.currentTimeMillis() + "", true, true);
                 followRef.child(id_follow).setValue(follow);
                 String timestamp = System.currentTimeMillis() + "";
-                Notification notification = new Notification(timestamp, user_id, id_sender, " has accepted your request to follow up", "", "accept", timestamp, false);
+                Notification notification = new Notification(timestamp, id_sender, user_id, " has accepted your request to follow up", "", "accept", timestamp, false);
                 notificationRef.child(timestamp).setValue(notification);
             }
         });

@@ -20,7 +20,7 @@
             android:layout_toEndOf="@id/icon_createContent_newFeed"
             android:layout_toRightOf="@id/icon_createContent_newFeed"
             android:background="@color/white"
-            android:src="@drawable/ic_notifications"></ImageButton>
+            android:src="@drawable/chat"></ImageButton>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_chat_new_feed"

@@ -59,6 +59,12 @@ public class FollowActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
+        imageButtonBackSpace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         String user_id = getIntent().getExtras().getString("user_id");
         getUserFollower(user_id);
         searchFriendAdapter = new SearchFriendAdapter(FollowActivity.this, dataUserFollower);
