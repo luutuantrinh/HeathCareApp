@@ -78,7 +78,10 @@ public class NewFeedActivity extends AppCompatActivity {
         count_notification = 0;
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String user_id = currentUser.getUid();
-
+        if (currentUser.getUid() == null){
+            dataPosts.clear();
+            dataFollower.clear();
+        }
         messageRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -105,38 +108,39 @@ public class NewFeedActivity extends AppCompatActivity {
             }
         });
 
-        followRef.addValueEventListener(new ValueEventListener() {
+//        followRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                count_notification = 0;
+//                for (DataSnapshot ds : snapshot.getChildren()) {
+//                    Follow follow = ds.getValue(Follow.class);
+//                    if (follow.getReceiver().equals(user_id) && follow.getSeen() == false) {
+//                        count_notification += 1;
+//                    }
+//                }
+//                if (count_notification > 0) {
+//                    String total = String.valueOf(count_notification);
+//                    tv_badge_notification.setText(total);
+//                    cv_badge_notification.setVisibility(View.VISIBLE);
+//                } else {
+//                    tv_badge_notification.setText("0");
+//                    cv_badge_notification.setVisibility(View.GONE);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
+        notificationRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 count_notification = 0;
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    Follow follow = ds.getValue(Follow.class);
-                    if (follow.getReceiver().equals(user_id) && follow.getSeen() == false) {
-                        count_notification += 1;
-                    }
-                }
-                if (count_notification > 0) {
-                    String total = String.valueOf(count_notification);
-                    tv_badge_notification.setText(total);
-                    cv_badge_notification.setVisibility(View.VISIBLE);
-                } else {
-                    tv_badge_notification.setText("0");
-                    cv_badge_notification.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        notificationRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
                     Notification notification = ds.getValue(Notification.class);
-                    if (notification.getUser_id().equals(user_id) && notification.getSeen() == false && !notification.getUrl().equals("follow")) {
+                    if (notification.getUser_id().equals(user_id) && notification.getSeen() == false) {
                         count_notification += 1;
                     }
                 }
